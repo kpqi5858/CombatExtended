@@ -113,6 +113,7 @@ namespace CombatExtended
                 TryDrawAverageArmor(ref num, viewRect.width, StatDefOf.ArmorRating_Blunt, "ArmorBlunt".Translate(), ref flag);
                 TryDrawAverageArmor(ref num, viewRect.width, StatDefOf.ArmorRating_Sharp, "ArmorSharp".Translate(), ref flag);
                 TryDrawAverageArmor(ref num, viewRect.width, StatDefOf.ArmorRating_Heat, "ArmorHeat".Translate(), ref flag);
+                TryDrawAverageArmor(ref num, viewRect.width, StatDefOf.ArmorRating_Electric, "ArmorElectric".Translate(), ref flag);
             }
             if (SelPawnForGear.equipment != null)
             {
@@ -197,7 +198,7 @@ namespace CombatExtended
                 TooltipHandler.TipRegion(dropRect, "DropThing".Translate());
                 if (Widgets.ButtonImage(dropRect, TexButton.Drop))
                 {
-                    SoundDefOf.Tick_High.PlayOneShotOnCamera();
+                    SoundDefOf.TickHigh.PlayOneShotOnCamera();
                     InterfaceDrop(thing);
                 }
                 rect.width -= 24f;
@@ -209,7 +210,7 @@ namespace CombatExtended
                 TooltipHandler.TipRegion(rect3, tipString);
                 if (Widgets.ButtonImage(rect3, TexButton.Ingest))
                 {
-                    SoundDefOf.Tick_High.PlayOneShotOnCamera();
+                    SoundDefOf.TickHigh.PlayOneShotOnCamera();
                     this.InterfaceEatThis(thing);
                 }
                 rect.width -= 24f;
@@ -290,19 +291,19 @@ namespace CombatExtended
                     // Drop option
                     Action dropApparel = delegate
                     {
-                        SoundDefOf.Tick_High.PlayOneShotOnCamera();
+                        SoundDefOf.TickHigh.PlayOneShotOnCamera();
                         InterfaceDrop(thing);
                     };
                     Action dropApparelHaul = delegate
                     {
-                        SoundDefOf.Tick_High.PlayOneShotOnCamera();
+                        SoundDefOf.TickHigh.PlayOneShotOnCamera();
                         InterfaceDropHaul(thing);
                     };
                     if (this.CanControl && thing.IngestibleNow && base.SelPawn.RaceProps.CanEverEat(thing))
                     {
                         Action eatFood = delegate
                         {
-                            SoundDefOf.Tick_High.PlayOneShotOnCamera();
+                            SoundDefOf.TickHigh.PlayOneShotOnCamera();
                             InterfaceEatThis(thing);
                         };
                         string label = thing.def.ingestible.ingestCommandString.NullOrEmpty() ? "ConsumeThing".Translate(new object[] { thing.LabelShort }) : string.Format(thing.def.ingestible.ingestCommandString, thing.LabelShort);
@@ -314,7 +315,7 @@ namespace CombatExtended
                     {
                     	Action forgetHoldTracker = delegate
                     	{
-                    		SoundDefOf.Tick_High.PlayOneShotOnCamera();
+                    		SoundDefOf.TickHigh.PlayOneShotOnCamera();
                     		SelPawnForGear.HoldTrackerForget(thing);
                     	};
                     	floatOptionList.Add(new FloatMenuOption("CE_HoldTrackerForget".Translate(), forgetHoldTracker));

@@ -24,9 +24,9 @@
     <defName>MechanicalCoolantPump</defName>
     <label>coolant pump</label>
     <hitPoints>10</hitPoints>
-    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <oldInjuryBaseChance>0</oldInjuryBaseChance>
     <skinCovered>false</skinCovered>
-    <solid>true</solid>
+    <isSolid>true</isSolid>
     <tags>
       <li>BloodPumpingSource</li>
     </tags>
@@ -44,9 +44,9 @@
     <defName>MechanicalHydraulicsControl</defName>
     <label>hydraulics control unit</label>
     <hitPoints>20</hitPoints>
-    <permanentInjuryChanceFactor>0</permanentInjuryChanceFactor>
+    <oldInjuryBaseChance>0</oldInjuryBaseChance>
     <skinCovered>false</skinCovered>
-    <solid>true</solid>
+    <isSolid>true</isSolid>
     <tags>
       <li>Moving_hydraulics</li>
       <li>Manipulation_hydraulics</li>

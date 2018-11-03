@@ -379,7 +379,7 @@ namespace CombatExtended
         {
             if (ShouldThrowMote)
             {
-                MoteMaker.ThrowText(Position.ToVector3Shifted(), Find.CurrentMap, "CE_OutOfAmmo".Translate() + "!");
+                MoteMaker.ThrowText(Position.ToVector3Shifted(), Find.VisibleMap, "CE_OutOfAmmo".Translate() + "!");
             }
             if (Wielder != null && CompInventory != null && (Wielder.CurJob == null || Wielder.CurJob.def != JobDefOf.Hunt)) CompInventory.SwitchToNextViableWeapon();
         }
@@ -411,27 +411,15 @@ namespace CombatExtended
                     ammoThing = ammo;
                 }
                 currentAmmoInt = (AmmoDef)ammoThing.def;
-
-                // If there's more ammo in inventory than the weapon can hold, or if there's greater than 1 bullet in inventory if reloading one at a time
-                if ((Props.reloadOneAtATime ? 1 : Props.magazineSize) < ammoThing.stackCount)
+                if (Props.magazineSize < ammoThing.stackCount)
                 {
-                    if (Props.reloadOneAtATime)
-                    {
-                        newMagCount = curMagCountInt + 1;
-                        ammoThing.stackCount--;
-                    }
-                    else
-                    {
-                        newMagCount = Props.magazineSize;
-                        ammoThing.stackCount -= Props.magazineSize;
-                    }
+                    newMagCount = Props.magazineSize;
+                    ammoThing.stackCount -= Props.magazineSize;
                     if (CompInventory != null) CompInventory.UpdateInventory();
                 }
-
-                // If there's less ammo in inventory than the weapon can hold, or if there's only one bullet left if reloading one at a time
                 else
                 {
-                    newMagCount = (Props.reloadOneAtATime) ? curMagCountInt + 1 : ammoThing.stackCount;
+                    newMagCount = ammoThing.stackCount;
                     if (ammoFromInventory)
                     {
                         CompInventory.container.Remove(ammoThing);
@@ -444,11 +432,11 @@ namespace CombatExtended
             }
             else
             {
-                newMagCount = (Props.reloadOneAtATime) ? (curMagCountInt + 1) : Props.magazineSize;
+                newMagCount = Props.magazineSize;
             }
             curMagCountInt = newMagCount;
             if (turret != null) turret.isReloading = false;
-            if (parent.def.soundInteract != null) parent.def.soundInteract.PlayOneShot(new TargetInfo(Position,  Find.CurrentMap, false));
+            if (parent.def.soundInteract != null) parent.def.soundInteract.PlayOneShot(new TargetInfo(Position,  Find.VisibleMap, false));
         }
 
         /// <summary>

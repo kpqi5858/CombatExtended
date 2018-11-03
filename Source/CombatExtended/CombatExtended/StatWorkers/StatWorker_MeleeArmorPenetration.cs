@@ -21,12 +21,12 @@ namespace CombatExtended
             float totalSelectionWeight = 0f;
             for (int i = 0; i < tools.Count; i++)
             {
-                totalSelectionWeight += tools[i].chanceFactor;
+                totalSelectionWeight += tools[i].commonality;
             }
             float totalAveragePen = 0f;
             foreach (ToolCE tool in tools)
             {
-                var weightFactor = tool.chanceFactor / totalSelectionWeight;
+                var weightFactor = tool.commonality / totalSelectionWeight;
                 totalAveragePen += weightFactor * tool.armorPenetration;
             }
             var penMult = req.Thing.GetStatValue(CE_StatDefOf.MeleePenetrationFactor);

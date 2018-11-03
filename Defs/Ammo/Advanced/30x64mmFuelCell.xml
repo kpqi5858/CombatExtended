@@ -22,7 +22,7 @@
 	
 	<!-- ==================== Ammo ========================== -->
 
-  <ThingDef Class="CombatExtended.AmmoDef" Name="30x64mmFuelBase" ParentName="SpacerSmallAmmoBase" Abstract="True">
+  <ThingDef Name="30x64mmFuelBase" ParentName="SpacerSmallAmmoBase" Abstract="True">
     <description>Container holding fuel for incendiary shot firearms.</description>
     <statBases>
 	  <Mass>0.3</Mass>
@@ -38,7 +38,7 @@
     <stackLimit>75</stackLimit>
   </ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="30x64mmFuelBase">
+  <ThingDef ParentName="30x64mmFuelBase">
     <defName>Ammo_30x64mmFuel_Incendiary</defName>
     <label>30x64mm fuel cell (Incendiary)</label>
     <graphicData>
@@ -51,7 +51,7 @@
     <ammoClass>IncendiaryFuel</ammoClass>
   </ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="30x64mmFuelBase">
+  <ThingDef ParentName="30x64mmFuelBase">
     <defName>Ammo_30x64mmFuel_Thermobaric</defName>
     <label>30x64mm fuel cell (Thermobaric)</label>
     <graphicData>
@@ -64,7 +64,7 @@
     <ammoClass>ThermobaricFuel</ammoClass>
   </ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="30x64mmFuelBase">
+  <ThingDef ParentName="30x64mmFuelBase">
     <defName>Ammo_30x64mmFuel_Foam</defName>
     <label>30x64mm fuel cell (Foam)</label>
     <graphicData>
@@ -80,7 +80,7 @@
 	
 	<!-- ================== Projectiles ================== -->
 
-  <ThingDef Class="CombatExtended.AmmoDef" Name="Base30x64mmFuelBullet" ParentName="BaseBullet" Abstract="true">
+  <ThingDef Name="Base30x64mmFuelBullet" ParentName="BaseBullet" Abstract="true">
     <graphicData>
       <texPath>Things/Projectile/InfernoCannonShot</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -92,7 +92,7 @@
     </projectile>
   </ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="Base30x64mmFuelBullet">
+  <ThingDef ParentName="Base30x64mmFuelBullet">
     <defName>Bullet_30x64mmFuel_Incendiary</defName>
     <thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
     <label>incendiary bolt</label>
@@ -104,19 +104,27 @@
     </projectile>
   </ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="Base30x64mmFuelBullet">
+  <ThingDef ParentName="Base30x64mmFuelBullet">
     <defName>Bullet_30x64mmFuel_Thermobaric</defName>
     <label>thermobaric bolt</label>
     <projectile>
-      <explosionRadius>2.5</explosionRadius>
+      <explosionRadius>1.5</explosionRadius>
       <damageDef>Thermobaric</damageDef>
-      <damageAmountBase>50</damageAmountBase>
+      <damageAmountBase>25</damageAmountBase>
       <soundExplode>MortarBomb_Explode</soundExplode>
-      <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
     </projectile>
+    <comps>
+      <li Class="CombatExtended.CompProperties_ExplosiveCE">
+        <explosionDamage>25</explosionDamage>
+        <explosionDamageDef>Thermobaric</explosionDamageDef>
+        <explosionRadius>2.5</explosionRadius>
+        <soundExplode>MortarBomb_Explode</soundExplode>
+        <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+      </li>
+    </comps>
   </ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="Base30x64mmFuelBullet">
+  <ThingDef ParentName="Base30x64mmFuelBullet">
     <defName>Bullet_30x64mmFuel_Foam</defName>
     <thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
     <label>foam bolt</label>
@@ -124,7 +132,7 @@
       <damageDef>Extinguish</damageDef>
       <damageAmountBase>50</damageAmountBase>
       <explosionRadius>5.0</explosionRadius>
-      <postExplosionSpawnThingDef>Filth_FireFoam</postExplosionSpawnThingDef>
+      <postExplosionSpawnThingDef>FilthFireFoam</postExplosionSpawnThingDef>
       <preExplosionSpawnChance>1</preExplosionSpawnChance>
     </projectile>
   </ThingDef>

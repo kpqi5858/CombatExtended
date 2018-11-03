@@ -19,17 +19,20 @@ namespace CombatExtended
         private static Texture2D EmptyTex;
         private static new Texture2D BGTex;
 
-        public override float GetWidth(float maxWidth)
+        public override float Width
         {
-            return 120;
+            get
+            {
+                return 120;
+            }
         }
 
-        public override GizmoResult GizmoOnGUI(Vector2 topLeft, float maxWidth)
+        public override GizmoResult GizmoOnGUI(Vector2 topLeft)
         {
             if (!initialized)
                 InitializeTextures();
 
-            Rect overRect = new Rect(topLeft.x, topLeft.y, GetWidth(maxWidth), Height);
+            Rect overRect = new Rect(topLeft.x, topLeft.y, Width, Height);
             Widgets.DrawBox(overRect);
             GUI.DrawTexture(overRect, BGTex);
 

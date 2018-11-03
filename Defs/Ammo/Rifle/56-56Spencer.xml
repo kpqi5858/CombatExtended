@@ -20,7 +20,7 @@
 	
 	<!-- ==================== Ammo ========================== -->
 	
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="SmallAmmoBase">
+	<ThingDef ParentName="SmallAmmoBase">
 		<defName>Ammo_5656SpencerRimfire</defName>
 		<label>.56-56 Spencer rimfire cartridge</label>
 		<description>Ancient cartridge for use in the Spencer repeating rifle.</description>
@@ -46,7 +46,7 @@
 	
 	<!-- ================== Projectiles ================== -->
 	
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="BaseBullet">
+	<ThingDef ParentName="BaseBullet">
 		<defName>Bullet_5656Spencer</defName>
 		<label>.56-56 Spencer rimfire bullet</label>
 		<graphicData>
@@ -56,9 +56,9 @@
 		<projectile>
 			<damageDef>Bullet</damageDef>
 			<damageAmountBase>25</damageAmountBase>
-			<armorPenetrationBase>0.466</armorPenetrationBase>
+			<armorPenetration>0.466</armorPenetration>
 			<speed>92</speed>
-			<!-- <dropsCasings>true</dropsCasings> -->
+			<dropsCasings>true</dropsCasings>
 		</projectile>
 	</ThingDef>
   

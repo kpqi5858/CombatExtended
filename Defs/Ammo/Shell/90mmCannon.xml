@@ -22,7 +22,7 @@
 	
 	<!-- ==================== Ammo ========================== -->
 
-  <ThingDef Class="CombatExtended.AmmoDef" Name="90mmCannonShellBase" ParentName="AmmoBase" Abstract="True">
+  <ThingDef Name="90mmCannonShellBase" ParentName="AmmoBase" Abstract="True">
     <description>Relatively small cannon shell.</description>
     <thingCategories>
       <li>Ammo90mmCannonShells</li>
@@ -41,7 +41,7 @@
     <cookOffSound>MortarBomb_Explode</cookOffSound>
   </ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="90mmCannonShellBase">
+  <ThingDef ParentName="90mmCannonShellBase">
     <defName>Ammo_90mmCannonShell_HEAT</defName>
     <label>90mm cannon shell (HEAT)</label>
     <graphicData>
@@ -60,12 +60,11 @@
         <fragments>
           <Fragment_Shell>100</Fragment_Shell>
         </fragments>
-        <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
       </li>
     </comps>
   </ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="90mmCannonShellBase">
+  <ThingDef ParentName="90mmCannonShellBase">
     <defName>Ammo_90mmCannonShell_HE</defName>
     <label>90mm cannon shell (HE)</label>
     <graphicData>
@@ -85,12 +84,11 @@
           <Fragment_Shell>300</Fragment_Shell>
         </fragments>
         <fragRange>10</fragRange>
-        <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
       </li>
     </comps>
   </ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="90mmCannonShellBase">
+  <ThingDef ParentName="90mmCannonShellBase">
     <defName>Ammo_90mmCannonShell_EMP</defName>
     <label>90mm cannon shell (EMP)</label>
     <graphicData>
@@ -115,7 +113,7 @@
 	
 	<!-- ================== Projectiles ================== -->
 
-	<ThingDef Class="CombatExtended.AmmoDef" Name="Base90mmCannonShell" ParentName="BaseBullet" Abstract="true">
+	<ThingDef Name="Base90mmCannonShell" ParentName="BaseBullet" Abstract="true">
 		<graphicData>
       <shaderType>TransparentPostLight</shaderType>
 		</graphicData>
@@ -123,12 +121,12 @@
 			<speed>155</speed>
 			<soundExplode>MortarBomb_Explode</soundExplode>
 	  		<flyOverhead>false</flyOverhead>
-			<!-- <dropsCasings>true</dropsCasings> -->
-			<!-- <casingMoteDefname>Mote_BigShell</casingMoteDefname> -->
+			<dropsCasings>true</dropsCasings>
+			<casingMoteDefname>Mote_BigShell</casingMoteDefname>
 		</projectile>
 	</ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="Base90mmCannonShell">
+  <ThingDef ParentName="Base90mmCannonShell">
     <defName>Bullet_90mmCannonShell_HEAT</defName>
     <label>90mm cannon shell (HEAT)</label>
     <graphicData>
@@ -139,7 +137,7 @@
       <damageDef>Bullet</damageDef>
       <damageAmountBase>200</damageAmountBase>
 	  <soundExplode>MortarBomb_Explode</soundExplode>
-	  <armorPenetrationBase>5.0</armorPenetrationBase>
+	  <armorPenetration>5.0</armorPenetration>
     </projectile>
 		<comps>
 			<li Class="CombatExtended.CompProperties_ExplosiveCE">
@@ -150,12 +148,11 @@
           <Fragment_Shell>100</Fragment_Shell>
 				</fragments>
 				<fragRange>7.5</fragRange>
-        <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
 			</li>
 		</comps>
   </ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="Base90mmCannonShell">
+  <ThingDef ParentName="Base90mmCannonShell">
     <defName>Bullet_90mmCannonShell_HE</defName>
     <label>90mm cannon shell (HE)</label>
 		<thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
@@ -165,21 +162,24 @@
 		</graphicData>
     <projectile>
       <damageDef>Bomb</damageDef>
-      <damageAmountBase>250</damageAmountBase>
-      <explosionRadius>4</explosionRadius>
-		  <soundExplode>MortarBomb_Explode</soundExplode>
-      <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+      <damageAmountBase>150</damageAmountBase>
+      <explosionRadius>1.7</explosionRadius>
+		<soundExplode>MortarBomb_Explode</soundExplode>
     </projectile>
 		<comps>
 			<li Class="CombatExtended.CompProperties_ExplosiveCE">
+				<explosionDamage>100</explosionDamage>
+				<explosionDamageDef>Bomb</explosionDamageDef>
+				<explosionRadius>4</explosionRadius>
 				<fragments>
           <Fragment_Shell>300</Fragment_Shell>
 				</fragments>
+				<fragRange>10</fragRange>
 			</li>
 		</comps>
   </ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="Base90mmCannonShell">
+  <ThingDef ParentName="Base90mmCannonShell">
     <defName>Bullet_90mmCannonShell_EMP</defName>
     <label>90mm cannon shell (EMP)</label>
 		<thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
@@ -221,7 +221,7 @@
       <li>
         <filter>
           <thingDefs>
-            <li>ComponentIndustrial</li>
+            <li>Component</li>
           </thingDefs>
         </filter>
         <count>3</count>
@@ -231,7 +231,7 @@
       <thingDefs>
         <li>Steel</li>
         <li>FSX</li>
-        <li>ComponentIndustrial</li>
+        <li>Component</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -264,7 +264,7 @@
       <li>
         <filter>
           <thingDefs>
-            <li>ComponentIndustrial</li>
+            <li>Component</li>
           </thingDefs>
         </filter>
         <count>2</count>
@@ -274,7 +274,7 @@
       <thingDefs>
         <li>Steel</li>
         <li>FSX</li>
-        <li>ComponentIndustrial</li>
+        <li>Component</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -299,7 +299,7 @@
       <li>
         <filter>
           <thingDefs>
-            <li>ComponentIndustrial</li>
+            <li>Component</li>
           </thingDefs>
         </filter>
         <count>7</count>
@@ -308,7 +308,7 @@
     <fixedIngredientFilter>
       <thingDefs>
         <li>Steel</li>
-        <li>ComponentIndustrial</li>
+        <li>Component</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>

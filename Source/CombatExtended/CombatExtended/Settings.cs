@@ -44,9 +44,6 @@ namespace CombatExtended
         private bool debugDrawTargetCoverChecks = false;
         private bool debugShowTreeCollisionChance = false;
         private bool debugShowSuppressionBuildup = false;
-  
-        private bool debugDrawInterceptChecks = false;
-        public bool DebugDrawInterceptChecks => debugDrawInterceptChecks;
 
         public bool DebugDrawPartialLoSChecks => debugDrawPartialLoSChecks;
         public bool DebugEnableInventoryValidation => debugEnableInventoryValidation;

@@ -14,7 +14,7 @@
     <isUnfinishedThing>true</isUnfinishedThing>
     <scatterableOnMapGen>false</scatterableOnMapGen>
     <selectable>true</selectable>
-    <tradeability>None</tradeability>
+    <tradeability>Never</tradeability>
     <drawerType>RealtimeOnly</drawerType>
     <!-- For CompForbiddable -->
     <statBases>

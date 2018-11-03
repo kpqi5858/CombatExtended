@@ -21,7 +21,7 @@
 	
 	<!-- ==================== Ammo ========================== -->
 
-  <ThingDef Class="CombatExtended.AmmoDef" Name="25mmGrenadeBase" ParentName="AmmoBase" Abstract="True">
+  <ThingDef Name="25mmGrenadeBase" ParentName="AmmoBase" Abstract="True">
     <description>Specialized grenade developed for use in shoulder-fired grenade launchers.</description>
     <statBases>
 	  <Mass>0.2</Mass>
@@ -37,7 +37,7 @@
     <cookOffFlashScale>20</cookOffFlashScale>
   </ThingDef>
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="25mmGrenadeBase">
+  <ThingDef ParentName="25mmGrenadeBase">
     <defName>Ammo_25x40mmGrenade_HE</defName>
     <label>25mm grenade (HE)</label>
     <graphicData>
@@ -56,12 +56,11 @@
         <fragments>
           <Fragment_GrenadeFrag>80</Fragment_GrenadeFrag>
         </fragments>
-        <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
       </li>
     </comps>
   </ThingDef>  
 
-  <ThingDef Class="CombatExtended.AmmoDef" ParentName="25mmGrenadeBase">
+  <ThingDef ParentName="25mmGrenadeBase">
     <defName>Ammo_25x40mmGrenade_EMP</defName>
     <label>25mm grenade (EMP)</label>
     <graphicData>
@@ -86,7 +85,7 @@
 	
 	<!-- ================== Projectiles ================== -->
 
-	<ThingDef Class="CombatExtended.AmmoDef" Name="Base25x40mmGrenadeBullet" ParentName="BaseBullet" Abstract="true">
+	<ThingDef Name="Base25x40mmGrenadeBullet" ParentName="BaseBullet" Abstract="true">
 		<thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
 		<graphicData>
 			<texPath>Things/Projectile/Bullet_Big</texPath>
@@ -97,7 +96,7 @@
 		</projectile>
 	</ThingDef>
 		
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="Base25x40mmGrenadeBullet">
+	<ThingDef ParentName="Base25x40mmGrenadeBullet">
 		<defName>Bullet_25x40mmGrenade_HE</defName>
 		<label>25mm grenade</label>
 		<thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
@@ -105,7 +104,6 @@
 			<damageDef>Bomb</damageDef>
 			<damageAmountBase>30</damageAmountBase>
 			<explosionRadius>1</explosionRadius>
-      <applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
 		</projectile>
 		<comps>
 			<li Class="CombatExtended.CompProperties_ExplosiveCE">
@@ -116,7 +114,7 @@
 		</comps>
 	</ThingDef>
 		
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="Base25x40mmGrenadeBullet">
+	<ThingDef ParentName="Base25x40mmGrenadeBullet">
 		<defName>Bullet_25x40mmGrenade_EMP</defName>
 		<label>25mm grenade</label>
 		<thingClass>CombatExtended.ProjectileCE_Explosive</thingClass>
@@ -154,7 +152,7 @@
       <li>
         <filter>
           <thingDefs>
-            <li>ComponentIndustrial</li>
+            <li>Component</li>
           </thingDefs>
         </filter>
         <count>1</count>
@@ -164,7 +162,7 @@
       <thingDefs>
         <li>Steel</li>
         <li>FSX</li>
-        <li>ComponentIndustrial</li>
+        <li>Component</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>
@@ -189,7 +187,7 @@
       <li>
         <filter>
           <thingDefs>
-            <li>ComponentIndustrial</li>
+            <li>Component</li>
           </thingDefs>
         </filter>
         <count>4</count>
@@ -198,7 +196,7 @@
     <fixedIngredientFilter>
       <thingDefs>
         <li>Steel</li>
-        <li>ComponentIndustrial</li>
+        <li>Component</li>
       </thingDefs>
     </fixedIngredientFilter>
     <products>

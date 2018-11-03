@@ -62,7 +62,7 @@
 					<defaultProjectile>Projectile_CrossbowBolt_Stone</defaultProjectile>
 					<warmupTime>1.1</warmupTime>
 					<range>37</range>
-					<soundCast>Bow_Large</soundCast>
+					<soundCast>BowLarge</soundCast>
 				</Properties>
 				<AmmoUser>
 					<ammoSet>AmmoSet_CrossbowBolt</ammoSet>

@@ -22,7 +22,7 @@
 	
 	<!-- ==================== Ammo ========================== -->
 
-	<ThingDef Class="CombatExtended.AmmoDef" Name="44MagnumBase" ParentName="SmallAmmoBase" Abstract="True">
+	<ThingDef Name="44MagnumBase" ParentName="SmallAmmoBase" Abstract="True">
 		<description>Ancient pistol cartridge originally designed for revolvers.</description>
 		<statBases>
 		<Mass>0.023</Mass>
@@ -37,7 +37,7 @@
 		</thingCategories>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="44MagnumBase">
+	<ThingDef ParentName="44MagnumBase">
 		<defName>Ammo_44Magnum_FMJ</defName>
 		<label>.44 Magnum cartridge (FMJ)</label>
 		<graphicData>
@@ -51,7 +51,7 @@
 		<cookOffProjectile>Bullet_44Magnum_FMJ</cookOffProjectile>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="44MagnumBase">
+	<ThingDef ParentName="44MagnumBase">
 		<defName>Ammo_44Magnum_AP</defName>
 		<label>.44 Magnum cartridge (AP)</label>
 		<graphicData>
@@ -65,7 +65,7 @@
 		<cookOffProjectile>Bullet_44Magnum_AP</cookOffProjectile>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="44MagnumBase">
+	<ThingDef ParentName="44MagnumBase">
 		<defName>Ammo_44Magnum_HP</defName>
 		<label>.44 Magnum cartridge (HP)</label>
 		<graphicData>
@@ -81,7 +81,7 @@
 	
 	<!-- ================== Projectiles ================== -->
 
-	<ThingDef Class="CombatExtended.AmmoDef" Name="Base44MagnumBullet" ParentName="BaseBullet" Abstract="true">
+	<ThingDef Name="Base44MagnumBullet" ParentName="BaseBullet" Abstract="true">
 		<graphicData>
 			<texPath>Things/Projectile/Bullet_Small</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
@@ -89,34 +89,34 @@
 		<projectile>
 			<damageDef>Bullet</damageDef>
 			<speed>97</speed>
-			<!-- <dropsCasings>true</dropsCasings> -->
+			<dropsCasings>true</dropsCasings>
 		</projectile>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="Base44MagnumBullet">
+	<ThingDef ParentName="Base44MagnumBullet">
 		<defName>Bullet_44Magnum_FMJ</defName>
 		<label>.44 Magnum bullet (FMJ)</label>
 		<projectile>
 			<damageAmountBase>18</damageAmountBase>
-			<armorPenetrationBase>0.423</armorPenetrationBase>
+			<armorPenetration>0.423</armorPenetration>
 		</projectile>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="Base44MagnumBullet">
+	<ThingDef ParentName="Base44MagnumBullet">
 		<defName>Bullet_44Magnum_AP</defName>
 		<label>.44 Magnum bullet (AP)</label>
 		<projectile>
 			<damageAmountBase>11</damageAmountBase>
-			<armorPenetrationBase>0.573</armorPenetrationBase>
+			<armorPenetration>0.573</armorPenetration>
 		</projectile>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="Base44MagnumBullet">
+	<ThingDef ParentName="Base44MagnumBullet">
 		<defName>Bullet_44Magnum_HP</defName>
 		<label>.44 Magnum bullet (HP)</label>
 		<projectile>
 			<damageAmountBase>25</damageAmountBase>
-			<armorPenetrationBase>0.273</armorPenetrationBase>
+			<armorPenetration>0.273</armorPenetration>
 		</projectile>
 	</ThingDef>
   

@@ -16,11 +16,8 @@ namespace CombatExtended
         private const float minSuppressionDist = 5f;        //Minimum distance to be suppressed from, so melee won't be suppressed if it closes within this distance
         private const float maxSuppression = 1050f;          //Cap to prevent suppression from building indefinitely
         private const int TicksForDecayStart = 120;          // How long since last suppression before decay starts
-        private const float SuppressionDecayRate = 5f;    // How much suppression decays per tick
-        private const int TicksPerMote = 150;               // How many ticks between throwing a mote
-
-        private const int MinTicksUntilMentalBreak = 600;  // How long until pawn can have a mental break
-        private const float ChanceBreakPerTick = 0.001f;    // How likely we are to break each tick above the threshold
+        private const float suppressionDecayRate = 5f;    // How much suppression decays per tick
+        private const int ticksPerMote = 150;               //How many ticks between throwing a mote
 
         #endregion
 
@@ -40,9 +37,6 @@ namespace CombatExtended
         public bool isSuppressed = false;
 
         private int ticksUntilDecay = 0;
-        private int ticksHunkered;
-
-        private bool isCrouchWalking;
 
         #endregion
 
@@ -132,8 +126,6 @@ namespace CombatExtended
             }
         }
 
-        public bool IsCrouchWalking => CanReactToSuppression && isCrouchWalking;
-
         #endregion
 
         #region Methods
@@ -206,11 +198,6 @@ namespace CombatExtended
                     pawn.jobs.StartJob(reactJob, JobCondition.InterruptForced, null, pawn.jobs.curJob?.def==JobDefOf.ManTurret);
                     LessonAutoActivator.TeachOpportunity(CE_ConceptDefOf.CE_SuppressionReaction, pawn, OpportunityType.Critical);
                 }
-                else
-                {
-                    // Crouch-walk
-                    isCrouchWalking = true;
-                }
                 // Throw taunt
                 if (Rand.Chance(0.01f))
                 {
@@ -224,25 +211,6 @@ namespace CombatExtended
         {
             base.CompTick();
 
-            // Update suppressed tick counter and check for mental breaks
-            if (!isSuppressed)
-                ticksHunkered = 0;
-            else if (IsHunkering)
-                ticksHunkered++;
-
-            if (ticksHunkered > MinTicksUntilMentalBreak && Rand.Chance(ChanceBreakPerTick))
-            {
-                var pawn = (Pawn) parent;
-                if (pawn.mindState != null && !pawn.mindState.mentalStateHandler.InMentalState)
-                {
-                    var possibleBreaks = SuppressionUtility.GetPossibleBreaks(pawn);
-                    if (possibleBreaks.Any())
-                    {
-                        pawn.mindState.mentalStateHandler.TryStartMentalState(possibleBreaks.RandomElement());
-                    }
-                }
-            }
-
             //Apply decay once per second
             if(ticksUntilDecay > 0)
             {
@@ -253,20 +221,17 @@ namespace CombatExtended
                 //Decay global suppression
                 if (Controller.settings.DebugShowSuppressionBuildup && Gen.IsHashIntervalTick(parent, 30))
                 {
-                    MoteMaker.ThrowText(parent.DrawPos, parent.Map, "-" + (SuppressionDecayRate * 30), Color.red);
+                    MoteMaker.ThrowText(parent.DrawPos, parent.Map, "-" + (suppressionDecayRate * 30).ToString(), Color.red);
                 }
-                currentSuppression -= Mathf.Min(SuppressionDecayRate, currentSuppression);
+                currentSuppression -= Mathf.Min(suppressionDecayRate, currentSuppression);
                 isSuppressed = currentSuppression > 0;
 
-                // Clear crouch-walking
-                if (!isSuppressed) isCrouchWalking = false;
-
                 //Decay location suppression
-                locSuppressionAmount -= Mathf.Min(SuppressionDecayRate, locSuppressionAmount);
+                locSuppressionAmount -= Mathf.Min(suppressionDecayRate, locSuppressionAmount);
             }
 
             //Throw mote at set interval
-            if (parent.IsHashIntervalTick(TicksPerMote) && CanReactToSuppression)
+            if (Gen.IsHashIntervalTick(this.parent, ticksPerMote) && CanReactToSuppression)
             {
                 if (IsHunkering)
                 {
@@ -290,7 +255,7 @@ namespace CombatExtended
                     {
                         goto AGAIN;
                     }
-                    MoteMaker.ThrowText(this.parent.Position.ToVector3Shifted(), Find.CurrentMap, rndswearsuppressed);
+                    MoteMaker.ThrowText(this.parent.Position.ToVector3Shifted(), Find.VisibleMap, rndswearsuppressed);
                 }
                 //standard    MoteMaker.ThrowText(parent.Position.ToVector3Shifted(), "CE_SuppressedMote".Translate());
             }*/

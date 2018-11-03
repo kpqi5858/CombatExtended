@@ -45,7 +45,7 @@
     <costStuffCount>100</costStuffCount>
     <costList>
       <Steel>50</Steel>
-      <ComponentIndustrial>5</ComponentIndustrial>
+      <Component>5</Component>
     </costList>
     <altitudeLayer>Building</altitudeLayer>
     <fillPercent>0.5</fillPercent>

@@ -37,13 +37,13 @@ namespace CombatExtended
 		private void SelfConsume()
 		{
             var inventory = ShooterPawn?.TryGetComp<CompInventory>();
-			if (this.EquipmentSource != null && !this.EquipmentSource.Destroyed)
+			if (this.ownerEquipment != null && !this.ownerEquipment.Destroyed)
             {
-                this.EquipmentSource.Destroy(DestroyMode.Vanish);
+                this.ownerEquipment.Destroy(DestroyMode.Vanish);
 			}
             if (inventory != null)
             {
-                var newGun = inventory.rangedWeaponList.FirstOrDefault(t => t.def == EquipmentSource.def);
+                var newGun = inventory.rangedWeaponList.FirstOrDefault(t => t.def == ownerEquipment.def);
                 if (newGun != null)
                 {
                     inventory.TrySwitchToWeapon(newGun);

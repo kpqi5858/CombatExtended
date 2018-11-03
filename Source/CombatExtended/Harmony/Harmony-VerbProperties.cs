@@ -10,7 +10,7 @@ using Harmony;
 namespace CombatExtended.Harmony
 {
     [HarmonyPatch(typeof(VerbProperties))]
-    [HarmonyPatch("LaunchesProjectile", MethodType.Getter)]
+    [HarmonyPatch("LaunchesProjectile", PropertyMethod.Getter)]
     internal static class Harmony_VerbProperties
     {
         internal static void Postfix(VerbProperties __instance, ref bool __result)

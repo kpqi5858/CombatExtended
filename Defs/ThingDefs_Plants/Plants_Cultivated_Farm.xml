@@ -25,6 +25,7 @@
     <plant>
       <dieIfLeafless>true</dieIfLeafless>
       <harvestTag>Standard</harvestTag>
+      <reproduces>false</reproduces>
       <harvestedThingDef>Prometheum</harvestedThingDef>
       <harvestYield>5</harvestYield>
       <sowTags>

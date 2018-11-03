@@ -220,9 +220,9 @@ namespace CombatExtended
             }
         }
 
-        public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
+        public override void DeSpawn()
         {
-            base.DeSpawn(mode);
+            base.DeSpawn();
             this.ResetCurrentTarget();
         }
         
@@ -322,7 +322,7 @@ namespace CombatExtended
             }
             else if (Spawned && burstCooldownTicksLeft > 0)
             {
-                stringBuilder.AppendLine("CanFireIn".Translate() + ": " + this.burstCooldownTicksLeft.ToStringSecondsFromTicks());
+                stringBuilder.AppendLine("CanFireIn".Translate() + ": " + this.burstCooldownTicksLeft.TicksToSecondsString());
             }
 
             if (CompAmmo != null && CompAmmo.Props.ammoSet != null)
@@ -489,28 +489,24 @@ namespace CombatExtended
         {
             IAttackTargetSearcher attackTargetSearcher = this.TargSearcher();
             Faction faction = attackTargetSearcher.Thing.Faction;
-            float range = this.AttackVerb.verbProps.range;
+            float range = this.GunCompEq.PrimaryVerb.verbProps.range;
+            float minRange = this.GunCompEq.PrimaryVerb.verbProps.minRange;
             Building t;
-            if (Rand.Value < 0.5f && this.AttackVerb.ProjectileFliesOverhead() && faction.HostileTo(Faction.OfPlayer) && base.Map.listerBuildings.allBuildingsColonist.Where(delegate (Building x)
+            if (Rand.Value < 0.5f && Projectile.projectile.flyOverhead && faction.HostileTo(Faction.OfPlayer) && base.Map.listerBuildings.allBuildingsColonist.Where(delegate (Building x)
             {
-                float num = this.AttackVerb.verbProps.EffectiveMinRange(x, this);
-                float num2 = (float)x.Position.DistanceToSquared(this.Position);
-                return num2 > num * num && num2 < range * range;
+                float num = (float)x.Position.DistanceToSquared(this.Position);
+                return num > minRange * minRange && num < range * range;
             }).TryRandomElement(out t))
             {
                 return t;
             }
             TargetScanFlags targetScanFlags = TargetScanFlags.NeedThreat;
-            if (!this.AttackVerb.ProjectileFliesOverhead())
+            if (!Projectile.projectile.flyOverhead)
             {
                 targetScanFlags |= TargetScanFlags.NeedLOSToAll;
                 targetScanFlags |= TargetScanFlags.LOSBlockableByGas;
             }
-            if (this.AttackVerb.IsIncendiary())
-            {
-                targetScanFlags |= TargetScanFlags.NeedNonBurning;
-            }
-            return (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, targetScanFlags, new Predicate<Thing>(this.IsValidTarget), 0f, 9999f);
+            return (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, new Predicate<Thing>(this.IsValidTarget), range, minRange, targetScanFlags);
         }
 
         // Added ammo check and use verb warmup time instead of turret's
@@ -660,7 +656,7 @@ namespace CombatExtended
                     stop.action = delegate
                     {
                         ResetForcedTarget();
-                        SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
+                        SoundDefOf.TickLow.PlayOneShotOnCamera(null);
                     };
                     if (!this.forcedTarget.IsValid)
                     {

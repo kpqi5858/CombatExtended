@@ -44,7 +44,7 @@ namespace CombatExtended
             explosion.radius = def.projectile.explosionRadius;
             explosion.damType = def.projectile.damageDef;
             explosion.instigator = launcher;
-            explosion.damAmount = def.projectile.GetDamageAmount(CE_Utility.GetWeaponFromLauncher(launcher));
+            explosion.damAmount = def.projectile.damageAmountBase;
             explosion.weapon = equipmentDef;
             explosion.projectile = def;
             explosion.preExplosionSpawnThingDef = def.projectile.preExplosionSpawnThingDef;
@@ -55,7 +55,7 @@ namespace CombatExtended
             explosion.postExplosionSpawnThingCount = def.projectile.postExplosionSpawnThingCount;
             explosion.applyDamageToExplosionCellsNeighbors = def.projectile.applyDamageToExplosionCellsNeighbors;
             explosion.chanceToStartFire = def.projectile.explosionChanceToStartFire;
-            explosion.damageFalloff = def.projectile.explosionDamageFalloff;
+            explosion.dealMoreDamageAtCenter = def.projectile.explosionDealMoreDamageAtCenter;
             explosion.StartExplosion(def.projectile.soundExplode);
 
             //This code was disabled because it didn't run under previous circumstances. Could be enabled if necessary
