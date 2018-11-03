@@ -25,7 +25,8 @@ namespace CombatExtended
         
         #region Origin destination
         protected Vector2 origin;
-        
+        Vector3 CachedPos;
+
         private IntVec3 originInt = new IntVec3(0, -1000, 0);
         protected IntVec3 OriginIV3
         {
@@ -393,8 +394,8 @@ namespace CombatExtended
             this.shotAngle = shotAngle;
             this.shotHeight = shotHeight;
             this.shotRotation = shotRotation;
-            
-        	Launch(launcher, origin, equipment);
+
+            Launch(launcher, origin, equipment);
             if (shotSpeed > 0f)
             {
                 this.shotSpeed = shotSpeed;
@@ -421,7 +422,7 @@ namespace CombatExtended
         
         #region Collisions
         //Removed minimum collision distance
-        private bool CheckForCollisionBetween()
+        public bool CheckForCollisionBetween()
         {
         	var lastPosIV3 = LastPos.ToIntVec3();
         	var newPosIV3 = ExactPosition.ToIntVec3();
@@ -431,17 +432,17 @@ namespace CombatExtended
             {
                 return false;
             }
-
-            if (DebugViewSettings.drawInterceptChecks)
+            /*
+            if (Controller.settings.DebugDrawInterceptChecks)
             {
                 Map.debugDrawer.FlashLine(lastPosIV3, newPosIV3);
             }
+            */
             #endregion
-        	
+
             // Iterate through all cells between the last and the new position
             // INCLUDING[!!!] THE LAST AND NEW POSITIONS!
             var cells = GenSight.PointsOnLineOfSight(lastPosIV3, newPosIV3).Union(new []{lastPosIV3, newPosIV3}).Distinct().OrderBy(x => (x.ToVector3Shifted() - LastPos).MagnitudeHorizontalSquared());
-			
     		//Order cells by distance from the last position
             foreach(IntVec3 cell in cells)
             {
@@ -449,11 +450,11 @@ namespace CombatExtended
             	{
                     return true;
             	}
-
-                if (DebugViewSettings.drawInterceptChecks)
+                /*
+                if (Controller.settings.DebugDrawInterceptChecks)
                     Map.debugDrawer.FlashCell(cell, 1, "o");
+                    */
             }
-            
             return false;
         }
 		
@@ -474,7 +475,7 @@ namespace CombatExtended
                 ? distFromOrigin < 1f
                 : distFromOrigin < Mathf.Min(144f, minCollisionSqr / 4))
             {
-            	justWallsRoofs = true;
+                justWallsRoofs = true;
             }
             
             List<Thing> mainThingList = new List<Thing>(base.Map.thingGrid.ThingsListAtFast(cell))
@@ -493,12 +494,14 @@ namespace CombatExtended
 	                {
 	                    mainThingList.AddRange(Map.thingGrid.ThingsListAtFast(curCell)
 	                	.Where(x => x is Pawn));
-						
-	                    if (DebugViewSettings.drawInterceptChecks)
-	                    {
-	                        Map.debugDrawer.FlashCell(curCell, 0.7f);
-	                    }
-	                }
+
+                        /*
+                        if (Controller.settings.DebugDrawInterceptChecks)
+                        {
+                            Map.debugDrawer.FlashCell(curCell, 0.7f);
+                        }
+                        */
+                    }
 	            }
             }
 			
@@ -507,9 +510,9 @@ namespace CombatExtended
             {
             	if (TryCollideWithRoof(cell))
             	{
-            		return true;
+                    return true;
             	}
-            	roofChecked = true;
+                roofChecked = true;
             }
             
             foreach (Thing thing in mainThingList.Distinct().OrderBy(x => (x.DrawPos - LastPos).sqrMagnitude))
@@ -518,7 +521,10 @@ namespace CombatExtended
 				
                 // Check for collision
                 if (TryCollideWith(thing))
-                	return true;
+                {
+                    return true;
+                }
+                	
 				
                 // Apply suppression. The height here is NOT that of the bullet in CELL,
                 // it is the height at the END OF THE PATH. This is because SuppressionRadius
@@ -536,7 +542,7 @@ namespace CombatExtended
             //Finally check for intersecting with a roof (again).
             if (!roofChecked && TryCollideWithRoof(cell))
             {
-            	return true;
+                return true;
             }
             return false;
         }
@@ -554,15 +560,15 @@ namespace CombatExtended
             }
             if (dist*dist > ExactMinusLastPos.sqrMagnitude)
             {
-            	return false;
+                return false;
             }
             
             var point = ShotLine.GetPoint(dist);
             ExactPosition = point;
-        	landed = true;
-        	
-            if (DebugViewSettings.drawInterceptChecks) MoteMaker.ThrowText(cell.ToVector3Shifted(), Map, "x", Color.red);
-            
+            landed = true;
+
+        //    if (Controller.settings.DebugDrawInterceptChecks) MoteMaker.ThrowText(cell.ToVector3Shifted(), Map, "x", Color.red);
+
             Impact(null);
             return true;
         }
@@ -587,18 +593,28 @@ namespace CombatExtended
             }
             if (dist*dist > ExactMinusLastPos.sqrMagnitude)
             {
-            	return false;
+                return false;
             }
             
             // Trees and bushes have RNG chance to collide
 			var plant = thing as Plant;
             if (plant != null)
             {
-            	//TODO: Remove fillPercent dependency because all fillPercents on trees are 0.25
-            	//Prevents trees near the shooter (e.g the shooter's cover) to be hit
-                float chance = thing.def.fillPercent * ((thing.Position - OriginIV3).LengthHorizontal / 40);
+                //TODO: Remove fillPercent dependency because all fillPercents on trees are 0.25
+                //Prevents trees near the shooter (e.g the shooter's cover) to be hit
+
+                //Dependence to catch the tree from armorPenetration. Large calibers have less chance.
+                var propsCE = def.projectile as ProjectilePropertiesCE;
+                float penetrationAmount = propsCE == null ? 0.1f : propsCE.armorPenetration; //Every projectile, which not use flyoverhead, require armorPenetration stat for calculating collision.
+                float penetrationmultiplier = Mathf.Clamp(((thing.def.fillPercent * 3.2f) - penetrationAmount), 0.05f, 1f); // 2.5-3.5 good values for 0.20-0.30 fillpercent.
+                float rangemultiplier = ((thing.Position - OriginIV3).LengthHorizontal / 15); // 10-20 is fine for prevent to shoot near tree.
+                float chance = penetrationmultiplier * (rangemultiplier < 1f ? rangemultiplier : 1f); // when projectile reach 15 cells distance, we set limit for multiplier bcs chances to hit greatly increased. 
                 if (Controller.settings.DebugShowTreeCollisionChance) MoteMaker.ThrowText(thing.Position.ToVector3Shifted(), thing.Map, chance.ToString());
-                if (!Rand.Chance(chance)) return false;
+                if (!Rand.Chance(chance))
+                {
+                    return false;
+                }
+                
             }
             
             var point = ShotLine.GetPoint(dist);
@@ -606,10 +622,26 @@ namespace CombatExtended
             	Log.Error("TryCollideWith out of bounds point from ShotLine: obj " + thing.ThingID + ", proj " + this.ThingID + ", dist " + dist + ", point " + point);
             	
             ExactPosition = point;
-        	landed = true;
-        	
-            if (DebugViewSettings.drawInterceptChecks) MoteMaker.ThrowText(thing.Position.ToVector3Shifted(), thing.Map, "x", Color.red);
-            
+
+            if (intendedTarget != null)
+            {
+                var fulldistance = (intendedTarget.Position - OriginIV3).LengthHorizontalSquared;
+                var traveleddistance = (thing.Position - OriginIV3).LengthHorizontalSquared;
+                var requireddisttotarget = fulldistance - traveleddistance;
+                if (thing is Building && thing.def.fillPercent > 0.5f)
+                {
+                    //    Log.Message("fulldist: " + fulldistance.ToString() + " traveled: " + traveleddistance.ToString() + " required: " + requireddisttotarget.ToString());
+                    if (traveleddistance < requireddisttotarget)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            landed = true;
+
+        //    if (Controller.settings.DebugDrawInterceptChecks) MoteMaker.ThrowText(thing.Position.ToVector3Shifted(), thing.Map, "x", Color.red);
+
             Impact(thing);
             return true;
         }
@@ -639,7 +671,7 @@ namespace CombatExtended
                 && pawn.Faction != launcher?.Faction
                 && (shield == null || shield?.ShieldState == ShieldState.Resetting))
             {
-                suppressionAmount = def.projectile.damageAmountBase;
+                suppressionAmount = def.projectile.GetDamageAmount(CE_Utility.GetWeaponFromLauncher(launcher));
                 var propsCE = def.projectile as ProjectilePropertiesCE;
                 float penetrationAmount = propsCE == null ? 0f : propsCE.armorPenetration;
                 suppressionAmount *= 1 - Mathf.Clamp(compSuppressable.ParentArmor - penetrationAmount, 0, 1);
@@ -651,10 +683,33 @@ namespace CombatExtended
         public override void Tick()
         {
             base.Tick();
+
+            // avoid stuck projectiles
+            if (ExactPosition == Vector3.zero)
+            {
+                Destroy(DestroyMode.Vanish);
+                return;
+            }
+
+            if (LastPos == ExactPosition)
+            {
+                if (CachedPos == ExactPosition)
+                {
+                    Destroy(DestroyMode.Vanish);
+                    return;
+                }
+                if (CachedPos != ExactPosition)
+                {
+                    CachedPos = ExactPosition;
+                }
+            }
             if (landed)
             {
                 return;
             }
+
+
+
             LastPos = ExactPosition;
             ticksToImpact--;
             if (!ExactPosition.InBounds(base.Map))
@@ -754,12 +809,14 @@ namespace CombatExtended
             List<Thing> list = Map.thingGrid.ThingsListAt(pos).Where(t => t is Pawn || t.def.Fillage != FillCategory.None).ToList();
             if (list.Count > 0)
             {
-				foreach (var thing2 in list) {
+                foreach (var thing2 in list) {
 					if (TryCollideWith(thing2))
-						return;
+                    {
+                        return;
+                    }
+						
 				}
             }
-            
             ExactPosition = ExactPosition;
             landed = true;
             Impact(null);
@@ -770,11 +827,12 @@ namespace CombatExtended
             CompExplosiveCE comp = this.TryGetComp<CompExplosiveCE>();
             if (comp != null && ExactPosition.ToIntVec3().IsValid)
             {
-                comp.Explode(launcher, ExactPosition, Find.VisibleMap);
+                comp.Explode(launcher, ExactPosition, Find.CurrentMap);
             }
 			
 			//Spawn things if not an explosive but preExplosionSpawnThingDef != null
             if (Controller.settings.EnableAmmoSystem
+	        	&& Controller.settings.ReuseNeolithicProjectiles
 	    		&& comp == null
 		    	&& Position.IsValid
 				&& def.projectile.preExplosionSpawnChance > 0
@@ -787,7 +845,7 @@ namespace CombatExtended
 				{
 					FilthMaker.MakeFilth(Position, Map, thingDef, 1);
 				}
-				else if (Controller.settings.ReuseNeolithicProjectiles)
+				else
 				{
 					Thing reusableAmmo = ThingMaker.MakeThing(thingDef, null);
 					reusableAmmo.stackCount = 1;

@@ -16,9 +16,13 @@ namespace CombatExtended
         private Pawn Patient { get { return pawn.CurJob.targetA.Thing as Pawn; } }
         private Medicine Medicine { get { return pawn.CurJob.targetB.Thing as Medicine; } }
 
-        public override bool TryMakePreToilReservations()
+        public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return pawn.Reserve(TargetA, job) && pawn.Reserve(TargetB, job);
+            Pawn pawn = this.pawn;
+            LocalTargetInfo targetA = this.TargetA;
+            LocalTargetInfo targetB = this.TargetB;
+            Job job = this.job;
+            return pawn.Reserve(targetA, job, 1, -1, null, errorOnFailed) && pawn.Reserve(targetB, job, 1, -1, null, errorOnFailed);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()

@@ -12,5 +12,10 @@ namespace CombatExtended
     public class CE_BodyShapeDefOf
     {
         public static BodyShapeDef Invalid;
+
+        static CE_BodyShapeDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(CE_BodyShapeDefOf));
+        }
     }
 }

@@ -48,7 +48,7 @@ namespace CombatExtended
             // In case of ambient damage (fire, electricity) we apply a percentage reduction formula based on the sum of all applicable armor
             if (isAmbientDamage)
             {
-                dinfo.SetAmount(Mathf.CeilToInt(GetAmbientPostArmorDamage(dmgAmount, originalDinfo.Def.armorCategory.deflectionStat, pawn, hitPart)));
+                dinfo.SetAmount(Mathf.CeilToInt(GetAmbientPostArmorDamage(dmgAmount, originalDinfo.Def.armorCategory.armorRatingStat, pawn, hitPart)));
                 return dinfo;
             }
 
@@ -83,7 +83,7 @@ namespace CombatExtended
                         }
                     }
                     // Try to penetrate the shield
-                    if (blockedByShield && !TryPenetrateArmor(dinfo.Def, shield.GetStatValue(dinfo.Def.armorCategory.deflectionStat), ref penAmount, ref dmgAmount, shield))
+                    if (blockedByShield && !TryPenetrateArmor(dinfo.Def, shield.GetStatValue(dinfo.Def.armorCategory.armorRatingStat), ref penAmount, ref dmgAmount, shield))
                     {
                         shieldAbsorbed = true;
                         dinfo.SetAmount(0);
@@ -98,7 +98,7 @@ namespace CombatExtended
                                 var secDinfo = sec.GetDinfo();
                                 var pen = GetPenetrationValue(originalDinfo);
                                 var dmg = (float)secDinfo.Amount;
-                                TryPenetrateArmor(secDinfo.Def, shield.GetStatValue(secDinfo.Def.armorCategory.deflectionStat), ref pen, ref dmg, shield);
+                                TryPenetrateArmor(secDinfo.Def, shield.GetStatValue(secDinfo.Def.armorCategory.armorRatingStat), ref pen, ref dmg, shield);
                             }
                         }
 
@@ -110,7 +110,7 @@ namespace CombatExtended
                 for (int i = apparel.Count - 1; i >= 0; i--)
                 {
                     if (apparel[i].def.apparel.CoversBodyPart(hitPart) 
-                        && !TryPenetrateArmor(dinfo.Def, apparel[i].GetStatValue(dinfo.Def.armorCategory.deflectionStat), ref penAmount, ref dmgAmount, apparel[i]))
+                        && !TryPenetrateArmor(dinfo.Def, apparel[i].GetStatValue(dinfo.Def.armorCategory.armorRatingStat), ref penAmount, ref dmgAmount, apparel[i]))
                     {
                         // Hit was deflected, convert damage type
                         dinfo = GetDeflectDamageInfo(dinfo, hitPart);
@@ -141,7 +141,7 @@ namespace CombatExtended
                 bool coveredByArmor = curPart.IsInGroup(CE_BodyPartGroupDefOf.CoveredByNaturalArmor);
                 float partArmor = pawn.HealthScale * 0.05f;   // How much armor is provided by sheer meat
                 if (coveredByArmor)
-                    partArmor += pawn.GetStatValue(dinfo.Def.armorCategory.deflectionStat);
+                    partArmor += pawn.GetStatValue(dinfo.Def.armorCategory.armorRatingStat);
                 float unused = dmgAmount;
 
                 // Only apply damage reduction when penetrating armored body parts
@@ -171,24 +171,20 @@ namespace CombatExtended
 
         private static ToolCE DistinguishBodyPartGroups(this IEnumerable<ToolCE> tools, DamageInfo dinfo)
         {
-        	var potentialTools = tools
-                .Where(x => DefDatabase<ManeuverDef>.AllDefs
-                    .Any(y => x.capacities.Contains(y.requiredCapacity) && y.verb.meleeDamageDef.defName == dinfo.Def.defName.Replace("_Critical","")));
+        	var potentialTools = tools.Where(x => DefDatabase<ManeuverDef>.AllDefs.Any(y => x.capacities.Contains(y.requiredCapacity) && y.verb.meleeDamageDef == dinfo.Def));
+        	
+        	if (potentialTools.Count() == 1)
+        		return potentialTools.First();
         	
         	if (!potentialTools.Any())
         		Log.ErrorOnce("CE :: Distinguishing tools based on damageDef failed - at some point the damageinfo changed damageDef (which is as expected). This is an issue because "+dinfo.Weapon+" has multiple ToolCE with the same linkedBodyPartsGroup (or multiple without one), and they can not be distinguished because of it. [While evaluating DamageInfo "+dinfo.ToString()+"]", dinfo.Weapon.GetHashCode() + dinfo.WeaponBodyPartGroup.GetHashCode() + 84827378);
-
-            if (potentialTools.Count() > 1)
-                Log.ErrorOnce("CE :: Distinguishing tools based on damageDef failed. There are multiple ToolCE with the same linkedBodyPartsGroup, the same restricted gender and the same maneuver (and thus the same damageDef) [While evaluating DamageInfo " + dinfo.ToString() + "]", dinfo.Weapon.GetHashCode() + dinfo.WeaponBodyPartGroup.GetHashCode() + 1298379123);
-
+        		
         	return potentialTools.FirstOrDefault();
         }
         
         private static ToolCE GetUsedTool(this IEnumerable<ToolCE> tools, DamageInfo dinfo)
         {
-            Pawn instigatorPawn = dinfo.Instigator as Pawn;
-
-            if (tools.Count() == 1)
+        	if (tools.Count() == 1)
         	{
         		if (dinfo.WeaponBodyPartGroup != null && tools.First().linkedBodyPartsGroup != dinfo.WeaponBodyPartGroup)
         		{
@@ -203,7 +199,7 @@ namespace CombatExtended
         	{
             	if (dinfo.WeaponBodyPartGroup != null)
             	{
-            		var linkedTools = tools.Where(t => t.linkedBodyPartsGroup == dinfo.WeaponBodyPartGroup && (instigatorPawn == null || (t.restrictedGender == Gender.None || t.restrictedGender == instigatorPawn.gender)));
+            		var linkedTools = tools.Where(t => t.linkedBodyPartsGroup == dinfo.WeaponBodyPartGroup);
             		
             		if (linkedTools.Count() > 1)
             		{
@@ -216,7 +212,7 @@ namespace CombatExtended
             	}
             	else
             	{
-	            	var nonLinkedTools = tools.Where(t => t.linkedBodyPartsGroup == null && (instigatorPawn == null || (t.restrictedGender == Gender.None || t.restrictedGender == instigatorPawn.gender)));
+	            	var nonLinkedTools = tools.Where(t => t.linkedBodyPartsGroup == null);
 	            	
 	        		if (nonLinkedTools.Count() > 1)
 	        		{
@@ -242,10 +238,10 @@ namespace CombatExtended
             {
                 return dinfo.Amount * 0.1f; // Explosions have 10% of their damage as penetration
             }
-
+            
             if (dinfo.Weapon != null)
             {
-                // Case 1: projectile attack (Weapon.projectile indicates that Weapon IS a projectile)
+                // Case 1: projectile attack
                 ProjectilePropertiesCE projectileProps = dinfo.Weapon.projectile as ProjectilePropertiesCE;
                 if (projectileProps != null)
                 {
@@ -263,36 +259,32 @@ namespace CombatExtended
                     	
                         if (equipment == null || equipment.def != dinfo.Weapon)
                         {
-                            Log.Error("CE tried getting armor penetration from melee weapon " + dinfo.Weapon.defName + " but instigator " + dinfo.Instigator.ToString() + " equipment (" + String.Join(",", instigatorPawn.equipment.AllEquipmentListForReading.Select(x => x.LabelCap).ToArray()) + ") does not match.");
+                            Log.Error("CE tried getting armor penetration from melee weapon " + dinfo.Weapon.defName + " but instigator " + dinfo.Instigator.ToString() + " equipment does not match");
                             return 0;
                         }
                         var penetrationMult = equipment.GetStatValue(CE_StatDefOf.MeleePenetrationFactor);
-                        var tool = equipment.def.tools?.OfType<ToolCE>().GetUsedTool(dinfo);
-
-                        if (tool != null)
-                            return tool.armorPenetration * penetrationMult;
+                        var tool = equipment.def.tools.OfType<ToolCE>().GetUsedTool(dinfo);
+                        
+                        return tool.armorPenetration * penetrationMult;
                     }
                     
                     // Case 2.2: .. of a ranged weapon
                     if (dinfo.Weapon.IsRangedWeapon)
                     {
-                    	var tool = dinfo.Weapon.tools?.OfType<ToolCE>().GetUsedTool(dinfo);
-
-                        if (tool != null)
-                            return tool.armorPenetration;
+                    	var tool = dinfo.Weapon.tools.OfType<ToolCE>().GetUsedTool(dinfo);
+                    	return tool.armorPenetration;
                     }
                     
                     // Case 2.3: .. of the pawn
                     if (instigatorPawn.def == dinfo.Weapon)
                     {
-                        // meleeVerbs: all verbs considered "melee worthy"
-                        Verb availableVerb = instigatorPawn.meleeVerbs.TryGetMeleeVerb();
-                    	
-	                    // Case 2.3.1: .. of a weaponized hediff (power claw, scyther blade)
+                    	Verb availableVerb = instigatorPawn.meleeVerbs.TryGetMeleeVerb(instigatorPawn); // instigatorPawn or dinfo.target?
+
+                        // Case 2.3.1: .. of a weaponized hediff (power claw, scyther blade)
                         HediffCompProperties_VerbGiver compProps = dinfo.WeaponLinkedHediff?.CompPropsFor(typeof(HediffComp_VerbGiver)) as HediffCompProperties_VerbGiver;
                         if (compProps != null)
                         {
-                        	var tool = compProps.tools?.OfType<ToolCE>().GetUsedTool(dinfo);
+                        	var tool = compProps.tools.OfType<ToolCE>().GetUsedTool(dinfo);
                         	
                         	if (tool != null)
                         		return tool.armorPenetration;
@@ -302,51 +294,40 @@ namespace CombatExtended
                         	var verbs = compProps.verbs;
                         	
                         	if (verbs.Count() > 1)
-                            {
-                                Log.ErrorOnce("CE :: HediffCompProperties_VerbGiver for "+dinfo.WeaponLinkedHediff+" has multiple VerbPropertiesCE (" + String.Join(",", compProps.verbs.Select(x => x.label).ToArray()) + "). [While evaluating DamageInfo "+dinfo.ToString()+"]", dinfo.WeaponLinkedHediff.GetHashCode() + 128937921);
+                        	{
+                        		Log.ErrorOnce("CE :: HediffCompProperties_VerbGiver for "+dinfo.WeaponLinkedHediff+" has multiple VerbPropertiesCE. [While evaluating DamageInfo "+dinfo.ToString()+"]", dinfo.WeaponLinkedHediff.GetHashCode() + 128937921);
+                        		
                         	}
                         	
                         	if (verbProps != null)
                         	{
-                            	Log.ErrorOnce("CE :: HediffCompProperties_VerbGiver from DamageInfo "+dinfo.ToString()+ " has VerbPropertiesCE (" + String.Join(",", compProps.verbs.Select(x => x.label).ToArray()) + "), but these are preferably moved to <tools> for B18", dinfo.WeaponLinkedHediff.GetHashCode() + 128937921);
+                            	Log.ErrorOnce("CE :: HediffCompProperties_VerbGiver from DamageInfo "+dinfo.ToString()+" has VerbPropertiesCE, but these should be moved to <tools> for B18", dinfo.WeaponLinkedHediff.GetHashCode() + 128937921);
                         		
                             	return verbProps.meleeArmorPenetration;
                         	}
                         }
 						
 	                	// AllVerbs: bodyparts of the pawn
-	                    // Case 2.4: .. of a toolCE/verbPropsCE naturally on the body (hands/fist, head)
+	                	// meleeVerbs: all verbs considered "melee worthy"
+                		
+	                    // Case 2.4: .. of a tool naturally on the body (hands/fist, head)
 	                    if (instigatorPawn.verbTracker != null
 	                    && !instigatorPawn.verbTracker.AllVerbs.NullOrEmpty())
 	                    {
-	                    	var verbs = instigatorPawn.verbTracker.AllVerbs
-                                .Where(v => {
-	                    	        var toolCE = v.tool as ToolCE;
-                                    var propsCE = v.verbProps as VerbPropertiesCE;
-                                    // Case 2.4.1: .. of a tool restricted by gender
-                                    return v.LinkedBodyPartsGroup == dinfo.WeaponBodyPartGroup
-                                         && ((toolCE != null && (toolCE.restrictedGender == Gender.None || toolCE.restrictedGender == instigatorPawn.gender)
-                                            || propsCE != null));
-	                    	    });
+	                        var verbs = instigatorPawn.verbTracker.AllVerbs.Where(v => v.tool is ToolCE && v.tool.linkedBodyPartsGroup == dinfo.WeaponBodyPartGroup);
 	                        
 	                        if (verbs.Count() > 1)
 	                        {
-                            	Log.ErrorOnce("CE :: Race "+instigatorPawn.def+ " has multiple ToolCE/VerbPropertiesCE (" + String.Join(",", instigatorPawn.verbTracker.AllVerbs.Select(x => x.ToString()).ToArray()) + ") with linkedBodyPartsGroup=" + dinfo.WeaponBodyPartGroup.ToString()+" which can not be distunguished between. Consider using different linkedBodyPartsGroups. [While evaluating DamageInfo "+dinfo.ToString()+"]", instigatorPawn.def.GetHashCode() + 128937921);
+                            	Log.ErrorOnce("CE :: Race "+instigatorPawn.def+" has multiple ToolCE with linkedBodyPartsGroup="+dinfo.WeaponBodyPartGroup.ToString()+" which can not be distunguished between. Consider using different linkedBodyPartsGroups. [While evaluating DamageInfo "+dinfo.ToString()+"]", instigatorPawn.def.GetHashCode() + 128937921);
 	                        }
 	                        
 	                        if (!verbs.Any())
 	                        {
-                                Log.ErrorOnce("CE :: Pawn " + instigatorPawn.ToString() + " for BodyPartGroup " + dinfo.WeaponBodyPartGroup.ToString() + " could not find matching ToolCE/Verb_MeleeAttackCE (in AllVerbs: " + String.Join(",", instigatorPawn.verbTracker.AllVerbs.Select(x => x.ToString()).ToArray()) + ") [While evaluating DamageInfo " + dinfo.ToString() + "]", instigatorPawn.def.GetHashCode() + 128937921);
-                                return 0;
+	                        	Log.ErrorOnce("CE :: Pawn " + instigatorPawn.ToString() + " for BodyPartGroup " + dinfo.WeaponBodyPartGroup.ToString()+" could not find matching verb (in AllVerbs: " + String.Join(",",instigatorPawn.verbTracker.AllVerbs.Select(x => x.ToString()).ToArray()) + ") [While evaluating DamageInfo "+dinfo.ToString()+"]", instigatorPawn.def.GetHashCode() + 128937921);
+	                        	return 0;
 	                        }
-
-                            var firstVerb = verbs.First();
-
-                            if (firstVerb.tool is ToolCE)
-                                return (firstVerb.tool as ToolCE).armorPenetration;
-
-                            if (firstVerb.verbProps is VerbPropertiesCE)
-                                return (firstVerb.verbProps as VerbPropertiesCE).meleeArmorPenetration;
+	                        
+	                        return (verbs.First().tool as ToolCE).armorPenetration;
 	                    }
                     }
                 }
@@ -385,20 +366,26 @@ namespace CombatExtended
             if (armor != null)
             {
                 bool isSoftArmor = armor.Stuff != null && armor.Stuff.stuffProps.categories.Any(s => softStuffs.Contains(s));
-                if (isSoftArmor)
+
+                // do not destroy thing if it already heavy damaged and not able to deflect damage.
+                float armorhealth = ((float)armor.HitPoints / (float)armor.MaxHitPoints);
+                if (deflected || (!deflected && armorhealth > 0.15f))
                 {
-                    // Soft armor takes absorbed damage from sharp and no damage from blunt
-                    if (isSharpDmg)
+                    if (isSoftArmor)
                     {
-                        float armorDamage = Mathf.Max(dmgAmount * SoftArmorMinDamageFactor, dmgAmount - newDmgAmount);
+                        // Soft armor takes absorbed damage from sharp and no damage from blunt
+                        if (isSharpDmg)
+                        {
+                            float armorDamage = Mathf.Max(dmgAmount * SoftArmorMinDamageFactor, dmgAmount - newDmgAmount);
+                            armor.TakeDamage(new DamageInfo(def, Mathf.CeilToInt(armorDamage)));
+                        }
+                    }
+                    else
+                    {
+                        // Hard armor takes damage as reduced by damage resistance and can be almost impervious to low-penetration attacks
+                        float armorDamage = Mathf.Max(1, newDmgAmount);
                         armor.TakeDamage(new DamageInfo(def, Mathf.CeilToInt(armorDamage)));
                     }
-                }
-                else
-                {
-                    // Hard armor takes damage as reduced by damage resistance and can be almost impervious to low-penetration attacks
-                    float armorDamage = Mathf.Max(1, newDmgAmount);
-                    armor.TakeDamage(new DamageInfo(def, Mathf.CeilToInt(armorDamage)));
                 }
             }
 
@@ -411,20 +398,20 @@ namespace CombatExtended
         /// Calculates damage reduction for ambient damage types (fire, electricity) versus natural and worn armor of a pawn. Adds up the total armor percentage (clamped at 0-100%) and multiplies damage by that amount.
         /// </summary>
         /// <param name="dmgAmount">The original amount of damage</param>
-        /// <param name="deflectionStat">The armor stat to use for damage reduction</param>
+        /// <param name="armorRatingStat">The armor stat to use for damage reduction</param>
         /// <param name="pawn">The damaged pawn</param>
         /// <param name="part">The body part affected</param>
         /// <returns>The post-armor damage ranging from 0 to the original amount</returns>
-        private static float GetAmbientPostArmorDamage(float dmgAmount, StatDef deflectionStat, Pawn pawn, BodyPartRecord part)
+        private static float GetAmbientPostArmorDamage(float dmgAmount, StatDef armorRatingStat, Pawn pawn, BodyPartRecord part)
         {
-            float dmgMult = 1 - pawn.GetStatValue(deflectionStat);
+            float dmgMult = 1 - pawn.GetStatValue(armorRatingStat);
             if (dmgMult <= 0) return 0;
             if (pawn.apparel != null && !pawn.apparel.WornApparel.NullOrEmpty())
             {
                 List<Apparel> apparelList = pawn.apparel.WornApparel;
                 foreach (Apparel apparel in apparelList)
                 {
-                    if (apparel.def.apparel.CoversBodyPart(part)) dmgMult -= apparel.GetStatValue(deflectionStat);
+                    if (apparel.def.apparel.CoversBodyPart(part)) dmgMult -= apparel.GetStatValue(armorRatingStat);
                     if (dmgMult <= 0)
                     {
                         dmgMult = 0;
@@ -443,11 +430,23 @@ namespace CombatExtended
         /// <returns>DamageInfo copied from dinfo with Def and forceHitPart adjusted</returns>
         private static DamageInfo GetDeflectDamageInfo(DamageInfo dinfo, BodyPartRecord hitPart)
         {
-            DamageInfo newDinfo = new DamageInfo(DamageDefOf.Blunt, dinfo.Amount, dinfo.Angle, dinfo.Instigator, GetOuterMostParent(hitPart), dinfo.Weapon);
+            float ap = 0;
+            if (dinfo.Weapon.projectile != null)
+            {
+                var pj = dinfo.Weapon.projectile as ProjectilePropertiesCE;
+                if (pj != null)
+                {
+                    ap = pj.armorPenetration;
+                }
+                // missed for melee weapon?
+            }
+
+            DamageInfo newDinfo = new DamageInfo(DamageDefOf.Blunt, dinfo.Amount, ap, //Armor Penetration
+                dinfo.Angle, dinfo.Instigator, GetOuterMostParent(hitPart), dinfo.Weapon);
             newDinfo.SetBodyRegion(dinfo.Height, dinfo.Depth);
             newDinfo.SetWeaponBodyPartGroup(dinfo.WeaponBodyPartGroup);
             newDinfo.SetWeaponHediff(dinfo.WeaponLinkedHediff);
-            newDinfo.SetInstantOldInjury(dinfo.InstantOldInjury);
+            newDinfo.SetInstantPermanentInjury(dinfo.InstantPermanentInjury);
             newDinfo.SetAllowDamagePropagation(dinfo.AllowDamagePropagation);
 
             return newDinfo;
@@ -494,7 +493,7 @@ namespace CombatExtended
             }
             else if (dinfo.IsAmbientDamage())
             {
-                int dmgAmount = Mathf.CeilToInt(dinfo.Amount * Mathf.Clamp01(parryThing.GetStatValue(dinfo.Def.armorCategory.deflectionStat)));
+                int dmgAmount = Mathf.CeilToInt(dinfo.Amount * Mathf.Clamp01(parryThing.GetStatValue(dinfo.Def.armorCategory.armorRatingStat)));
                 dinfo.SetAmount(dmgAmount);
                 parryThing.TakeDamage(dinfo);
             }
@@ -502,7 +501,7 @@ namespace CombatExtended
             {
                 float dmgAmount = dinfo.Amount * 0.1f;
                 float penAmount = GetPenetrationValue(dinfo);
-                TryPenetrateArmor(dinfo.Def, parryThing.GetStatValue(dinfo.Def.armorCategory.deflectionStat), ref penAmount, ref dmgAmount, parryThing);
+                TryPenetrateArmor(dinfo.Def, parryThing.GetStatValue(dinfo.Def.armorCategory.armorRatingStat), ref penAmount, ref dmgAmount, parryThing);
             }
         }
 

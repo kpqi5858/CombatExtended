@@ -9,15 +9,7 @@ namespace CombatExtended
     {
         private const int getUpCheckInterval = 60;
 
-        public override PawnPosture Posture
-        {
-            get
-            {
-                return PawnPosture.LayingAny;
-            }
-        }
-
-        public override bool TryMakePreToilReservations()
+        public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
             return true;
         }

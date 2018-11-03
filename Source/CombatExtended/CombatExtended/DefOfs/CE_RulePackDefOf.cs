@@ -13,5 +13,10 @@ namespace CombatExtended
     {
         public static RulePackDef AttackMote;
         public static RulePackDef SuppressedMote;
+
+        static CE_RulePackDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(CE_RulePackDefOf));
+        }
     }
 }

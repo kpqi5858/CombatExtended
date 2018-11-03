@@ -14,9 +14,29 @@ namespace CombatExtended
     /// </summary>
     public class JobDriver_Hunt : JobDriver
     {
-        public override bool TryMakePreToilReservations()
+        public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return pawn.Reserve(Victim, job, 1, -1, null);
+            Pawn pawn = this.pawn;
+            LocalTargetInfo target = this.Victim;
+            Job job = this.job;
+            return pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
+        }
+
+        public static Toil JumpIfTargetDownedDistant(TargetIndex ind, Toil jumpToil)
+        {
+            Toil toil = new Toil();
+            toil.initAction = delegate
+            {
+                Pawn actor = toil.actor;
+                Job curJob = actor.jobs.curJob;
+                Pawn pawn = curJob.GetTarget(ind).Thing as Pawn;
+                int executionRange = pawn.RaceProps.executionRange;
+                if (pawn != null && pawn.Downed && (actor.Position - pawn.Position).LengthHorizontalSquared > executionRange * executionRange)
+                {
+                    actor.jobs.curDriver.JumpToToil(jumpToil);
+                }
+            };
+            return toil;
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
@@ -42,13 +62,13 @@ namespace CombatExtended
                 jobStartTick = Find.TickManager.TicksGame;
             };
             yield return init;
-            
-            yield return Toils_Combat.TrySetJobToUseAttackVerb();
+
+            yield return Toils_Combat.TrySetJobToUseAttackVerb(VictimInd);
 
             var comp = (pawn.equipment != null && pawn.equipment.Primary != null) ? pawn.equipment.Primary.TryGetComp<CompAmmoUser>() : null;
             var startCollectCorpse = StartCollectCorpseToil();
             var gotoCastPos = GotoCastPosition(VictimInd, true).JumpIfDespawnedOrNull(VictimInd, startCollectCorpse).FailOn(() => Find.TickManager.TicksGame > jobStartTick + MaxHuntTicks);
-            
+
             yield return gotoCastPos;
 
             //var moveIfCannotHit = Toils_Jump.JumpIfTargetNotHittable(VictimInd, gotoCastPos);
@@ -62,17 +82,17 @@ namespace CombatExtended
                 }
                 return !verb.CanHitTarget(Victim);
             });
-            
+
             yield return moveIfCannotHit;
-            
+
             yield return Toils_Jump.JumpIfTargetDespawnedOrNull(VictimInd, startCollectCorpse);
 
             var startExecuteDowned = Toils_Goto.GotoThing(VictimInd, PathEndMode.Touch).JumpIfDespawnedOrNull(VictimInd, startCollectCorpse);
-            
+
             yield return Toils_Jump.JumpIf(startExecuteDowned, () => Victim.Downed && Victim.RaceProps.executionRange <= 2);
-            
-            yield return Toils_Jump.JumpIfTargetDownedDistant(VictimInd, gotoCastPos);
-            
+
+            yield return JumpIfTargetDownedDistant(VictimInd, gotoCastPos);
+
             yield return Toils_Combat.CastVerb(VictimInd, false).JumpIfDespawnedOrNull(VictimInd, startCollectCorpse)
                 .FailOn(() =>
                 {
@@ -85,14 +105,14 @@ namespace CombatExtended
                     }
                     return true;
                 });
-            
+
             yield return Toils_Jump.Jump(moveIfCannotHit);
 
             // Execute downed animal - adapted from JobDriver_Slaughter
             yield return startExecuteDowned;
-            
+
             yield return Toils_General.WaitWith(VictimInd, 180, true).JumpIfDespawnedOrNull(VictimInd, startCollectCorpse);
-            
+
             yield return new Toil
             {
                 initAction = delegate

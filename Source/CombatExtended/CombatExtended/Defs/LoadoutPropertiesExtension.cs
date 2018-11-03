@@ -32,7 +32,7 @@ namespace CombatExtended
         public static void Reset()
         {
             // Initialize weapons
-            Predicate<ThingDef> isWeapon = (ThingDef td) => td.equipmentType == EquipmentType.Primary && td.canBeSpawningInventory && !td.weaponTags.NullOrEmpty<string>();
+            Predicate<ThingDef> isWeapon = (ThingDef td) => td.equipmentType == EquipmentType.Primary && !td.weaponTags.NullOrEmpty<string>();
             allWeaponPairs = ThingStuffPair.AllWith(isWeapon);
             foreach (ThingDef thingDef in from td in DefDatabase<ThingDef>.AllDefs
                                           where isWeapon(td)
@@ -58,8 +58,8 @@ namespace CombatExtended
 
         public void GenerateLoadoutFor(Pawn pawn)
         {
-            if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) 
-                || (pawn.story?.WorkTagIsDisabled(WorkTags.Violent) ?? false) 
+            if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation)
+                || (pawn.story?.WorkTagIsDisabled(WorkTags.Violent) ?? false)
                 || !pawn.RaceProps.ToolUser)
                 return;
 
@@ -145,7 +145,8 @@ namespace CombatExtended
                 return;
             }
             // Determine ammo
-            var availableAmmo = compAmmo.Props.ammoSet.ammoTypes.Where(a => a.ammo.canBeSpawningInventory).Select(a => a.ammo);
+           //  var availableAmmo = compAmmo.Props.ammoSet.ammoTypes.Where(a => a.ammo.canBeSpawningInventory).Select(a => a.ammo); old b18
+            var availableAmmo = compAmmo.Props.ammoSet.ammoTypes.Select(a => a.ammo); // removed canBeSpawningInventory
             var ammoToLoad = availableAmmo.RandomElementByWeight(a => a.generateCommonality);
             compAmmo.ResetAmmoCount(ammoToLoad);
         }

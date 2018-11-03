@@ -13,5 +13,10 @@ namespace CombatExtended
     {
         public static BodyPartGroupDef CoveredByNaturalArmor;
         public static BodyPartGroupDef RightArm;
+
+        static CE_BodyPartGroupDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(CE_BodyPartGroupDefOf));
+        }
     }
 }

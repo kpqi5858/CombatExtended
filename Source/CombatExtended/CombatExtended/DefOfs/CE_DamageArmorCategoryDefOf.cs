@@ -12,5 +12,10 @@ namespace CombatExtended
     public class CE_DamageArmorCategoryDefOf
     {
         public static DamageArmorCategoryDef Blunt;
+
+        static CE_DamageArmorCategoryDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(CE_DamageArmorCategoryDefOf));
+        }
     }
 }

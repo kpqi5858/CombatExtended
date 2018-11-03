@@ -41,14 +41,14 @@ namespace CombatExtended
             {
                 return null;
             }
-            bool flag = pawn.equipment.Primary == null || pawn.equipment.Primary.def.IsMeleeWeapon;
+            bool isMeleeAttack = pawn.CurrentEffectiveVerb.IsMeleeAttack;
             float num = 8f;
-            if (!flag)
+            if (!isMeleeAttack)
             {
-                num = Mathf.Clamp(pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.range * 0.66f, 2f, 20f);
+                num = Mathf.Clamp(pawn.CurrentEffectiveVerb.verbProps.range * 0.66f, 2f, 20f);
             }
             float maxDist = num;
-			Thing thing = (Thing)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedLOSToNonPawns | TargetScanFlags.NeedReachableIfCantHitFromMyPos | TargetScanFlags.NeedThreat, null, 0f, maxDist, default(IntVec3), 3.40282347E+38f, false);
+            Thing thing = (Thing)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedLOSToNonPawns | TargetScanFlags.NeedReachableIfCantHitFromMyPos | TargetScanFlags.NeedThreat, null, 0f, maxDist, default(IntVec3), 3.40282347E+38f, false);
             // TODO evaluate if this is necessary?
             Pawn o = thing as Pawn;
             if (o != null) if
@@ -61,26 +61,26 @@ namespace CombatExtended
             {
                 return null;
             }
-            if (flag || thing.Position.AdjacentTo8Way(pawn.Position))
+            if (isMeleeAttack || pawn.CanReachImmediate(thing, PathEndMode.Touch))
             {
                 return new Job(JobDefOf.AttackMelee, thing);
             }
 
             // Check for reload before attacking
-            Verb verb = pawn.TryGetAttackVerb();
-            if (pawn.equipment.Primary != null && pawn.equipment.PrimaryEq != null && verb != null && verb == pawn.equipment.PrimaryEq.PrimaryVerb)
+            Verb verb = pawn.TryGetAttackVerb(thing);
+            if (pawn.equipment.Primary != null && pawn.equipment.PrimaryEq != null && verb != null && verb == pawn.CurrentEffectiveVerb)
             {
                 CompAmmoUser compAmmo = pawn.equipment.Primary.TryGetComp<CompAmmoUser>();
                 if (compAmmo != null && !compAmmo.CanBeFiredNow)
                 {
-            		if (compAmmo.HasAmmo)
-            		{
+                    if (compAmmo.HasAmmo)
+                    {
                         Job job = new Job(CE_JobDefOf.ReloadWeapon, pawn, pawn.equipment.Primary);
                         if (job != null)
                             return job;
-            		}
-            		
-            		return new Job(JobDefOf.AttackMelee, thing);
+                    }
+
+                    return new Job(JobDefOf.AttackMelee, thing);
                 }
             }
 
@@ -98,7 +98,7 @@ namespace CombatExtended
             for (int i = 0; i < potentialTargetsFor.Count; i++)
             {
                 IAttackTarget attackTarget = potentialTargetsFor[i];
-                if (!attackTarget.ThreatDisabled())
+                if (!attackTarget.ThreatDisabled(null))
                 {
                     tmpThreats.Add((Thing)attackTarget);
                 }
@@ -115,17 +115,17 @@ namespace CombatExtended
 
         private IntVec3 GetFleeDest(Pawn pawn, List<Thing> threats)
         {
-			IntVec3 bestPos = pawn.Position;
-			float bestScore = -1f;
-			TraverseParms traverseParms = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
-			RegionTraverser.BreadthFirstTraverse(pawn.GetRegion(), (Region from, Region reg) => reg.Allows(traverseParms, false), delegate(Region reg)
-			{
+            IntVec3 bestPos = pawn.Position;
+            float bestScore = -1f;
+            TraverseParms traverseParms = TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false);
+            RegionTraverser.BreadthFirstTraverse(pawn.GetRegion(), (Region from, Region reg) => reg.Allows(traverseParms, false), delegate (Region reg)
+            {
                 Danger danger = reg.DangerFor(pawn);
                 foreach (IntVec3 current in reg.Cells)
                 {
                     if (current.Standable(pawn.Map))
                     {
-                        if (reg.portal == null)
+                        if (reg.door == null)
                         {
                             Thing thing = null;
                             float num = 0f;

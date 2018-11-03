@@ -71,7 +71,7 @@ namespace CombatExtended
                 	height = edificeHeight;
                 }
                 
-                foreach (ThingCountClass fragment in Props.fragments)
+                foreach (ThingDefCountClass fragment in Props.fragments)
                 {
                     for (int i = 0; i < fragment.count; i++)
                     {
@@ -96,7 +96,7 @@ namespace CombatExtended
                 }
             }
             #endregion
-            
+
             // Regular explosion stuff
             if (Props.explosionRadius > 0 && Props.explosionDamage > 0 && parent.def != null && GenGrid.InBounds(posIV, map))
             {
@@ -116,13 +116,14 @@ namespace CombatExtended
                 explosion.postExplosionSpawnChance = Props.postExplosionSpawnChance;
                 explosion.postExplosionSpawnThingCount = Props.postExplosionSpawnThingCount;
                 explosion.applyDamageToExplosionCellsNeighbors = Props.applyDamageToExplosionCellsNeighbors;
-		
-		// TODO: for some reason projectile goes to null
+
+		        // TODO: for some reason projectile goes to null
                 if (parent.def.projectile != null)
                 {
                     explosion.chanceToStartFire = parent.def.projectile.explosionChanceToStartFire;
-                    explosion.dealMoreDamageAtCenter = parent.def.projectile.explosionDealMoreDamageAtCenter;
+                    explosion.damageFalloff = parent.def.projectile.explosionDamageFalloff;
                 }
+
                 explosion.StartExplosion(Props.explosionDamageDef.soundExplosion);
             }
         }

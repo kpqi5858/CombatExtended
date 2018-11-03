@@ -270,27 +270,28 @@ namespace CombatExtended
                 // moved logic to detect if should equip vs put in inventory here...
                 if (closestThing != null)
                 {
-                	if (closestThing.TryGetComp<CompEquippable>() != null
-                        && !(pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent))
+                    if (closestThing.TryGetComp<CompEquippable>() != null
                         && (pawn.health != null && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
                         && (pawn.equipment == null || pawn.equipment.Primary == null || !loadout.Slots.Any(s => s.thingDef == pawn.equipment.Primary.def
-                                                                                                           || (s.genericDef != null && s.countType == LoadoutCountType.pickupDrop 
+                                                                                                           || (s.genericDef != null && s.countType == LoadoutCountType.pickupDrop
                                                                                                                && s.genericDef.lambda(pawn.equipment.Primary.def)))))
-                		doEquip = true;
-	                if (carriedBy == null)
-	                {
-	                    // Equip gun if unarmed or current gun is not in loadout
-	                    if (doEquip)
-	                    {
-	                        return new Job(JobDefOf.Equip, closestThing);
-	                    }
-	                    return new Job(JobDefOf.TakeInventory, closestThing) { count = Mathf.Min(closestThing.stackCount, count) };
-	                } else
-	                {
-	                	return new Job(CE_JobDefOf.TakeFromOther, closestThing, carriedBy, doEquip ? pawn : null) {
-	                		count = doEquip ? 1 : Mathf.Min(closestThing.stackCount, count)
-	                	};
-	                }
+                        doEquip = true;
+                    if (carriedBy == null)
+                    {
+                        // Equip gun if unarmed or current gun is not in loadout
+                        if (doEquip)
+                        {
+                            return new Job(JobDefOf.Equip, closestThing);
+                        }
+                        return new Job(JobDefOf.TakeInventory, closestThing) { count = Mathf.Min(closestThing.stackCount, count) };
+                    }
+                    else
+                    {
+                        return new Job(CE_JobDefOf.TakeFromOther, closestThing, carriedBy, doEquip ? pawn : null)
+                        {
+                            count = doEquip ? 1 : Mathf.Min(closestThing.stackCount, count)
+                        };
+                    }
                 }
             }
             return null;

@@ -21,37 +21,70 @@ namespace CombatExtended
 
         #region Methods
 
-        public override string GetDescription()
+        public override string DescriptionDetailed
         {
-            if(AmmoDef != null && AmmoDef.ammoClass != null)
+            get
             {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine(base.GetDescription());
-
-                // Append ammo class description
-                stringBuilder.AppendLine("\n" + AmmoDef.ammoClass.LabelCap + ":");
-                stringBuilder.AppendLine(AmmoDef.ammoClass.description);
-
-                // Append guns that use this caliber
-                var users = AmmoDef.Users;
-                if (!users.NullOrEmpty())
+                if (AmmoDef != null && AmmoDef.ammoClass != null)
                 {
-                    stringBuilder.AppendLine("\n" + "CE_UsedBy".Translate() + ":");
-                    foreach (var user in users)
-                    {
-                        stringBuilder.AppendLine("   -" + user.LabelCap);
-                    }
-                }
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.AppendLine(base.def.DescriptionDetailed);
 
-                return stringBuilder.ToString().TrimEndNewlines();
+                    // Append ammo class description
+                    stringBuilder.AppendLine("\n" + AmmoDef.ammoClass.LabelCap + ":");
+                    stringBuilder.AppendLine(AmmoDef.ammoClass.description);
+
+                    // Append guns that use this caliber
+                    var users = AmmoDef.Users;
+                    if (!users.NullOrEmpty())
+                    {
+                        stringBuilder.AppendLine("\n" + "CE_UsedBy".Translate() + ":");
+                        foreach (var user in users)
+                        {
+                            stringBuilder.AppendLine("   -" + user.LabelCap);
+                        }
+                    }
+
+                    return stringBuilder.ToString().TrimEndNewlines();
+                }
+                return base.def.DescriptionDetailed;
             }
-            return base.GetDescription();
         }
 
-        public override void PreApplyDamage(DamageInfo dinfo, out bool absorbed)
+        public override string DescriptionFlavor
         {
-            base.PreApplyDamage(dinfo, out absorbed);
-            if (!absorbed && Spawned && dinfo.Def.externalViolence)
+            get
+            {
+                if (AmmoDef != null && AmmoDef.ammoClass != null)
+                {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.AppendLine(base.def.description);
+
+                    // Append ammo class description
+                    stringBuilder.AppendLine("\n" + AmmoDef.ammoClass.LabelCap + ":");
+                    stringBuilder.AppendLine(AmmoDef.ammoClass.description);
+
+                    // Append guns that use this caliber
+                    var users = AmmoDef.Users;
+                    if (!users.NullOrEmpty())
+                    {
+                        stringBuilder.AppendLine("\n" + "CE_UsedBy".Translate() + ":");
+                        foreach (var user in users)
+                        {
+                            stringBuilder.AppendLine("   -" + user.LabelCap);
+                        }
+                    }
+
+                    return stringBuilder.ToString().TrimEndNewlines();
+                }
+                return base.def.description;
+            }
+        }
+
+        public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
+        {
+            base.PreApplyDamage(ref dinfo, out absorbed);
+            if (!absorbed && Spawned && dinfo.Def.ExternalViolenceFor(this)) // this? or null or?
             {
                 if (HitPoints - dinfo.Amount > 0)
                 {
@@ -102,6 +135,12 @@ namespace CombatExtended
         private bool TryLaunchCookOffProjectile()
         {
             if (AmmoDef.cookOffProjectile == null) return false;
+
+            Fire fire = Position.GetThingList(Map).Find(f => f.Spawned && f is Fire) as Fire;
+            if (fire != null && fire.fireSize < 0.4)
+            {
+                return false;
+            }
 
             // Spawn projectile if enabled
             if (!Controller.settings.RealisticCookOff)

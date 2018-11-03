@@ -12,14 +12,14 @@ namespace CombatExtended
 	{
 		public float height;
 
-		private int startTick;
-		private List<IntVec3> cellsToAffect;
-		private List<Thing> damagedThings;
-		private HashSet<IntVec3> addedCellsAffectedOnlyByDamage;
-		private const float DamageFactorAtEdge = 0.2f;
-		private static HashSet<IntVec3> tmpCells = new HashSet<IntVec3>();
+        private int startTick;
+        private List<IntVec3> cellsToAffect;
+        private List<Thing> damagedThings;
+        private HashSet<IntVec3> addedCellsAffectedOnlyByDamage;
+        private const float DamageFactorAtEdge = 0.2f;
+        private static HashSet<IntVec3> tmpCells = new HashSet<IntVec3>();
 
-		public override void SpawnSetup(Map map, bool respawningAfterLoad)
+        public override void SpawnSetup(Map map, bool respawningAfterLoad)
 		{
 			base.SpawnSetup(map, respawningAfterLoad);
 			if (!respawningAfterLoad) {
@@ -32,10 +32,10 @@ namespace CombatExtended
 			}
 		}
 
-		public override void DeSpawn()
-		{
-			base.DeSpawn();
-			this.cellsToAffect.Clear();
+        public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
+        {
+            base.DeSpawn(mode);
+            this.cellsToAffect.Clear();
 			SimplePool<List<IntVec3>>.Return(this.cellsToAffect);
 			this.cellsToAffect = null;
 			this.damagedThings.Clear();
@@ -172,18 +172,22 @@ namespace CombatExtended
 		private void AffectCell(IntVec3 c)
 		{
 			bool flag = this.ShouldCellBeAffectedOnlyByDamage(c);
-			if (!flag && Rand.Chance(this.preExplosionSpawnChance) && c.Walkable(base.Map)) {
+			if (!flag && Rand.Chance(this.preExplosionSpawnChance) && c.Walkable(base.Map))
+            {
 				this.TrySpawnExplosionThing(this.preExplosionSpawnThingDef, c, this.preExplosionSpawnThingCount);
 			}
 			this.damType.Worker.ExplosionAffectCell(this, c, this.damagedThings, !flag);
-			if (!flag && Rand.Chance(this.postExplosionSpawnChance) && c.Walkable(base.Map)) {
+			if (!flag && Rand.Chance(this.postExplosionSpawnChance) && c.Walkable(base.Map))
+            {
 				this.TrySpawnExplosionThing(this.postExplosionSpawnThingDef, c, this.postExplosionSpawnThingCount);
 			}
 			float num = this.chanceToStartFire;
-			if (this.dealMoreDamageAtCenter) {
-				num *= Mathf.Lerp(1f, 0.2f, c.DistanceTo(base.Position) / this.radius);
-			}
-			if (Rand.Chance(num)) {
+            if (this.damageFalloff)
+            {
+                num *= Mathf.Lerp(1f, 0.2f, c.DistanceTo(base.Position) / this.radius);
+            }
+            if (Rand.Chance(num))
+            {
 				FireUtility.TryStartFireIn(c, base.Map, Rand.Range(0.1f, 0.925f));
 			}
 		}

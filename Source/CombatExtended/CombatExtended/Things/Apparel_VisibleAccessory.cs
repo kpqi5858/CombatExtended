@@ -10,7 +10,7 @@ namespace CombatExtended
 {
     public class Apparel_VisibleAccessory : Apparel
     {
-    	/* Pawn offset reference based on Verse.PawnRenderer and method RenderPawnInternal:
+        /* Pawn offset reference based on Verse.PawnRenderer and method RenderPawnInternal:
     	 * (Offsets valid for pawns facing any direction but North).
     	 * Wounds offset: 0.02f
     	 * Shell offset: 0.0249999985f
@@ -20,13 +20,13 @@ namespace CombatExtended
     	 * North flips order shell/head
     	 * Hair (if drawn gets important when north) offset: 0.035f
     	 */
-    	const float _HeadOffset = 0.032f;
-    	const float _BodyOffset = 0.0269999985f;
-    	const float _OffsetFactor = 0.001f;
-    	static readonly Dictionary<string, bool> _OnHeadCache = new Dictionary<string, bool>();
-    	
-    	
-    	public override void DrawWornExtras()
+        const float _HeadOffset = 0.02734375f;       // Must be same as PawnRenderer.YOffset_Head
+        const float _BodyOffset = 0.0234375f;   // Must be same as PawnRenderer.YOffset_Shell
+        const float _OffsetFactor = 0.001f;
+        static readonly Dictionary<string, bool> _OnHeadCache = new Dictionary<string, bool>();
+
+
+        public override void DrawWornExtras()
         {
             if (Wearer == null || !Wearer.Spawned) return;
             Building_Bed bed = Wearer.CurrentBed();
@@ -120,7 +120,7 @@ namespace CombatExtended
             {
                 return Rot4.Random;
             }
-            if (Wearer.GetPosture() == PawnPosture.LayingFaceUp)
+            if (Wearer.GetPosture() == PawnPosture.LayingOnGroundFaceUp)
             {
                 return Rot4.South;
             }
@@ -154,9 +154,9 @@ namespace CombatExtended
             }
             return Rot4.Random;
         }
-		
-		//Utility, return if the apparel is worn on the head/body.        
-       	protected bool onHead
+
+        //Utility, return if the apparel is worn on the head/body.        
+        protected bool onHead
     	{
        		get {
        			if (!_OnHeadCache.ContainsKey(def.defName))

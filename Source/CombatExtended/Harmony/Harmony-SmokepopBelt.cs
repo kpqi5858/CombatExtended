@@ -15,10 +15,11 @@ namespace CombatExtended.Harmony
     {
         public static bool Prefix(SmokepopBelt __instance, DamageInfo dinfo)
         {
-            if (!dinfo.Def.isExplosive 
-                && dinfo.Def.harmsHealth 
-                && dinfo.Def.externalViolence 
-                && dinfo.Weapon != null 
+            if (GenGrid.InBounds(__instance.Position, __instance.Map)
+                && !dinfo.Def.isExplosive
+                && dinfo.Def.harmsHealth
+                && dinfo.Def.ExternalViolenceFor(dinfo.IntendedTarget)
+                && dinfo.Weapon != null
                 && (dinfo.Weapon.IsRangedWeapon || dinfo.Weapon.projectile is ProjectilePropertiesCE))  // Add a check for CE projectiles since we're using them as weaponGear to pass data to our ArmorUtility
             {
                 IntVec3 position = __instance.Wearer.Position;
@@ -27,7 +28,7 @@ namespace CombatExtended.Harmony
                 DamageDef smoke = DamageDefOf.Smoke;
                 Thing instigator = null;
                 ThingDef gas_Smoke = ThingDefOf.Gas_Smoke;
-                GenExplosion.DoExplosion(position, map, statValue, smoke, instigator, -1, null, null, null, gas_Smoke, 1f, 1, false, null, 0f, 1, 0f, false);
+                GenExplosion.DoExplosion(position, map, statValue, smoke, instigator, -1, -1, null, null, gas_Smoke, null, null, 1f, 1, false, null, 0f, 1, 0f, false);
                 __instance.Destroy(DestroyMode.Vanish);
             }
             return false;

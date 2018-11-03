@@ -18,5 +18,10 @@ namespace CombatExtended
         public static JobDef RunForCover;
         public static JobDef Stabilize;
         public static JobDef WaitKnockdown;
+
+        static CE_JobDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(CE_JobDefOf));
+        }
     }
 }

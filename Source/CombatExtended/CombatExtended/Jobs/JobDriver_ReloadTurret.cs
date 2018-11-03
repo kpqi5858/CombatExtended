@@ -31,9 +31,12 @@ namespace CombatExtended
 
         #region Methods
 
-        public override bool TryMakePreToilReservations()
+        public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return pawn.Reserve(TargetA, job);
+            Pawn pawn = this.pawn;
+            LocalTargetInfo target = this.TargetA;
+            Job job = this.job;
+            return pawn.Reserve(target, job, 1, -1, null, errorOnFailed);
         }
 
         public override string GetReport()

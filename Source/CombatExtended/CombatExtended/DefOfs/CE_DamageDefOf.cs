@@ -12,5 +12,10 @@ namespace CombatExtended
     public class CE_DamageDefOf
     {
         public static DamageDef Electrical;
+
+        static CE_DamageDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(CE_DamageDefOf));
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace CombatExtended
                 {
                     Pawn.TryAttachFire(parent.Severity * 0.5f);
                 }
-                else
+                else if (fire != null)
                 {
                     fire.fireSize = Mathf.Min(fire.fireSize + parent.Severity * 0.5f, 1.75f);  // Clamped at max fire size
                 }

@@ -33,7 +33,7 @@ namespace CombatExtended
             int ticksUntended = parent.ageTicks;
             if (compTended != null && compTended.IsTended)
             {
-                int ticksTended = Find.TickManager.TicksGame - compTended.tendTick;
+                int ticksTended = Find.TickManager.TicksGame - compTended.tendTicksLeft; // B19 tendTicksLeft???
                 ticksUntended -= ticksTended;
 
                 infectionModifier /= Mathf.Pow(compTended.tendQuality + 0.75f, 2);  // Adjust infection chance based on tend quality
@@ -67,7 +67,7 @@ namespace CombatExtended
             if (!alreadyCausedInfection 
                 && !parent.Part.def.IsSolid(parent.Part, Pawn.health.hediffSet.hediffs) 
                 && !Pawn.health.hediffSet.PartOrAnyAncestorHasDirectlyAddedParts(parent.Part) 
-                && !parent.IsOld())
+                && !parent.IsPermanent())
             {
                 ticksUntilInfect = InfectionDelayHours.RandomInRange * GenDate.TicksPerHour;
             }

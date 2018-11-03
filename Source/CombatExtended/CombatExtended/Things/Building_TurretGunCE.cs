@@ -39,7 +39,7 @@ namespace CombatExtended
         private CompChangeableProjectile compChangeable = null;
         public bool isReloading = false;
         private int ticksUntilAutoReload = 0;
-        
+
         #endregion
 
         #region Properties
@@ -105,9 +105,9 @@ namespace CombatExtended
                 {
                     this.gunInt = ThingMaker.MakeThing(this.def.building.turretGunDef, null);
                     this.compAmmo = gunInt.TryGetComp<CompAmmoUser>();
-                    
+
                     InitGun();
-                    
+
                     // FIXME: Hack to make player-crafted turrets spawn unloaded
                     if (Map != null && !Map.IsPlayerHome && compAmmo != null)
                     {
@@ -125,24 +125,24 @@ namespace CombatExtended
             {
                 if (CompAmmo != null && CompAmmo.CurrentAmmo != null)
                 {
-                	return CompAmmo.CurAmmoProjectile;
+                    return CompAmmo.CurAmmoProjectile;
                 }
                 if (CompChangeable != null && CompChangeable.Loaded)
                 {
-                	return CompChangeable.Projectile;
+                    return CompChangeable.Projectile;
                 }
                 return this.GunCompEq.PrimaryVerb.verbProps.defaultProjectile;
             }
         }
-        
-        
+
+
         public CompChangeableProjectile CompChangeable
         {
-        	get
-        	{
-	            if (compChangeable == null && Gun != null) compChangeable = Gun.TryGetComp<CompChangeableProjectile>();
-	            return compChangeable;
-        	}
+            get
+            {
+                if (compChangeable == null && Gun != null) compChangeable = Gun.TryGetComp<CompChangeableProjectile>();
+                return compChangeable;
+            }
         }
         public CompAmmoUser CompAmmo
         {
@@ -220,12 +220,12 @@ namespace CombatExtended
             }
         }
 
-        public override void DeSpawn()
+        public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {
-            base.DeSpawn();
+            base.DeSpawn(mode);
             this.ResetCurrentTarget();
         }
-        
+
         public override void Draw()
         {
             top.DrawTurret();
@@ -322,7 +322,7 @@ namespace CombatExtended
             }
             else if (Spawned && burstCooldownTicksLeft > 0)
             {
-                stringBuilder.AppendLine("CanFireIn".Translate() + ": " + this.burstCooldownTicksLeft.TicksToSecondsString());
+                stringBuilder.AppendLine("CanFireIn".Translate() + ": " + this.burstCooldownTicksLeft.ToStringSecondsFromTicks());
             }
 
             if (CompAmmo != null && CompAmmo.Props.ammoSet != null)
@@ -351,7 +351,7 @@ namespace CombatExtended
             if (pawn != null)
             {
                 //if (this.GunCompEq.PrimaryVerb.verbProps.projectileDef.projectile.flyOverhead)
-            	if (Projectile.projectile.flyOverhead)
+                if (Projectile.projectile.flyOverhead)
                 {
                     RoofDef roofDef = base.Map.roofGrid.RoofAt(t.Position);
                     if (roofDef != null && roofDef.isThickRoof)
@@ -370,7 +370,7 @@ namespace CombatExtended
             }
             return true;
         }
-        
+
         public override void OrderAttack(LocalTargetInfo targ)
         {
             if (!targ.IsValid)
@@ -424,7 +424,7 @@ namespace CombatExtended
             powerComp = base.GetComp<CompPowerTrader>();
             mannableComp = base.GetComp<CompMannable>();
         }
-        
+
         private IAttackTargetSearcher TargSearcher()
         {
             if (this.mannableComp != null && this.mannableComp.MannedNow)
@@ -506,7 +506,7 @@ namespace CombatExtended
                 targetScanFlags |= TargetScanFlags.NeedLOSToAll;
                 targetScanFlags |= TargetScanFlags.LOSBlockableByGas;
             }
-            return (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, new Predicate<Thing>(this.IsValidTarget), range, minRange, targetScanFlags);
+            return (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, targetScanFlags, new Predicate<Thing>(this.IsValidTarget), minRange, range); // WTF B19???
         }
 
         // Added ammo check and use verb warmup time instead of turret's
@@ -514,7 +514,7 @@ namespace CombatExtended
         {
             // Check for ammo first
             if (!base.Spawned
-                || (this.holdFire && this.CanToggleHoldFire) 
+                || (this.holdFire && this.CanToggleHoldFire)
                 || (Projectile.projectile.flyOverhead && base.Map.roofGrid.Roofed(base.Position))
                 || (CompAmmo != null && (isReloading || (mannableComp == null && CompAmmo.CurMagCount <= 0))))
             {
@@ -656,7 +656,7 @@ namespace CombatExtended
                     stop.action = delegate
                     {
                         ResetForcedTarget();
-                        SoundDefOf.TickLow.PlayOneShotOnCamera(null);
+                        SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
                     };
                     if (!this.forcedTarget.IsValid)
                     {

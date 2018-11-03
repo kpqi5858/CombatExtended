@@ -33,5 +33,10 @@ namespace CombatExtended
         public static ConceptDef CE_Hunkering;
         public static ConceptDef CE_WornBulk;
         public static ConceptDef CE_Crouching;
+
+        static CE_ConceptDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(CE_ConceptDefOf));
+        }
     }
 }

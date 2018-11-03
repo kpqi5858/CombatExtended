@@ -26,56 +26,115 @@ namespace CombatExtended.Harmony
             dinfo = newDinfo;
         }
 
-        internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            var codes = instructions.ToList();
+        //[HarmonyPatch(typeof(ArmorUtility), "GetPostArmorDamage", new[] { typeof(Pawn), typeof(float), typeof(float), typeof(BodyPartRecord), typeof(DamageDef), typeof(bool), typeof(bool) })]
+        //internal static class Harmony_GetPostArmorDamage
+        //{
+        //    internal static bool Prefix(ref float __result, Pawn pawn, float amount, float armorPenetration, BodyPartRecord part, ref DamageDef damageDef, out bool deflectedByMetalArmor, out bool diminishedByMetalArmor)
+        //    {
+        //        deflectedByMetalArmor = false;
+        //        diminishedByMetalArmor = false;
+        //        if (damageDef.armorCategory == null)
+        //        {
+        //            __result = amount;
+        //            return false;
+        //        }
+        //        StatDef armorRatingStat = damageDef.armorCategory.armorRatingStat;
+        //        if (pawn.apparel != null)
+        //        {
+        //            List<Apparel> wornApparel = pawn.apparel.WornApparel;
+        //            for (int i = wornApparel.Count - 1; i >= 0; i--)
+        //            {
+        //                Apparel apparel = wornApparel[i];
+        //                if (apparel.def.apparel.CoversBodyPart(part))
+        //                {
+        //                    float num = amount;
+        //                    bool flag;
 
-            // Find armor block
-            var armorBlockEnd = codes.FirstIndexOf(c => c.operand == typeof(ArmorUtility).GetMethod(nameof(ArmorUtility.GetPostArmorDamage)));
-            int armorBlockStart = -1;
-            for (int i = armorBlockEnd; i > 0; i--)
-            {
-                if (codes[i].opcode == OpCodes.Ldarg_2)
-                {
-                    armorBlockStart = i;
-                    break;
-                }
-            }
-            if (armorBlockStart == -1)
-            {
-                Log.Error("CE failed to transpile DamageWorker_AddInjury: could not identify armor block start");
-                return instructions;
-            }
+        //                //    DamageInfo dinfo = new DamageInfo();
+        //                //    ArmorReroute(pawn, ref dinfo);
 
-            // Replace armor block with our new instructions
-            // First, load arguments for ArmorReroute method onto stack (pawn is already loaded by vanilla)
-            var curCode = codes[armorBlockStart + 1];
-            curCode.opcode = OpCodes.Ldarga_S;
-            curCode.operand = 1;
+        //                    ArmorUtility.ApplyArmor(ref amount, armorPenetration, apparel.GetStatValue(armorRatingStat, true), apparel, ref damageDef, pawn, out flag);
+        //                    if (amount < 0.001f)
+        //                    {
+        //                        deflectedByMetalArmor = flag;
+        //                        __result = 0f;
+        //                        return false;
+        //                    }
+        //                    if (amount < num && flag)
+        //                    {
+        //                        diminishedByMetalArmor = true;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        float num2 = amount;
+        //        bool flag2;
+        //        ArmorUtility.ApplyArmor(ref amount, armorPenetration, pawn.GetStatValue(armorRatingStat, true), null, ref damageDef, pawn, out flag2);
+        //        if (amount < 0.001f)
+        //        {
+        //            deflectedByMetalArmor = flag2;
+        //            __result = 0f;
+        //            return false;
+        //        }
+        //        if (amount < num2 && flag2)
+        //        {
+        //            diminishedByMetalArmor = true;
+        //        }
+        //        __result = amount;
+        //        return false;
+        //    }
+        //}
 
-            curCode = codes[armorBlockStart + 2];
-            curCode.opcode = OpCodes.Call;
-            curCode.operand = typeof(Harmony_DamageWorker_AddInjury_ApplyDamageToPart).GetMethod(nameof(Harmony_DamageWorker_AddInjury_ApplyDamageToPart.ArmorReroute), AccessTools.all);
+        //internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        //{
+        //    var codes = instructions.ToList();
 
-            // OpCode + 3 loads the dinfo we just modified and we want to access its damage value to store in the vanilla local variable at the end of the block
-            curCode = codes[armorBlockStart + 4];
-            curCode.opcode = OpCodes.Call;
-            curCode.operand = typeof(DamageInfo).GetMethod("get_" + nameof(DamageInfo.Amount), AccessTools.all);
+        //    // Find armor block
+        //    var armorBlockEnd = codes.FirstIndexOf(c => c.operand == typeof(ArmorUtility).GetMethod(nameof(ArmorUtility.GetPostArmorDamage)));
+        //    int armorBlockStart = -1;
+        //    for (int i = armorBlockEnd; i > 0; i--)
+        //    {
+        //        if (codes[i].opcode == OpCodes.Ldarg_2)
+        //        {
+        //            armorBlockStart = i;
+        //            break;
+        //        }
+        //    }
+        //    if (armorBlockStart == -1)
+        //    {
+        //        Log.Error("CE failed to transpile DamageWorker_AddInjury: could not identify armor block start");
+        //        return instructions;
+        //    }
 
-            curCode = codes[armorBlockStart + 5];
-            curCode.opcode = OpCodes.Stloc_1;
-            curCode.operand = null;
+        //    // Replace armor block with our new instructions
+        //    // First, load arguments for ArmorReroute method onto stack (pawn is already loaded by vanilla)
+        //    var curCode = codes[armorBlockStart + 1];
+        //    curCode.opcode = OpCodes.Ldarga_S;
+        //    curCode.operand = 1;
 
-            // Null out the rest
-            for (int i = armorBlockStart + 6; i <= armorBlockEnd + 1; i++)
-            {
-                curCode = codes[i];
-                curCode.opcode = OpCodes.Nop;
-                curCode.operand = null;
-            }
+        //    curCode = codes[armorBlockStart + 2];
+        //    curCode.opcode = OpCodes.Call;
+        //    curCode.operand = typeof(Harmony_DamageWorker_AddInjury_ApplyDamageToPart).GetMethod(nameof(Harmony_DamageWorker_AddInjury_ApplyDamageToPart.ArmorReroute), AccessTools.all);
 
-            return codes;
-        }
+        //    // OpCode + 3 loads the dinfo we just modified and we want to access its damage value to store in the vanilla local variable at the end of the block
+        //    curCode = codes[armorBlockStart + 4];
+        //    curCode.opcode = OpCodes.Call;
+        //    curCode.operand = typeof(DamageInfo).GetMethod("get_" + nameof(DamageInfo.Amount), AccessTools.all);
+
+        //    curCode = codes[armorBlockStart + 5];
+        //    curCode.opcode = OpCodes.Stloc_1;
+        //    curCode.operand = null;
+
+        //    // Null out the rest
+        //    for (int i = armorBlockStart + 6; i <= armorBlockEnd + 1; i++)
+        //    {
+        //        curCode = codes[i];
+        //        curCode.opcode = OpCodes.Nop;
+        //        curCode.operand = null;
+        //    }
+
+        //    return codes;
+        //}
 
         internal static void Postfix(DamageInfo dinfo, Pawn pawn)
         {

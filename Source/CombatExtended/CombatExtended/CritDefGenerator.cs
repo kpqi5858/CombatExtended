@@ -12,14 +12,14 @@ namespace CombatExtended
     {
         public static IEnumerable<DamageDef> ImpliedCritDefs()
         {
-            foreach(DamageDef current in from def in DefDatabase<DamageDef>.AllDefs where def.externalViolence select def)
+            foreach(DamageDef current in from def in DefDatabase<DamageDef>.AllDefs where def.ExternalViolenceFor(null) select def)
             {
                 var critDef = new DamageDef() {
                     defName = current.defName + "_Critical",
                     workerClass = current.workerClass,
-                    externalViolence = true,
+                    // ExternalViolenceFor(null)  = true,
                     impactSoundType = current.impactSoundType,
-                    spreadOut = current.spreadOut,
+                    // spreadOut = current.spreadOut,
                     harmAllLayersUntilOutside = current.harmAllLayersUntilOutside,
                     //hasChanceToAdditionallyDamageInnerSolidParts = current.hasChanceToAdditionallyDamageInnerSolidParts,
                     hediff = current.hediff,

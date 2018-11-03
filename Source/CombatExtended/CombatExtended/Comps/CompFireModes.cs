@@ -14,10 +14,10 @@ namespace CombatExtended
         #region Fields
 
         private Verb verbInt = null;
-        private List<FireMode> availableFireModes = new List<FireMode>(Enum.GetNames(typeof(FireMode)).Length);
-        private List<AimMode> availableAimModes = new List<AimMode>(Enum.GetNames(typeof(AimMode)).Length) { AimMode.AimedShot };
-        private FireMode currentFireModeInt;
-        private AimMode currentAimModeInt;
+        public List<FireMode> availableFireModes = new List<FireMode>(Enum.GetNames(typeof(FireMode)).Length);
+        public List<AimMode> availableAimModes = new List<AimMode>(Enum.GetNames(typeof(AimMode)).Length) { AimMode.AimedShot };
+        public FireMode currentFireModeInt;
+        public AimMode currentAimModeInt;
 
         #endregion
 

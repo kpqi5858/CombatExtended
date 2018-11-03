@@ -14,7 +14,7 @@ namespace CombatExtended
 
         // General settings
         private bool showCasings = true;
-        private bool showTaunts = true;
+        private bool showTaunts = false;
         private bool allowMeleeHunting = false;
 
         public bool ShowCasings => showCasings;
@@ -44,6 +44,9 @@ namespace CombatExtended
         private bool debugDrawTargetCoverChecks = false;
         private bool debugShowTreeCollisionChance = false;
         private bool debugShowSuppressionBuildup = false;
+
+        private bool debugDrawInterceptChecks = false;
+        public bool DebugDrawInterceptChecks => debugDrawInterceptChecks;
 
         public bool DebugDrawPartialLoSChecks => debugDrawPartialLoSChecks;
         public bool DebugEnableInventoryValidation => debugEnableInventoryValidation;
@@ -123,7 +126,7 @@ namespace CombatExtended
             list.Label("CE_Settings_HeaderAmmo".Translate());
             Text.Font = GameFont.Small;
             list.Gap();
-            
+
             list.CheckboxLabeled("CE_Settings_EnableAmmoSystem_Title".Translate(), ref enableAmmoSystem, "CE_Settings_EnableAmmoSystem_Desc".Translate());
             list.GapLine();
             if (enableAmmoSystem)
