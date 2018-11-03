@@ -571,7 +571,7 @@ namespace CombatExtended
 
             if (caster != null)
             {
-                Log.Message("caster: " + caster.ToString() + " pos: " + caster.Position.ToString());
+        //        Log.Message("caster: " + caster.ToString() + " pos: " + caster.Position.ToString());
             }
             if (CasterPawn != null)
             {
@@ -667,10 +667,10 @@ namespace CombatExtended
                 	EquipmentSource
                 );
 	           	pelletMechanicsOnly = true;
-                Log.Message("proj: " + projectile.ToString() + " shootlineSource: " + shootLine.Source.ToString() + " caster: " + caster.ToString() + " currentTarget.Thing: " + currentTarget.Thing.ToString() + " report: " + report.ToString());
-                Log.Message("minCollisionSqr: " + projectile.minCollisionSqr.ToString() + " intendedTarget : " + projectile.intendedTarget.ToString() + " Shooter: " + Shooter.ToString()
-                    + " sourceLoc: " + sourceLoc.ToString() + " shotAngle: " + shotAngle.ToString() + " shotRotation: " + shotRotation.ToString() + " ShotHeight: " + ShotHeight.ToString()
-                    + " ShotHeight: " + ShotHeight.ToString() + "ShotSpeed: " + ShotSpeed.ToString() + " EquipmentSource: " + EquipmentSource.ToString());
+            //    Log.Message("proj: " + projectile.ToString() + " shootlineSource: " + shootLine.Source.ToString() + " caster: " + caster.ToString() + " currentTarget.Thing: " + currentTarget.Thing.ToString() + " report: " + report.ToString());
+            //    Log.Message("minCollisionSqr: " + projectile.minCollisionSqr.ToString() + " intendedTarget : " + projectile.intendedTarget.ToString() + " Shooter: " + Shooter.ToString()
+            //        + " sourceLoc: " + sourceLoc.ToString() + " shotAngle: " + shotAngle.ToString() + " shotRotation: " + shotRotation.ToString() + " ShotHeight: " + ShotHeight.ToString()
+            //        + " ShotHeight: " + ShotHeight.ToString() + "ShotSpeed: " + ShotSpeed.ToString() + " EquipmentSource: " + EquipmentSource.ToString());
             }
            	pelletMechanicsOnly = false;
             this.numShotsFired++;

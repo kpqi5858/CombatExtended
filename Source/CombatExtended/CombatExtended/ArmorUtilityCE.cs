@@ -303,7 +303,7 @@ namespace CombatExtended
                         	{
                             	Log.ErrorOnce("CE :: HediffCompProperties_VerbGiver from DamageInfo "+dinfo.ToString()+" has VerbPropertiesCE, but these should be moved to <tools> for B18", dinfo.WeaponLinkedHediff.GetHashCode() + 128937921);
                         		
-                            	return verbProps.meleeArmorPenetration;
+                            	return verbProps.meleeArmorPenetrationBase;
                         	}
                         }
 						
