@@ -57,6 +57,11 @@ namespace CombatExtended.Harmony
             curCode.opcode = OpCodes.Call;
             curCode.operand = typeof(Harmony_DamageWorker_AddInjury_ApplyDamageToPart).GetMethod(nameof(Harmony_DamageWorker_AddInjury_ApplyDamageToPart.ArmorReroute), AccessTools.all);
 
+            //1.0 No longer have ldarga.s(1) in that location. So replace it
+            curCode = codes[armorBlockStart + 3];
+            curCode.opcode = OpCodes.Ldarga_S;
+            curCode.operand = 1;
+
             // OpCode + 3 loads the dinfo we just modified and we want to access its damage value to store in the vanilla local variable at the end of the block
             curCode = codes[armorBlockStart + 4];
             curCode.opcode = OpCodes.Call;

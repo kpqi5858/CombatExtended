@@ -86,7 +86,7 @@
 			<texPath>Things/Projectile/Bullet_Small</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageDef>Bullet</damageDef>
 			<speed>163</speed>
 			<!-- <dropsCasings>true</dropsCasings> -->
@@ -96,27 +96,27 @@
 	<ThingDef Class="CombatExtended.AmmoDef" ParentName="BaseFN57x28mmBullet">
 		<defName>Bullet_FN57x28mm_FMJ</defName>
 		<label>FN 5.7mm bullet (FMJ)</label>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>7</damageAmountBase>
-			<armorPenetrationBase>0.312</armorPenetrationBase>
+			<armorPenetration>0.312</armorPenetration>
 		</projectile>
 	</ThingDef>
 
 	<ThingDef Class="CombatExtended.AmmoDef" ParentName="BaseFN57x28mmBullet">
 		<defName>Bullet_FN57x28mm_AP</defName>
 		<label>FN 5.7mm bullet (AP)</label>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>4</damageAmountBase>
-			<armorPenetrationBase>0.462</armorPenetrationBase>
+			<armorPenetration>0.462</armorPenetration>
 		</projectile>
 	</ThingDef>
 
 	<ThingDef Class="CombatExtended.AmmoDef" ParentName="BaseFN57x28mmBullet">
 		<defName>Bullet_FN57x28mm_HP</defName>
 		<label>FN 5.7mm bullet (HP)</label>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>10</damageAmountBase>
-			<armorPenetrationBase>0.162</armorPenetrationBase>
+			<armorPenetration>0.162</armorPenetration>
 		</projectile>
 	</ThingDef>
   

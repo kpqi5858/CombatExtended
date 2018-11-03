@@ -86,7 +86,7 @@
 			<texPath>Things/Projectile/Bullet_Small</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageDef>Bullet</damageDef>
 			<speed>180</speed>
 			<!-- <dropsCasings>true</dropsCasings> -->
@@ -100,9 +100,9 @@
 			<texPath>Things/Projectile/Bullet_Small</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>16</damageAmountBase>
-			<armorPenetrationBase>0.516</armorPenetrationBase>
+			<armorPenetration>0.516</armorPenetration>
 		</projectile>
 	</ThingDef>
 
@@ -113,9 +113,9 @@
 			<texPath>Things/Projectile/Bullet_Small</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>10</damageAmountBase>
-			<armorPenetrationBase>0.666</armorPenetrationBase>
+			<armorPenetration>0.666</armorPenetration>
 		</projectile>
 	</ThingDef>
 
@@ -126,9 +126,9 @@
 			<texPath>Things/Projectile/Bullet_Small</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>22</damageAmountBase>
-			<armorPenetrationBase>0.366</armorPenetrationBase>
+			<armorPenetration>0.366</armorPenetration>
 		</projectile>
 	</ThingDef>
   
