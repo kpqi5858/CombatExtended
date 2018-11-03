@@ -84,7 +84,7 @@
       <texPath>Things/Projectile/Charge_Small</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
-    <projectile>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
       <damageDef>Bullet</damageDef>
       <speed>90</speed>
     </projectile>
@@ -93,7 +93,7 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="Base6x18mmChargedBullet">
     <defName>Bullet_6x18mmCharged</defName>
     <label>charge shot</label>
-    <projectile>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
       <damageAmountBase>8</damageAmountBase>
       <secondaryDamage>
         <li>
@@ -101,14 +101,14 @@
           <amount>5</amount>
         </li>
       </secondaryDamage>
-      <armorPenetrationBase>0.5</armorPenetrationBase>
+      <armorPenetration>0.5</armorPenetration>
     </projectile>
   </ThingDef>
 
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="Base6x18mmChargedBullet">
     <defName>Bullet_6x18mmCharged_AP</defName>
     <label>charge shot (Conc.)</label>
-    <projectile>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
       <damageAmountBase>8</damageAmountBase>
       <secondaryDamage>
         <li>
@@ -116,14 +116,14 @@
           <amount>2</amount>
         </li>
       </secondaryDamage>
-      <armorPenetrationBase>0.6</armorPenetrationBase>
+      <armorPenetration>0.6</armorPenetration>
     </projectile>
   </ThingDef>
 
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="Base6x18mmChargedBullet">
     <defName>Bullet_6x18mmCharged_Ion</defName>
     <label>charge shot (Ion)</label>
-    <projectile>
+    <projectile Class="CombatExtended.ProjectilePropertiesCE">
       <damageAmountBase>8</damageAmountBase>
       <secondaryDamage>
         <li>
@@ -131,7 +131,7 @@
           <amount>6</amount>
         </li>
       </secondaryDamage>
-      <armorPenetrationBase>0.5</armorPenetrationBase>
+      <armorPenetration>0.5</armorPenetration>
     </projectile>
   </ThingDef>
   

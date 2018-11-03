@@ -17,9 +17,12 @@ namespace CombatExtended
         {
             settings = GetSettings<Settings>();
 
-            // Apply Harmony patches
-            HarmonyBase.InitPatches();
-
+            Exception e = null; //Ignore some exceptions..
+            try 
+            {
+                // Apply Harmony patches
+                HarmonyBase.InitPatches();
+            } catch (Exception ex) { e = ex; }
             // Initialize loadout generator
             LongEventHandler.QueueLongEvent(LoadoutPropertiesExtension.Reset, "Other def binding, resetting and global operations.", false, null);
 
@@ -28,7 +31,8 @@ namespace CombatExtended
 			
             // Inject pawn and plant bounds
             LongEventHandler.QueueLongEvent(BoundsInjector.Inject, "CE_LongEvent_BoundingBoxes", false, null);
-            
+
+            if (e != null) throw e;
             Log.Message("Combat Extended :: initialized");
         }
 		

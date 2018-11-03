@@ -10,11 +10,11 @@
 			<texPath>Things/Projectile/Fragments/Fragment_Medium</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageDef>Fragment</damageDef>
 			<damageAmountBase>18</damageAmountBase>
 			<speed>50</speed>
-			<armorPenetrationBase>0.25</armorPenetrationBase>
+			<armorPenetration>0.25</armorPenetration>
 			<gravityFactor>15</gravityFactor>
 		</projectile>
 	</ThingDef>
@@ -28,11 +28,11 @@
 			<texPath>Things/Projectile/Fragments/Fragment_Medium</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageDef>Fragment</damageDef>
 			<damageAmountBase>12</damageAmountBase>
 			<speed>30</speed>
-			<armorPenetrationBase>0.25</armorPenetrationBase>
+			<armorPenetration>0.25</armorPenetration>
 			<gravityFactor>15</gravityFactor>
 		</projectile>
 	</ThingDef>
@@ -46,11 +46,11 @@
 			<texPath>Things/Projectile/Fragments/Fragment_Small</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageDef>Fragment</damageDef>
 			<damageAmountBase>14</damageAmountBase>
 			<speed>40</speed>
-			<armorPenetrationBase>0.25</armorPenetrationBase>
+			<armorPenetration>0.25</armorPenetration>
 			<gravityFactor>15</gravityFactor>
 		</projectile>
 	</ThingDef>

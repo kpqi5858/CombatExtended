@@ -90,7 +90,7 @@
 			<texPath>Things/Projectile/Arrow_Small</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageDef>ArrowHighVelocity</damageDef>
 			<speed>56</speed>
 		</projectile>
@@ -111,9 +111,9 @@
 			<texPath>Things/Projectile/Arrows/Arrow_Stone</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>13</damageAmountBase>
-			<armorPenetrationBase>0.22</armorPenetrationBase>
+			<armorPenetration>0.22</armorPenetration>
 			<preExplosionSpawnChance>0.2</preExplosionSpawnChance>
 			<preExplosionSpawnThingDef>Ammo_StreamlinedArrow_Stone</preExplosionSpawnThingDef>
 		</projectile>
@@ -126,9 +126,9 @@
 			<texPath>Things/Projectile/Arrows/Arrow_Steel</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>13</damageAmountBase>
-			<armorPenetrationBase>0.3025</armorPenetrationBase>
+			<armorPenetration>0.3025</armorPenetration>
 			<preExplosionSpawnChance>0.6</preExplosionSpawnChance>
 			<preExplosionSpawnThingDef>Ammo_StreamlinedArrow_Steel</preExplosionSpawnThingDef>
 		</projectile>
@@ -141,9 +141,9 @@
 			<texPath>Things/Projectile/Arrows/Arrow_Plasteel</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>13</damageAmountBase>
-			<armorPenetrationBase>0.385</armorPenetrationBase>
+			<armorPenetration>0.385</armorPenetration>
 			<preExplosionSpawnChance>0.75</preExplosionSpawnChance>
 			<preExplosionSpawnThingDef>Ammo_StreamlinedArrow_Plasteel</preExplosionSpawnThingDef>
 		</projectile>

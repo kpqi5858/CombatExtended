@@ -11,6 +11,9 @@ using Harmony;
 
 namespace CombatExtended.Harmony
 {
+    //Vanila replaced this with PawnKindDef.canBeSapper
+    //So it's useless
+    /*
     [HarmonyPatch(typeof(RaidStrategyWorker_ImmediateAttackSappers), "CanBeSapper")]
     public static class Harmony_RaidStrategyWorker_ImmediateAttackSappers_CanBeSapper
     {
@@ -21,8 +24,10 @@ namespace CombatExtended.Harmony
                 __result = !kind.weaponTags.NullOrEmpty() && kind.weaponTags.Contains("CE_GrenadeNeolithic");
             }
         }
-    }
+    }*/
 
+    //It's also useless because (check upper)
+    /*
     [HarmonyPatch(typeof(RaidStrategyWorker_ImmediateAttackSappers), "CanUseWith")]
     static class Harmony_RaidStrategyWorker_ImmediateAttackSappers_CanUseWith
     {
@@ -40,5 +45,5 @@ namespace CombatExtended.Harmony
             Log.Error("CE failed to transpile RaidStrategyWorker_ImmediateAttackSappers.CanUseWith() :: failed to find tech level check");
             return instructions;
         }
-    }
+    }*/
 }

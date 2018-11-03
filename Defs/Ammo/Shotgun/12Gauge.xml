@@ -115,7 +115,7 @@
 	<!-- ================== Projectiles ================== -->
 
 	<ThingDef Class="CombatExtended.AmmoDef" Name="Base12GaugeBullet" ParentName="BaseBullet" Abstract="true">
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageDef>Bullet</damageDef>
 			<speed>101</speed>
 			<!-- <dropsCasings>true</dropsCasings> -->
@@ -130,10 +130,10 @@
 			<texPath>Things/Projectile/Shotgun_Pellet</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>7</damageAmountBase>
 			<pelletCount>9</pelletCount>
-			<armorPenetrationBase>0.227</armorPenetrationBase>
+			<armorPenetration>0.227</armorPenetration>
 			<spreadMult>17.8</spreadMult>
 		</projectile>
 	</ThingDef>
@@ -145,11 +145,11 @@
 			<texPath>Things/Projectile/Shotgun_Pellet</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>1</damageAmountBase>
 			<pelletCount>50</pelletCount>
 			<spreadMult>71.4</spreadMult>
-			<armorPenetrationBase>0.089</armorPenetrationBase>
+			<armorPenetration>0.089</armorPenetration>
 		</projectile>
 	</ThingDef>
 
@@ -160,10 +160,10 @@
 			<texPath>Things/Projectile/Bullet_big</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<speed>103</speed>
 			<damageAmountBase>37</damageAmountBase>
-			<armorPenetrationBase>0.45</armorPenetrationBase>
+			<armorPenetration>0.45</armorPenetration>
 		</projectile>
 	</ThingDef>
 
@@ -174,10 +174,10 @@
 			<texPath>Things/Projectile/Bullet_big</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageDef>Beanbag</damageDef>
 			<damageAmountBase>6</damageAmountBase>
-			<armorPenetrationBase>0.151</armorPenetrationBase>
+			<armorPenetration>0.151</armorPenetration>
 			<spreadMult>2</spreadMult>
 		</projectile>
 	</ThingDef>
@@ -189,7 +189,7 @@
 			<texPath>Things/Projectile/Bullet_big</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
 		</graphicData>
-		<projectile>
+		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageDef>EMP</damageDef>
 			<damageAmountBase>15</damageAmountBase>
 		</projectile>

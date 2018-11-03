@@ -281,6 +281,7 @@ namespace CombatExtended
             
             var w = (newTargetLoc - sourceLoc);
             shotRotation = (90 + Mathf.Rad2Deg * Mathf.Atan2(-w.y, w.x) + rotationDegrees + spreadVec.x) % 360;
+            shotRotation = -(shotRotation - 180) + 180; //I have no idea why this needs. Otherwise pawns will shoot on wrong rotation
             shotAngle = angleRadians + spreadVec.y * Mathf.Deg2Rad;
         }
 
