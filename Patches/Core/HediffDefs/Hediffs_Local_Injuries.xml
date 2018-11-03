@@ -54,9 +54,9 @@
 	</Operation>
 
 	<Operation Class="PatchOperationAdd">
-		<xpath>*/HediffDef[defName="Burn"]/comps/li[@Class = "HediffCompProperties_GetsPermanent"]</xpath>
+		<xpath>*/HediffDef[defName="Burn"]/comps/li[@Class = "HediffCompProperties_GetsOld"]</xpath>
 		<value>
-			<becomePermanentChanceFactor>1.5</becomePermanentChanceFactor>
+			<becomeOldChance>1.5</becomeOldChance>
   	</value>
 	</Operation>
 
@@ -112,9 +112,9 @@
 	</Operation>
 
 	<Operation Class="PatchOperationAdd">
-		<xpath>*/HediffDef[defName="Cut"]/comps/li[@Class = "HediffCompProperties_GetsPermanent"]</xpath>
+		<xpath>*/HediffDef[defName="Cut"]/comps/li[@Class = "HediffCompProperties_GetsOld"]</xpath>
 		<value>
-			<becomePermanentChanceFactor>0.75</becomePermanentChanceFactor>
+			<becomeOldChance>0.75</becomeOldChance>
   	</value>
 	</Operation>
 
@@ -130,9 +130,9 @@
 	</Operation>
 
 	<Operation Class="PatchOperationAdd">
-		<xpath>*/HediffDef[defName="Scratch"]/comps/li[@Class = "HediffCompProperties_GetsPermanent"]</xpath>
+		<xpath>*/HediffDef[defName="Scratch"]/comps/li[@Class = "HediffCompProperties_GetsOld"]</xpath>
 		<value>
-			<becomePermanentChanceFactor>0.5</becomePermanentChanceFactor>
+			<becomeOldChance>0.5</becomeOldChance>
   	</value>
 	</Operation>
 
@@ -209,9 +209,9 @@
 	</Operation>
 	
 	<Operation Class="PatchOperationReplace">
-		<xpath>*/HediffDef[defName="Shredded"]/comps/li[@Class = "HediffCompProperties_GetsPermanent"]/permanentLabel</xpath>
+		<xpath>*/HediffDef[defName="Shredded"]/comps/li[@Class = "HediffCompProperties_GetsOld"]/oldLabel</xpath>
 		<value>
-			<permanentLabel>shrapnel scar</permanentLabel>
+			<oldLabel>shrapnel scar</oldLabel>
 		</value>
 	</Operation>
 

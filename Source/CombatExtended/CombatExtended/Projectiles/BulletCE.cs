@@ -21,9 +21,7 @@ namespace CombatExtended
 					hitThing,
 					intendedTarget,
 					equipmentDef,
-					def,
-                    null //CoverDef Missing!
-                    );
+					def);
 			
 			Find.BattleLog.Add(logEntry);
         }
@@ -46,15 +44,12 @@ namespace CombatExtended
             
             if (hitThing != null)
             {
-                // launcher being the pawn equipping the weapon, not the weapon itself
-                int damageAmountBase = def.projectile.GetDamageAmount(CE_Utility.GetWeaponFromLauncher(launcher));
+                int damageAmountBase = def.projectile.damageAmountBase;
                 DamageDefExtensionCE damDefCE = def.projectile.damageDef.GetModExtension<DamageDefExtensionCE>() ?? new DamageDefExtensionCE();
-                var projectilePropsCE = def.projectile as ProjectilePropertiesCE;
 
                 DamageInfo dinfo = new DamageInfo(
                     def.projectile.damageDef,
                     damageAmountBase,
-                    projectilePropsCE.armorPenetration, //Armor Penetration
                     ExactRotation.eulerAngles.y,
                     launcher,
                     null,
@@ -68,10 +63,10 @@ namespace CombatExtended
                 if (damDefCE != null && damDefCE.harmOnlyOutsideLayers) dinfo.SetBodyRegion(BodyPartHeight.Undefined, BodyPartDepth.Outside);
 
                 // Apply primary damage
-                hitThing.TakeDamage(dinfo).AssociateWithLog(logEntry);
+                hitThing.TakeDamage(dinfo).InsertIntoLog(logEntry);
 
                 // Apply secondary to non-pawns (pawn secondary damage is handled in the damage worker)
-                
+                var projectilePropsCE = def.projectile as ProjectilePropertiesCE;
                 if(!(hitThing is Pawn) && projectilePropsCE != null && !projectilePropsCE.secondaryDamage.NullOrEmpty())
                 {
                     foreach(SecondaryDamage cur in projectilePropsCE.secondaryDamage)
@@ -80,19 +75,17 @@ namespace CombatExtended
                         var secDinfo = new DamageInfo(
                             cur.def,
                             cur.amount,
-                            projectilePropsCE.armorPenetration, //Armor Penetration
                             ExactRotation.eulerAngles.y,
                             launcher,
                             null,
-                            def
-                        );
-                        hitThing.TakeDamage(secDinfo).AssociateWithLog(logEntry);
+                            def);
+                        hitThing.TakeDamage(secDinfo).InsertIntoLog(logEntry);
                     }
                 }
             }
             else
             {
-                SoundDefOf.BulletImpact_Ground.PlayOneShot(new TargetInfo(base.Position, map, false));
+                SoundDefOf.BulletImpactGround.PlayOneShot(new TargetInfo(base.Position, map, false));
                 
                 //Only display a dirt hit for projectiles with a dropshadow
                 if (base.castShadow)

@@ -7,14 +7,17 @@ namespace CombatExtended
 {
     class JobDriver_HunkerDown : JobDriver
     {
-        private const int GetUpCheckInterval = 60;
+        private const int getUpCheckInterval = 60;
 
-        public override void SetInitialPosture()
+        public override PawnPosture Posture
         {
-            pawn.jobs.posture = PawnPosture.LayingOnGroundNormal;
+            get
+            {
+                return PawnPosture.LayingAny;
+            }
         }
 
-        public override bool TryMakePreToilReservations(bool errorOnFailed)
+        public override bool TryMakePreToilReservations()
         {
             return true;
         }
@@ -33,7 +36,7 @@ namespace CombatExtended
             Toil toilNothing = new Toil();
             //toilNothing.initAction = () => {};
             toilNothing.defaultCompleteMode = ToilCompleteMode.Delay;
-            toilNothing.defaultDuration = GetUpCheckInterval;
+            toilNothing.defaultDuration = getUpCheckInterval;
 
             // Start Toil
             yield return toilWait;

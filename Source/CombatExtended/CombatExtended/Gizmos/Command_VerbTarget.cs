@@ -18,9 +18,9 @@ namespace CombatExtended
         {
             get
             {
-                if (verb.EquipmentSource != null)
+                if (verb.ownerEquipment != null)
                 {
-                    return verb.EquipmentSource.DrawColor;
+                    return verb.ownerEquipment.DrawColor;
                 }
                 return base.IconDrawColor;
             }
@@ -29,7 +29,7 @@ namespace CombatExtended
         public override void ProcessInput(Event ev)
         {
             base.ProcessInput(ev);
-            SoundDefOf.Tick_Tiny.PlayOneShotOnCamera();
+            SoundDefOf.TickTiny.PlayOneShotOnCamera();
             Targeter targeter = Find.Targeter;
             if (verb.CasterIsPawn && targeter.targetingVerb != null && targeter.targetingVerb.verbProps == verb.verbProps)
             {

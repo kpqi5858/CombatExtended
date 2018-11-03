@@ -21,7 +21,7 @@
 	
 	<!-- ==================== Ammo ========================== -->
 
-	<ThingDef Class="CombatExtended.AmmoDef" Name="50AEBase" ParentName="AmmoBase" Abstract="True">
+	<ThingDef Name="50AEBase" ParentName="AmmoBase" Abstract="True">
 		<description>This high-powered cartridge is one of the largest calibers found in handguns.</description>
 		<statBases>
 			<Mass>0.03</Mass>
@@ -36,7 +36,7 @@
 		</thingCategories>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="50AEBase">
+	<ThingDef ParentName="50AEBase">
 		<defName>Ammo_50AE_FMJ</defName>
 		<label>.50 AE cartridge (FMJ)</label>
 		<graphicData>
@@ -50,7 +50,7 @@
 		<cookOffProjectile>Bullet_50AE_FMJ</cookOffProjectile>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="50AEBase">
+	<ThingDef ParentName="50AEBase">
 		<defName>Ammo_50AE_HP</defName>
 		<label>.50 AE cartridge (HP)</label>
 		<graphicData>
@@ -66,7 +66,7 @@
 	
 	<!-- ================== Projectiles ================== -->
 
-	<ThingDef Class="CombatExtended.AmmoDef" Name="Base50AEBullet" ParentName="BaseBullet" Abstract="true">
+	<ThingDef Name="Base50AEBullet" ParentName="BaseBullet" Abstract="true">
 		<graphicData>
 			<texPath>Things/Projectile/Bullet_Big</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
@@ -77,21 +77,21 @@
 		</projectile>
 	</ThingDef>
 	
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="Base50AEBullet">
+	<ThingDef ParentName="Base50AEBullet">
 		<defName>Bullet_50AE_FMJ</defName>
 		<label>.50 AE bullet (FMJ)</label>
 		<projectile>
 			<damageAmountBase>25</damageAmountBase>
-			<armorPenetrationBase>0.505</armorPenetrationBase>
+			<armorPenetration>0.505</armorPenetration>
 		</projectile>
 	</ThingDef>
 	
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="Base50AEBullet">
+	<ThingDef ParentName="Base50AEBullet">
 		<defName>Bullet_50AE_HP</defName>
 		<label>.50 AE bullet (HP)</label>
 		<projectile>
 			<damageAmountBase>35</damageAmountBase>
-			<armorPenetrationBase>0.355</armorPenetrationBase>
+			<armorPenetration>0.355</armorPenetration>
 		</projectile>
 	</ThingDef>
   

@@ -35,13 +35,6 @@
 	</Operation>
 
 	<Operation Class="PatchOperationReplace">
-		<xpath>*/ThingDef[defName="TurretGun"]/statBases/Mass</xpath>
-		<value>
-			<Mass>25</Mass>
-		</value>
-	</Operation>
-
-	<Operation Class="PatchOperationReplace">
 		<xpath>*/ThingDef[defName="TurretGun"]/label</xpath>
 		<value>
 			<label>auto-turret</label>
@@ -109,9 +102,9 @@
 	</Operation>
 
 	<Operation Class="PatchOperationReplace">
-		<xpath>*/ThingDef[defName="TurretGun"]/costList/ComponentIndustrial</xpath>
+		<xpath>*/ThingDef[defName="TurretGun"]/costList/Component</xpath>
 		<value>
-			<ComponentIndustrial>8</ComponentIndustrial>
+			<Component>8</Component>
 		</value>
 	</Operation>
 
@@ -258,7 +251,7 @@
 			<costList>
 				<Steel>10</Steel>
 				<FSX>2</FSX>
-				<ComponentIndustrial>1</ComponentIndustrial>
+				<Component>1</Component>
 			</costList>
 		</value>
 	</Operation>
@@ -269,7 +262,7 @@
 			<costList>
 				<Steel>10</Steel>
 				<Prometheum>2</Prometheum>
-				<ComponentIndustrial>1</ComponentIndustrial>
+				<Component>1</Component>
 			</costList>
 		</value>
 	</Operation>

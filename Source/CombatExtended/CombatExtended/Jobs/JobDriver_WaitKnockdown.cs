@@ -11,9 +11,12 @@ namespace CombatExtended
 {
     public class JobDriver_WaitKnockdown : JobDriver_Wait
     {
-        public override void SetInitialPosture()
+        public override PawnPosture Posture
         {
-            pawn.jobs.posture = PawnPosture.LayingOnGroundNormal;
+            get
+            {
+                return PawnPosture.LayingAny;
+            }
         }
     }
 }

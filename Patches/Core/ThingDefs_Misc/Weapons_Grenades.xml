@@ -16,13 +16,6 @@
 		<value>CombatExtended.ProjectilePropertiesCE</value>
 	</Operation>
 
-	<Operation Class="PatchOperationAdd">
-		<xpath>*/ThingDef[@Name="BaseGrenadeProjectile"]/projectile</xpath>
-		<value>
-      <explosionDamageFalloff>true</explosionDamageFalloff>
-    </value>
-	</Operation>
-
 	<Operation Class="PatchOperationReplace">
 		<xpath>*/ThingDef[@Name="BaseGrenadeProjectile"]/projectile/speed</xpath>
 		<value>
@@ -56,9 +49,8 @@
 			  <damageDef>Bomb</damageDef>
 			  <damageAmountBase>50</damageAmountBase>
 			  <explosionDelay>60</explosionDelay>
-			  <!-- <dropsCasings>true</dropsCasings> -->
-			  <!-- <casingMoteDefname>Mote_GrenadePin</casingMoteDefname> -->
-      	<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
+			  <dropsCasings>true</dropsCasings>
+			  <casingMoteDefname>Mote_GrenadePin</casingMoteDefname>
 			</projectile>
 		</value>
 	</Operation>
@@ -281,7 +273,7 @@
 			  <explosionDamage>1</explosionDamage>
 			  <explosionDamageDef>Flame</explosionDamageDef>
 			  <explosionRadius>0.5</explosionRadius>
-			  <preExplosionSpawnThingDef>Filth_Fuel</preExplosionSpawnThingDef>
+			  <preExplosionSpawnThingDef>FilthFuel</preExplosionSpawnThingDef>
 			  <preExplosionSpawnChance>1</preExplosionSpawnChance>
 			</li>
 		</value>
@@ -344,8 +336,8 @@
 			  <damageDef>EMP</damageDef>
 			  <damageAmountBase>40</damageAmountBase>
 			  <explosionDelay>60</explosionDelay>
-			  <!-- <dropsCasings>true</dropsCasings> -->
-			  <!-- <casingMoteDefname>Mote_GrenadePin</casingMoteDefname> -->
+			  <dropsCasings>true</dropsCasings>
+			  <casingMoteDefname>Mote_GrenadePin</casingMoteDefname>
 			</projectile>
 		</value>
 	</Operation>

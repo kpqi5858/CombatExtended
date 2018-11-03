@@ -4,13 +4,13 @@
   <ThingDef Name="BuildingBase" Abstract="True">
     <category>Building</category>
     <thingClass>Building</thingClass>
-    <soundImpactDefault>BulletImpact_Metal</soundImpactDefault>
+    <soundImpactDefault>BulletImpactMetal</soundImpactDefault>
     <selectable>true</selectable>
     <drawerType>MapMeshAndRealTime</drawerType>
     <terrainAffordanceNeeded>Light</terrainAffordanceNeeded>
     <repairEffect>Repair</repairEffect>
     <leaveResourcesWhenKilled>true</leaveResourcesWhenKilled>
-    <filthLeaving>Filth_RubbleBuilding</filthLeaving>
+    <filthLeaving>BuildingRubble</filthLeaving>
     <statBases>
       <SellPriceFactor>0.70</SellPriceFactor>
     </statBases>
@@ -31,9 +31,9 @@
         <li>Custom1</li>
       </linkFlags>
     </graphicData>
-    <graphicData>
+    <blueprintGraphicData>
       <texPath>Things/Building/Linked/Sandbags_Blueprint_Atlas</texPath>
-    </graphicData>
+    </blueprintGraphicData>
     <uiIconPath>Things/Building/BarbedWire/BarbedWire_Icon</uiIconPath>
     <altitudeLayer>Building</altitudeLayer>
     <pathCost>80</pathCost>
@@ -93,9 +93,9 @@
         <edgeRight>Damage/Edge</edgeRight>
       </damageData>
     </graphicData>
-    <graphicData>
+    <blueprintGraphicData>
       <texPath>Things/Building/Embrasure/Embrasure_Blueprint_Atlas</texPath>
-    </graphicData>
+    </blueprintGraphicData>
     <uiIconPath>Things/Building/Embrasure/EmbrasureSmooth_MenuIcon</uiIconPath>
     <statBases>
       <MaxHitPoints>300</MaxHitPoints>

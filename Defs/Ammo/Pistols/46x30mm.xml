@@ -22,7 +22,7 @@
 	
 	<!-- ==================== Ammo ========================== -->
 
-	<ThingDef Class="CombatExtended.AmmoDef" Name="46x30mmBase" ParentName="SmallAmmoBase" Abstract="True">
+	<ThingDef Name="46x30mmBase" ParentName="SmallAmmoBase" Abstract="True">
 		<description>This high-velocity handgun cartridge was specifically designed for military personnel to defeat body armor.</description>
 		<statBases>
 		<Mass>0.008</Mass>
@@ -37,7 +37,7 @@
 		</thingCategories>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="46x30mmBase">
+	<ThingDef ParentName="46x30mmBase">
 		<defName>Ammo_46x30mm_FMJ</defName>
 		<label>4.6x30mm cartridge (FMJ)</label>
 		<graphicData>
@@ -51,7 +51,7 @@
 		<cookOffProjectile>Bullet_46x30mm_FMJ</cookOffProjectile>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="46x30mmBase">
+	<ThingDef ParentName="46x30mmBase">
 		<defName>Ammo_46x30mm_AP</defName>
 		<label>4.6x30mm cartridge (AP)</label>
 		<graphicData>
@@ -65,7 +65,7 @@
 		<cookOffProjectile>Bullet_46x30mm_AP</cookOffProjectile>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="46x30mmBase">
+	<ThingDef ParentName="46x30mmBase">
 		<defName>Ammo_46x30mm_HP</defName>
 		<label>4.6x30mm cartridge (HP)</label>
 		<graphicData>
@@ -81,7 +81,7 @@
 	
 	<!-- ================== Projectiles ================== -->
 
-	<ThingDef Class="CombatExtended.AmmoDef" Name="Base46x30mmBullet" ParentName="BaseBullet" Abstract="true">
+	<ThingDef Name="Base46x30mmBullet" ParentName="BaseBullet" Abstract="true">
 		<graphicData>
 			<texPath>Things/Projectile/Bullet_Small</texPath>
 			<graphicClass>Graphic_Single</graphicClass>
@@ -89,34 +89,34 @@
 		<projectile>
 			<damageDef>Bullet</damageDef>
 			<speed>150</speed>
-			<!-- <dropsCasings>true</dropsCasings> -->
+			<dropsCasings>true</dropsCasings>
 		</projectile>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="Base46x30mmBullet">
+	<ThingDef ParentName="Base46x30mmBullet">
 		<defName>Bullet_46x30mm_FMJ</defName>
 		<label>4.6x30mm bullet (FMJ)</label>
 		<projectile>
 			<damageAmountBase>5</damageAmountBase>
-			<armorPenetrationBase>0.295</armorPenetrationBase>
+			<armorPenetration>0.295</armorPenetration>
 		</projectile>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="Base46x30mmBullet">
+	<ThingDef ParentName="Base46x30mmBullet">
 		<defName>Bullet_46x30mm_AP</defName>
 		<label>4.6x30mm bullet (AP)</label>
 		<projectile>
 			<damageAmountBase>3</damageAmountBase>
-			<armorPenetrationBase>0.445</armorPenetrationBase>
+			<armorPenetration>0.445</armorPenetration>
 		</projectile>
 	</ThingDef>
 
-	<ThingDef Class="CombatExtended.AmmoDef" ParentName="Base46x30mmBullet">
+	<ThingDef ParentName="Base46x30mmBullet">
 		<defName>Bullet_46x30mm_HP</defName>
 		<label>4.6x30mm bullet (HP)</label>
 		<projectile>
 			<damageAmountBase>7</damageAmountBase>
-			<armorPenetrationBase>0.145</armorPenetrationBase>
+			<armorPenetration>0.145</armorPenetration>
 		</projectile>
 	</ThingDef>
   

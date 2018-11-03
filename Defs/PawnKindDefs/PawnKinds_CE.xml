@@ -5,9 +5,7 @@
     <race>Human</race>
     <defaultFactionType>Pirate</defaultFactionType>
     <baseRecruitDifficulty>0.70</baseRecruitDifficulty>
-    <backstoryCategories>
-      <li>Raider</li>
-    </backstoryCategories>
+    <backstoryCategory>Raider</backstoryCategory>
     <chemicalAddictionChance>0.1</chemicalAddictionChance>
     <invNutrition>2.55</invNutrition>
     <itemQuality>Normal</itemQuality>
@@ -31,7 +29,7 @@
       <min>1500</min>
       <max>2500</max>
     </apparelMoney>
-    <apparelAllowHeadgearChance>0.5</apparelAllowHeadgearChance>
+    <apparelAllowHeadwearChance>0.5</apparelAllowHeadwearChance>
     <weaponMoney>
       <min>400</min>
       <max>500</max>
@@ -74,10 +72,8 @@
 
   <PawnKindDef Name="TribalBase" Abstract="True">
     <race>Human</race>
-    <defaultFactionType>TribeCivil</defaultFactionType>
-    <backstoryCategories>
-      <li>Tribal</li>
-    </backstoryCategories>
+    <defaultFactionType>Tribe</defaultFactionType>
+    <backstoryCategory>Tribal</backstoryCategory>
     <baseRecruitDifficulty>0.65</baseRecruitDifficulty>
     <chemicalAddictionChance>0.05</chemicalAddictionChance>
     <invNutrition>2.55</invNutrition>

@@ -10,9 +10,9 @@ namespace CombatExtended
 {
     public class WorkGiver_HunterHuntCE : WorkGiver_HunterHunt
     {
-        public override bool ShouldSkip(Pawn pawn, bool forced = false)
+        public override bool ShouldSkip(Pawn pawn)
         {
-            return base.ShouldSkip(pawn, forced) || HasMeleeShieldAndTwoHandedWeapon(pawn);
+            return base.ShouldSkip(pawn) || HasMeleeShieldAndTwoHandedWeapon(pawn);
         }
 
         public static bool HasMeleeShieldAndTwoHandedWeapon(Pawn p)

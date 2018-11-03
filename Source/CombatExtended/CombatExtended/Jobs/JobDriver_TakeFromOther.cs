@@ -126,7 +126,7 @@ namespace CombatExtended
             yield return Toils_Reserve.Release(sourceInd);
 		}
 
-        public override bool TryMakePreToilReservations(bool errorOnFailed)
+        public override bool TryMakePreToilReservations()
         {
             return true;
         }

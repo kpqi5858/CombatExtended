@@ -11,7 +11,7 @@ namespace CombatExtended.Harmony
 {
     // FIXME: Destructive detour
     [HarmonyPatch(typeof(Hediff_MissingPart))]
-    [HarmonyPatch("IsFreshNonSolidExtremity", MethodType.Getter)]
+    [HarmonyPatch("IsFreshNonSolidExtremity", PropertyMethod.Getter)]
     static class Harmony_Hediff_MissingPart_IsFresh_Patch
     {
         public static bool Prefix(Hediff_MissingPart __instance, ref bool __result)

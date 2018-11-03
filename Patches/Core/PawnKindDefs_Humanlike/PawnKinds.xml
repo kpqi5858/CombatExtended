@@ -29,7 +29,7 @@
   <!-- ========== Mercenary ========== -->
 
   <Operation Class="PatchOperationAddModExtension">
-    <xpath>*/PawnKindDef[defName="Grenadier_Destructive"]</xpath>
+    <xpath>*/PawnKindDef[defName="GrenadierDestructive"]</xpath>
     <value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <primaryMagazineCount>
@@ -58,7 +58,7 @@
   </Operation>
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="Mercenary_Gunner"]/weaponMoney</xpath>
+    <xpath>*/PawnKindDef[defName="MercenaryGunner"]/weaponMoney</xpath>
     <value>
       <weaponMoney>
         <min>250</min>
@@ -68,7 +68,7 @@
   </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-  	<xpath>*/PawnKindDef[defName="Mercenary_Gunner"]</xpath>
+  	<xpath>*/PawnKindDef[defName="MercenaryGunner"]</xpath>
   	<value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <primaryMagazineCount>
@@ -100,7 +100,7 @@
   </Operation>
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="Mercenary_Sniper"]/weaponMoney</xpath>
+    <xpath>*/PawnKindDef[defName="MercenarySniper"]/weaponMoney</xpath>
     <value>
       <weaponMoney>
         <min>370</min>
@@ -110,7 +110,7 @@
   </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-  	<xpath>*/PawnKindDef[defName="Mercenary_Sniper"]</xpath>
+  	<xpath>*/PawnKindDef[defName="MercenarySniper"]</xpath>
   	<value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <primaryMagazineCount>
@@ -144,7 +144,7 @@
   </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-    <xpath>*/PawnKindDef[defName="Mercenary_Heavy"]</xpath>
+    <xpath>*/PawnKindDef[defName="MercenaryHeavy"]</xpath>
     <value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <primaryMagazineCount>
@@ -181,7 +181,7 @@
   </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-    <xpath>*/PawnKindDef[defName = "Mercenary_Slasher"]</xpath>
+    <xpath>*/PawnKindDef[defName = "MercenarySlasher"]</xpath>
     <value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <shieldMoney>
@@ -197,7 +197,7 @@
   </Operation>
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[@Name = "MercenaryEliteTierBase"]/weaponMoney</xpath>
+    <xpath>*/PawnKindDef[@Name = "EliteBase"]/weaponMoney</xpath>
     <value>
       <weaponMoney>
         <min>850</min>
@@ -207,7 +207,7 @@
   </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-  	<xpath>*/PawnKindDef[@Name = "MercenaryEliteTierBase"]</xpath>
+  	<xpath>*/PawnKindDef[@Name = "EliteBase"]</xpath>
   	<value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <primaryMagazineCount>
@@ -264,7 +264,7 @@
   </Operation>
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="Town_Guard"]/weaponMoney</xpath>
+    <xpath>*/PawnKindDef[defName="TownGuard"]/weaponMoney</xpath>
     <value>
       <weaponMoney>
         <min>150</min>
@@ -274,7 +274,7 @@
   </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-  	<xpath>*/PawnKindDef[defName="Town_Guard"]</xpath>
+  	<xpath>*/PawnKindDef[defName="TownGuard"]</xpath>
   	<value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <primaryMagazineCount>
@@ -370,7 +370,7 @@
   <!-- ========== Spacer ========== -->
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="AncientSoldier"]/weaponMoney</xpath>
+    <xpath>*/PawnKindDef[defName="SpaceSoldier"]/weaponMoney</xpath>
     <value>
       <weaponMoney>
         <min>820</min>
@@ -380,7 +380,7 @@
   </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-    <xpath>*/PawnKindDef[defName="AncientSoldier"]</xpath>
+    <xpath>*/PawnKindDef[defName="SpaceSoldier"]</xpath>
     <value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <primaryMagazineCount>
@@ -413,14 +413,14 @@
   <!-- ========== Tribal ========== -->
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="Tribal_Warrior"]/weaponMoney/min</xpath>
+    <xpath>*/PawnKindDef[defName="TribalWarrior"]/weaponMoney/min</xpath>
     <value>
       <min>80</min>
     </value>
   </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-    <xpath>*/PawnKindDef[defName="Tribal_Warrior"]</xpath>
+    <xpath>*/PawnKindDef[defName="TribalWarrior"]</xpath>
     <value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <shieldMoney>
@@ -436,14 +436,14 @@
   </Operation>
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="Tribal_Warrior"]/combatPower</xpath>
+    <xpath>*/PawnKindDef[defName="TribalWarrior"]/combatPower</xpath>
     <value>
       <combatPower>24</combatPower>
     </value>
   </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-    <xpath>*/PawnKindDef[defName="Tribal_Archer"]</xpath>
+    <xpath>*/PawnKindDef[defName="TribalArcher"]</xpath>
     <value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <primaryMagazineCount>
@@ -474,14 +474,14 @@
   </Operation>
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="Tribal_Archer"]/combatPower</xpath>
+    <xpath>*/PawnKindDef[defName="TribalArcher"]/combatPower</xpath>
     <value>
       <combatPower>30</combatPower>
     </value>
   </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-    <xpath>*/PawnKindDef[defName="Tribal_Hunter"]</xpath>
+    <xpath>*/PawnKindDef[defName="TribalHunter"]</xpath>
     <value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <primaryMagazineCount>
@@ -512,14 +512,14 @@
   </Operation>
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="Tribal_Hunter"]/combatPower</xpath>
+    <xpath>*/PawnKindDef[defName="TribalHunter"]/combatPower</xpath>
     <value>
       <combatPower>45</combatPower>
     </value>
   </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-    <xpath>*/PawnKindDef[defName="Tribal_HeavyArcher"]</xpath>
+    <xpath>*/PawnKindDef[defName="TribalHeavyArcher"]</xpath>
     <value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <primaryMagazineCount>
@@ -550,14 +550,14 @@
   </Operation>
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="Tribal_HeavyArcher"]/combatPower</xpath>
+    <xpath>*/PawnKindDef[defName="TribalHeavyArcher"]/combatPower</xpath>
     <value>
       <combatPower>60</combatPower>
     </value>
   </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-    <xpath>*/PawnKindDef[defName="Tribal_Berserker"]</xpath>
+    <xpath>*/PawnKindDef[defName="TribalBerserker"]</xpath>
     <value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <shieldMoney>
@@ -573,30 +573,14 @@
   </Operation>
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="Tribal_Berserker"]/combatPower</xpath>
+    <xpath>*/PawnKindDef[defName="TribalBerserker"]/combatPower</xpath>
     <value>
       <combatPower>60</combatPower>
     </value>
   </Operation>
-  
-   <Operation Class="PatchOperationAddModExtension">
-    <xpath>*/PawnKindDef[defName="Tribal_ChiefMelee"]</xpath>
-    <value>
-      <li Class="CombatExtended.LoadoutPropertiesExtension">
-        <shieldMoney>
-          <min>120</min>
-          <max>160</max>
-        </shieldMoney>
-        <shieldTags>
-          <li>TribalShield</li>
-        </shieldTags>
-        <shieldChance>0.9</shieldChance>
-      </li>
-    </value>
-  </Operation>
 
   <Operation Class="PatchOperationAddModExtension">
-    <xpath>*/PawnKindDef[defName="Tribal_ChiefRanged"]</xpath>
+    <xpath>*/PawnKindDef[defName="TribalChief"]</xpath>
     <value>
       <li Class="CombatExtended.LoadoutPropertiesExtension">
         <primaryMagazineCount>
@@ -627,14 +611,14 @@
   </Operation>
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="Tribal_ChiefRanged"]/weaponTags/li[.="NeolithicRangedChief"]</xpath>
+    <xpath>*/PawnKindDef[defName="TribalChief"]/weaponTags/li[.="NeolithicRangedChief"]</xpath>
     <value>
       <li>Gun</li>
     </value>
   </Operation>
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="TribalChiefBase"]/weaponMoney</xpath>
+    <xpath>*/PawnKindDef[defName="TribalChief"]/weaponMoney</xpath>
     <value>
       <weaponMoney>
         <min>230</min>
