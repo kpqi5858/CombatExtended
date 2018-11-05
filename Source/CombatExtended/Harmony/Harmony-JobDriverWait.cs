@@ -41,12 +41,12 @@ namespace CombatExtended.Harmony
 
             // turn instructions into a list so we can walk through it variably (instead of forward only).
             List<CodeInstruction> code = instructions.ToList();
-
+            
             // walk forward to find some key information.
             for (int i = 0; i < code.Count; i++)
             {
                 CodeInstruction current = code[i];
-
+                
                 // look for the verb instantiation/storage.
                 var methodBase = current.operand as MethodBase;
                 if (current.opcode == OpCodes.Callvirt && methodBase != null &&
@@ -72,8 +72,8 @@ namespace CombatExtended.Harmony
                 Log.Warning("Verb didn't find in " + nameof(Harmony_JobDriverWait_CheckForAutoAttack));
                 return code;
             }
-
-            // walk backwards from the key call to locate the null load and replace it with our call to drop in our predicate into the arg stack.
+			
+			      // walk backwards from the key call to locate the null load and replace it with our call to drop in our predicate into the arg stack.
             for (int i = indexKeyCall; i >= 0; i--)
             {
                 if (code[i].opcode == OpCodes.Ldnull)
@@ -87,7 +87,7 @@ namespace CombatExtended.Harmony
                     break;
                 }
             }
-
+            
             return code;
         }
 
