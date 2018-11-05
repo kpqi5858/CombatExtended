@@ -60,6 +60,18 @@
 		</value>
 	</Operation>
 
+	<Operation Class="PatchOperationSequence">
+		<success>Always</success>
+		<operations>
+			<li Class="PatchOperationTest">
+				<xpath>*/StatDef[defName="ShootingAccuracyPawn"]/workerClass</xpath>
+			</li>
+			<li Class="PatchOperationRemove">
+				<xpath>*/StatDef[defName="ShootingAccuracyPawn"]/workerClass</xpath>
+			</li>
+		</operations>
+	</Operation>
+
 	<Operation Class="PatchOperationReplace">
 		<xpath>*/StatDef[defName="ShootingAccuracyPawn"]/description</xpath>
 		<value>
