@@ -25,7 +25,7 @@ namespace CombatExtended.Harmony
         internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> codes = instructions.ToList();
-            
+
             // Find armor block
             var armorBlockEnd = codes.FirstIndexOf(c => c.operand == typeof(ArmorUtility).GetMethod(nameof(ArmorUtility.GetPostArmorDamage)));
             int armorBlockStart = -1;
@@ -37,13 +37,13 @@ namespace CombatExtended.Harmony
                     break;
                 }
             }
-            
+
             if (armorBlockStart < 0)
             {
                 Log.Error("CE failed to transpile DamageWorker_AddInjury: could not identify armor block start");
                 return codes;
             }
-
+          
             // Replace armor block with our new instructions
             // First, load arguments for ArmorReroute method onto stack (pawn is already loaded by vanilla)
             var curCode = codes[armorBlockStart + 1];
@@ -59,7 +59,6 @@ namespace CombatExtended.Harmony
             curCode = codes[armorBlockStart + 3];
             curCode.opcode = OpCodes.Ldarga_S;
             curCode.operand = 1;
-            
             curCode = codes[armorBlockStart + 4];
             curCode.opcode = OpCodes.Call;
             curCode.operand = typeof(DamageInfo).GetMethod("get_" + nameof(DamageInfo.Amount), AccessTools.all);

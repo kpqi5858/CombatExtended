@@ -73,7 +73,7 @@ namespace CombatExtended.Harmony
                 return code;
             }
 			
-			// walk backwards from the key call to locate the null load and replace it with our call to drop in our predicate into the arg stack.
+			      // walk backwards from the key call to locate the null load and replace it with our call to drop in our predicate into the arg stack.
             for (int i = indexKeyCall; i >= 0; i--)
             {
                 if (code[i].opcode == OpCodes.Ldnull)
