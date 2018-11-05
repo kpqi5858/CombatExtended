@@ -99,13 +99,13 @@ namespace CombatExtended.Harmony
         /// </summary>
         public static void Patch()
         {
-            Type[] targetTypes = new Type[] { typeof(PawnColumnWorker_Outfit), typeof(PawnColumnWorker_DrugPolicy) };
-            string targetName = "DoCell";
+            Type[] targetTypes = new Type[] { typeof(PawnColumnWorker_Outfit), typeof(DrugPolicyUIUtility) }; //PawnColumnWorker_DrugPolicy.DoCell moved to somewhere
+            string[] targetName = new string[] { "DoCell", "DoAssignDrugPolicyButtons" };                     //So make some exception
             HarmonyMethod transpiler = new HarmonyMethod(AccessTools.Method(typeof(PawnColumnWorkers_SwapButtons), "Transpiler"));
 
             for (int i = 0; i < targetTypes.Length; i++)
             {
-                MethodBase method = targetTypes[i].GetMethod(targetName, AccessTools.all);
+                MethodBase method = targetTypes[i].GetMethod(targetName[i], AccessTools.all);
                 HarmonyBase.instance.Patch(method, null, null, (HarmonyMethod)transpiler);
             }
         }
