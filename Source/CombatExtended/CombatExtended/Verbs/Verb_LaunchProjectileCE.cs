@@ -530,6 +530,7 @@ namespace CombatExtended
             {
                 return false;
             }
+            if (projectilePropsCE == null) Log.Error("What");
             if (projectilePropsCE.pelletCount < 1)
             {
                 Log.Error(EquipmentSource.LabelCap + " tried firing with pelletCount less than 1.");

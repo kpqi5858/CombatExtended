@@ -61,7 +61,7 @@ namespace CombatExtended
 	            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading)
 	            {
 	            	if (def.IsWeapon
-	            	    && (def.generateAllowChance <= 0
+	            	    && (def.generateAllowChance > 0
 	            	        || def.tradeability == Tradeability.Buyable
 	            	        || (def.weaponTags != null && def.weaponTags.Contains("TurretGun"))))
 	                    CE_Utility.allWeaponDefs.Add(def);
@@ -83,6 +83,10 @@ namespace CombatExtended
             	//.. else, continue the method.
             }
             
+            foreach (var def in CE_Utility.allWeaponDefs)
+            {
+                Log.Message("CE :: WeaponDefs " + def.defName);
+            }
             var ammoDefs = new HashSet<ThingDef>();
             
             // Find all ammo using guns
