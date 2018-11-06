@@ -262,14 +262,7 @@
 	</Operation>
 
 	<Operation Class="PatchOperationReplace">
-  	<xpath>*/BodyDef[defName = "QuadrupedAnimalWithHoovesTusksAndTrunk"]/corePart/parts/li[def="Neck"]/parts/li[def = "Head"]/parts/li[def="AnimalJaw"]/parts/li[def = "LeftTusk"]/coverage</xpath>
-  	<value>
-    	<coverage>0.25</coverage>
-  	</value>
-	</Operation>
-
-	<Operation Class="PatchOperationReplace">
-  	<xpath>*/BodyDef[defName = "QuadrupedAnimalWithHoovesTusksAndTrunk"]/corePart/parts/li[def="Neck"]/parts/li[def = "Head"]/parts/li[def="AnimalJaw"]/parts/li[def = "RightTusk"]/coverage</xpath>
+  	<xpath>*/BodyDef[defName = "QuadrupedAnimalWithHoovesTusksAndTrunk"]/corePart/parts/li[def="Neck"]/parts/li[def = "Head"]/parts/li[def="AnimalJaw"]/parts/li[def = "Tusk"]/coverage</xpath>
   	<value>
     	<coverage>0.25</coverage>
   	</value>
