@@ -592,7 +592,7 @@ namespace CombatExtended
                 resultingLine = default(ShootLine);
                 return false;
             }
-            if (this.verbProps.EffectiveMinRange(targ, this.caster) <= ShootTuning.MeleeRange) //This means we are in melee range!
+            if (this.verbProps.IsMeleeAttack || this.verbProps.range <= ShootTuning.MeleeRange) //Who the hell coded this thing wrong..
             {
                 resultingLine = new ShootLine(root, targ.Cell);
                 return ReachabilityImmediate.CanReachImmediate(root, targ, this.caster.Map, PathEndMode.Touch, null);
