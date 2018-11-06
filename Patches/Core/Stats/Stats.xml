@@ -93,7 +93,7 @@
 		</value>
 	</Operation>
 
-	<Operation Class="PatchOperationSequence"> <!-- compatibility with any mod that redefines ShootingAccuracy and changes SkillNeed back to the traditional pre-A17 values per skill level (e.g. Shooting Skill Rebalanced) -->
+	<Operation Class="PatchOperationSequence"> <!-- compatibility with any mod that redefines ShootingAccuracyPawn and changes SkillNeed back to the traditional pre-A17 values per skill level (e.g. Shooting Skill Rebalanced) -->
 		<success>Always</success>
 		<operations>
 			<li Class="PatchOperationTest">

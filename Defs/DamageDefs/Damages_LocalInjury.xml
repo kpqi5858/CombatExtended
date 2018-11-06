@@ -33,9 +33,10 @@
   </DamageDef>
   
   <!-- For scratches that have a lot of blunt force behind them, e.g. bear claws -->
-  <DamageDef ParentName="LocalInjuryBase">
+  <DamageDef>
     <defName>Slash</defName>
     <label>slash</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
     <externalViolence>true</externalViolence>
     <deathMessage>{0} has been torn to death.</deathMessage>
     <hediff>Scratch</hediff>
@@ -68,15 +69,16 @@
     <spreadOut>false</spreadOut>
   </DamageDef>
 
-  <DamageDef ParentName="LocalInjuryBase">
+  <DamageDef>
     <defName>Electrical</defName>
     <label>electrical</label>
+    <workerClass>DamageWorker_AddInjury</workerClass>
     <hasForcefulImpact>false</hasForcefulImpact>
     <makesBlood>false</makesBlood>
     <externalViolence>true</externalViolence>
     <deathMessage>{0} has been electrocuted.</deathMessage>
     <hediff>ElectricalBurn</hediff>
-    <impactSoundType>Electric</impactSoundType>
+    <impactSoundType>Electric</impactSoundType> 
     <armorCategory>Electric</armorCategory>
     <spreadOut>true</spreadOut>
     <explosionDamage>10</explosionDamage>

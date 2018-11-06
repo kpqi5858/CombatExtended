@@ -7,13 +7,15 @@
       <hitPoints>15</hitPoints>
     </value>
   </Operation>
-
+  
+  <!--
   <Operation Class="PatchOperationReplace">
     <xpath>*/BodyPartDef[defName="Rib"]/hitPoints</xpath>
     <value>
       <hitPoints>13</hitPoints>
     </value>
   </Operation>
+  -->
 
   <Operation Class="PatchOperationReplace">
     <xpath>*/BodyPartDef[defName="Leg"]/hitPoints</xpath>

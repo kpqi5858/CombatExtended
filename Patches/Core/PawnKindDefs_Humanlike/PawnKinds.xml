@@ -3,10 +3,6 @@
 
 	<!-- ========== Mechanoid ========== -->
 
-  <Operation Class="PatchOperationRemove">
-  	<xpath>*/PawnKindDef[defName="Mech_Lancer"]/aiAvoidCover</xpath>
-  </Operation>
-
   <Operation Class="PatchOperationReplace">
   	<xpath>*/PawnKindDef[defName="Mech_Centipede"]/combatPower</xpath>
   	<value>
