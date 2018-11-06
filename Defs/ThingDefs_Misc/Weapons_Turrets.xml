@@ -10,7 +10,7 @@
     <tradeability>None</tradeability>
     <destroyOnDrop>True</destroyOnDrop>
     <menuHidden>True</menuHidden>
-    <canBeSpawningInventory>false</canBeSpawningInventory>
+    <generateCommonality>0</generateCommonality>
     <smeltable>false</smeltable>
   </ThingDef>
 

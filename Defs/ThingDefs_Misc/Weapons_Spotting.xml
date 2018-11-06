@@ -24,7 +24,7 @@
       <texPath>Things/Weapons/BinocularsRadio</texPath>
       <graphicClass>Graphic_Single</graphicClass>
     </graphicData>
-    <canBeSpawningInventory>false</canBeSpawningInventory>
+    <generateCommonality>0</generateCommonality>
     <soundInteract>Interact_Rifle</soundInteract>
     <statBases>
       <WorkToMake>10500</WorkToMake>

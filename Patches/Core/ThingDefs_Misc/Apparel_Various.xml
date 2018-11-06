@@ -11,10 +11,6 @@
     </value>
   </Operation>
 
-  <Operation Class="PatchOperationRemove">
-  	<xpath>*/ThingDef[defName="Apparel_Parka"]/equippedStatOffsets/WorkSpeedGlobal</xpath>
-  </Operation>
-
 	<!-- ========== Duster ========== -->
 
 	<Operation Class="PatchOperationAdd">

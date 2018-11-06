@@ -82,11 +82,11 @@ namespace CombatExtended
             	}
             	//.. else, continue the method.
             }
-            
+            /*
             foreach (var def in CE_Utility.allWeaponDefs)
             {
                 Log.Message("CE :: WeaponDefs " + def.defName);
-            }
+            }*/
             var ammoDefs = new HashSet<ThingDef>();
             
             // Find all ammo using guns

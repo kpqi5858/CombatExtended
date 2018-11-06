@@ -86,7 +86,7 @@
   <ThingDef Class="CombatExtended.AmmoDef" ParentName="12GaugeBase">
     <defName>Ammo_12Gauge_Beanbag</defName>
     <label>12 gauge shell (Bean)</label>
-	<canBeSpawningInventory>false</canBeSpawningInventory>
+	<generateCommonality>0</generateCommonality>
     <graphicData>
       <texPath>Things/Ammo/Shotgun/Beanbag</texPath>
       <graphicClass>Graphic_StackCount</graphicClass>

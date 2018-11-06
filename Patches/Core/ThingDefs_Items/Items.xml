@@ -304,6 +304,24 @@
 
 	<!-- Devilstrand -->
 
+	<!-- Add statFactors if not exist -->
+
+	<Operation Class="PatchOperationSequence">
+  	<success>Always</success>
+  	<operations>
+    	<li Class="PatchOperationTest">
+      	<xpath>*/ThingDef[defName = "DevilstrandCloth"]/stuffProps/statFactors</xpath>
+      	<success>Invert</success>
+    	</li>
+    	<li Class="PatchOperationAdd">
+      	<xpath>*/ThingDef[defName = "DevilstrandCloth"]/stuffProps</xpath>
+      	<value>
+        	<statFactors />
+      	</value>
+    	</li>
+  	</operations>
+	</Operation>
+
 	<Operation Class="PatchOperationAdd">
 		<xpath>*/ThingDef[defName="DevilstrandCloth"]/statBases</xpath>
 		<value>
@@ -328,6 +346,24 @@
 	</Operation>
 
 	<!-- Hyperweave -->
+
+	<!-- Add statFactors if not exist -->
+
+	<Operation Class="PatchOperationSequence">
+  	<success>Always</success>
+  	<operations>
+    	<li Class="PatchOperationTest">
+      	<xpath>*/ThingDef[defName = "Hyperweave"]/stuffProps/statFactors</xpath>
+      	<success>Invert</success>
+    	</li>
+    	<li Class="PatchOperationAdd">
+      	<xpath>*/ThingDef[defName = "Hyperweave"]/stuffProps</xpath>
+      	<value>
+        	<statFactors />
+      	</value>
+    	</li>
+  	</operations>
+	</Operation>
 
 	<Operation Class="PatchOperationAdd">
 		<xpath>*/ThingDef[defName="Hyperweave"]/statBases</xpath>
