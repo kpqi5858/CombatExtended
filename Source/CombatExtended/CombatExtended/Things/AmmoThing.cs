@@ -21,14 +21,14 @@ namespace CombatExtended
 
         #region Methods
 
-        public override string DescriptionFlavor
+        public override string DescriptionDetailed
         {
             get
             {
                 if (AmmoDef != null && AmmoDef.ammoClass != null)
                 {
                     StringBuilder stringBuilder = new StringBuilder();
-                    stringBuilder.AppendLine(base.DescriptionFlavor);
+                    stringBuilder.AppendLine(base.def.DescriptionDetailed);
 
                     // Append ammo class description
                     stringBuilder.AppendLine("\n" + AmmoDef.ammoClass.LabelCap + ":");
@@ -47,15 +47,44 @@ namespace CombatExtended
 
                     return stringBuilder.ToString().TrimEndNewlines();
                 }
+                return base.def.DescriptionDetailed;
+            }
+        }
 
-                return base.DescriptionFlavor;
+        public override string DescriptionFlavor
+        {
+            get
+            {
+                if (AmmoDef != null && AmmoDef.ammoClass != null)
+                {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.AppendLine(base.def.description);
+
+                    // Append ammo class description
+                    stringBuilder.AppendLine("\n" + AmmoDef.ammoClass.LabelCap + ":");
+                    stringBuilder.AppendLine(AmmoDef.ammoClass.description);
+
+                    // Append guns that use this caliber
+                    var users = AmmoDef.Users;
+                    if (!users.NullOrEmpty())
+                    {
+                        stringBuilder.AppendLine("\n" + "CE_UsedBy".Translate() + ":");
+                        foreach (var user in users)
+                        {
+                            stringBuilder.AppendLine("   -" + user.LabelCap);
+                        }
+                    }
+
+                    return stringBuilder.ToString().TrimEndNewlines();
+                }
+                return base.def.description;
             }
         }
 
         public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
         {
             base.PreApplyDamage(ref dinfo, out absorbed);
-            if (!absorbed && Spawned && dinfo.Def.ExternalViolenceFor(this))
+            if (!absorbed && Spawned && dinfo.Def.ExternalViolenceFor(this)) // this? or null or?
             {
                 if (HitPoints - dinfo.Amount > 0)
                 {
@@ -75,7 +104,7 @@ namespace CombatExtended
             // Cook off ammo based on how much damage we've taken so far
             if (numToCookOff > 0 && Rand.Chance((float)numToCookOff / def.stackLimit))
             {
-                if(TryLaunchCookOffProjectile() || TryDetonate())
+                if (TryLaunchCookOffProjectile() || TryDetonate())
                 {
                     // Reduce stack count
                     if (stackCount > 1)
@@ -97,7 +126,7 @@ namespace CombatExtended
             CompExplosiveCE comp = this.TryGetComp<CompExplosiveCE>();
             if (comp != null)
             {
-            	if(Rand.Chance(Mathf.Clamp01(0.75f - Mathf.Pow(HitPoints / MaxHitPoints, 2)))) comp.Explode(this, Position.ToVector3Shifted(), Map, scale);
+                if (Rand.Chance(Mathf.Clamp01(0.75f - Mathf.Pow(HitPoints / MaxHitPoints, 2)))) comp.Explode(this, Position.ToVector3Shifted(), Map, scale);
                 return true;
             }
             return false;
@@ -106,6 +135,12 @@ namespace CombatExtended
         private bool TryLaunchCookOffProjectile()
         {
             if (AmmoDef.cookOffProjectile == null) return false;
+
+            Fire fire = Position.GetThingList(Map).Find(f => f.Spawned && f is Fire) as Fire;
+            if (fire != null && fire.fireSize < 0.35)
+            {
+                return false;
+            }
 
             // Spawn projectile if enabled
             if (!Controller.settings.RealisticCookOff)

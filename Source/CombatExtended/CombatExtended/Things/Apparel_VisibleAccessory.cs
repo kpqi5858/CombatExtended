@@ -20,7 +20,7 @@ namespace CombatExtended
     	 * North flips order shell/head
     	 * Hair (if drawn gets important when north) offset: 0.035f
     	 */
-        private const float MinClippingDistance = 0.002f;   // Minimum space between layers to avoid z-fighting
+        private const float MinClippingDistance = 0.000f;   // Minimum space between layers to avoid z-fighting
     	const float _HeadOffset = 0.02734375f + MinClippingDistance;       // Number must be same as PawnRenderer.YOffset_Head
         const float _BodyOffset = 0.0234375f + MinClippingDistance;   // Number must be same as PawnRenderer.YOffset_Shell
         const float _OffsetFactor = 0.001f;

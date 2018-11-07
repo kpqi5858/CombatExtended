@@ -489,9 +489,10 @@ namespace CombatExtended
         {
             IAttackTargetSearcher attackTargetSearcher = this.TargSearcher();
             Faction faction = attackTargetSearcher.Thing.Faction;
-            float range = this.AttackVerb.verbProps.range;
+            float range = this.GunCompEq.PrimaryVerb.verbProps.range;
+            float minRange = this.GunCompEq.PrimaryVerb.verbProps.minRange;
             Building t;
-            if (Rand.Value < 0.5f && this.AttackVerb.ProjectileFliesOverhead() && faction.HostileTo(Faction.OfPlayer) && base.Map.listerBuildings.allBuildingsColonist.Where(delegate (Building x)
+            if (Rand.Value < 0.5f && Projectile.projectile.flyOverhead && faction.HostileTo(Faction.OfPlayer) && base.Map.listerBuildings.allBuildingsColonist.Where(delegate (Building x)
             {
                 float num = this.AttackVerb.verbProps.EffectiveMinRange(x, this);
                 float num2 = (float)x.Position.DistanceToSquared(this.Position);
@@ -501,7 +502,7 @@ namespace CombatExtended
                 return t;
             }
             TargetScanFlags targetScanFlags = TargetScanFlags.NeedThreat;
-            if (!this.AttackVerb.ProjectileFliesOverhead())
+            if (!Projectile.projectile.flyOverhead)
             {
                 targetScanFlags |= TargetScanFlags.NeedLOSToAll;
                 targetScanFlags |= TargetScanFlags.LOSBlockableByGas;
@@ -510,7 +511,7 @@ namespace CombatExtended
             {
                 targetScanFlags |= TargetScanFlags.NeedNonBurning;
             }
-            return (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, targetScanFlags, new Predicate<Thing>(this.IsValidTarget), 0f, 9999f);
+            return (Thing)AttackTargetFinder.BestShootTargetFromCurrentPosition(attackTargetSearcher, targetScanFlags, new Predicate<Thing>(this.IsValidTarget), minRange, range);
         }
 
         // Added ammo check and use verb warmup time instead of turret's

@@ -58,6 +58,13 @@ namespace CombatExtended
             explosion.damageFalloff = def.projectile.explosionDamageFalloff;
             explosion.StartExplosion(def.projectile.soundExplode);
 
+            if (this.def.projectile.explosionEffect != null)
+            {
+                Effecter effecter = this.def.projectile.explosionEffect.Spawn();
+                effecter.Trigger(new TargetInfo(ExactPosition.ToIntVec3(), Map, false), new TargetInfo(ExactPosition.ToIntVec3(), Map, false));
+                effecter.Cleanup();
+            }
+
             //This code was disabled because it didn't run under previous circumstances. Could be enabled if necessary
             /*
             if (map != null && base.ExactPosition.ToIntVec3().IsValid)

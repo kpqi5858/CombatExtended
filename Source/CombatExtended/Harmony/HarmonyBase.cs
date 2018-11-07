@@ -55,7 +55,6 @@ namespace CombatExtended.Harmony
             PatchHediffWithComps();
             Harmony_GenRadial_RadialPatternCount.Patch();
             PawnColumnWorkers_Resize.Patch();
-            PawnColumnWorkers_SwapButtons.Patch();
         }
 
         #region Patch helper methods

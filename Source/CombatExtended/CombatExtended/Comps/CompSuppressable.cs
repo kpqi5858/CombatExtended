@@ -230,6 +230,7 @@ namespace CombatExtended
             else if (IsHunkering)
                 ticksHunkered++;
 
+            /*
             if (ticksHunkered > MinTicksUntilMentalBreak && Rand.Chance(ChanceBreakPerTick))
             {
                 var pawn = (Pawn) parent;
@@ -241,7 +242,7 @@ namespace CombatExtended
                         pawn.mindState.mentalStateHandler.TryStartMentalState(possibleBreaks.RandomElement());
                     }
                 }
-            }
+            }*/
 
             //Apply decay once per second
             if(ticksUntilDecay > 0)

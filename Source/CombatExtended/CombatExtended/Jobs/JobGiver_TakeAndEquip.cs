@@ -10,8 +10,6 @@ namespace CombatExtended
 {
     public class JobGiver_TakeAndEquip : ThinkNode_JobGiver
     {
-    	private const float ammoFractionOfNonAmmoInventory = 0.666f;
-        
         private enum WorkPriority
         {
             None,
@@ -24,29 +22,10 @@ namespace CombatExtended
 
         private WorkPriority GetPriorityWork(Pawn pawn)
         {
-            #region Traders have no work priority
-            if (pawn.kindDef.trader)
-            {
-                return WorkPriority.None;
-            }
-            #endregion
-            
-            #region Pawns with non-idle jobs have no work priority
-            bool hasCurJob = pawn.CurJob != null;
-            JobDef jobDef = hasCurJob ? pawn.CurJob.def : null;
-            
-            if (hasCurJob && !jobDef.isIdle)
-            {
-                return WorkPriority.None;
-            }
-            #endregion
-           	
-			bool hasPrimary = (pawn.equipment != null && pawn.equipment.Primary != null);
-            CompAmmoUser primaryAmmoUser = hasPrimary ? pawn.equipment.Primary.TryGetComp<CompAmmoUser>() : null;
-            
-            #region Colonists with primary ammo-user and a loadout have no work priority
-            if (pawn.Faction.IsPlayer
-              && primaryAmmoUser != null)
+            CompAmmoUser primaryammouser = pawn.equipment.Primary.TryGetComp<CompAmmoUser>();
+            CompInventory compammo = pawn.TryGetComp<CompInventory>();
+
+            if (pawn.Faction.IsPlayer && pawn.equipment.Primary != null && pawn.equipment.Primary.TryGetComp<CompAmmoUser>() != null)
             {
                 Loadout loadout = pawn.GetLoadout();
                 // if (loadout != null && !loadout.Slots.NullOrEmpty())
@@ -55,71 +34,77 @@ namespace CombatExtended
                     return WorkPriority.None;
                 }
             }
-            #endregion
-			
-            // Pawns without weapon..
-            if (!hasPrimary)
+
+            if (pawn.kindDef.trader)
             {
-            	// With inventory && non-colonist && not stealing && little space left
+                return WorkPriority.None;
+            }
+            if (pawn.CurJob != null && pawn.CurJob.def == JobDefOf.Tame)
+            {
+                return WorkPriority.None;
+            }
+
+            if (pawn.equipment.Primary == null)
+            {
                 if (Unload(pawn))
                 {
                     return WorkPriority.Unloading;
                 }
-                // Without inventory || colonist || stealing || lots of space left
-                return WorkPriority.Weapon;
+                else return WorkPriority.Weapon;
             }
-			
-            CompInventory compInventory = pawn.TryGetComp<CompInventory>();
-            
-            // Pawn with ammo-using weapon..
-            if (primaryAmmoUser != null && primaryAmmoUser.UseAmmo)
+
+            if (pawn.equipment.Primary != null && primaryammouser != null)
             {
-                // Magazine size
-                FloatRange magazineSize = new FloatRange(1f, 2f);
-                LoadoutPropertiesExtension loadoutPropertiesExtension = (LoadoutPropertiesExtension)(pawn.kindDef.modExtensions?.FirstOrDefault(x => x is LoadoutPropertiesExtension));
-                bool hasWeaponTags = pawn.kindDef.weaponTags?.Any() ?? false;
-                
-            	if (hasWeaponTags
-                  && primaryAmmoUser.parent.def.weaponTags.Any(pawn.kindDef.weaponTags.Contains)
-            	  && loadoutPropertiesExtension?.primaryMagazineCount != FloatRange.Zero)
-            	{
-                	magazineSize.min = loadoutPropertiesExtension.primaryMagazineCount.min;
-                	magazineSize.max = loadoutPropertiesExtension.primaryMagazineCount.max;
-            	}
-                
-                magazineSize.min *= primaryAmmoUser.Props.magazineSize;
-                magazineSize.max *= primaryAmmoUser.Props.magazineSize;
-                
-            	// Number of things in inventory that could be put in the weapon
-                int viableAmmoCarried = 0;
-                float viableAmmoBulk = 0;
-                foreach (AmmoLink link in primaryAmmoUser.Props.ammoSet.ammoTypes)
+                int ammocount = 0;
+                foreach (AmmoLink link in primaryammouser.Props.ammoSet.ammoTypes)
                 {
-                	var count = compInventory.AmmoCountOfDef(link.ammo);
-                	viableAmmoCarried += count;
-                	viableAmmoBulk += count * link.ammo.GetStatValueAbstract(CE_StatDefOf.Bulk);
+                    Thing ammoThing;
+                    ammoThing = compammo.ammoList.Find(thing => thing.def == link.ammo);
+                    if (ammoThing != null)
+                    {
+                        ammocount += ammoThing.stackCount;
+                    }
                 }
-                
-                // ~2/3rds of the inventory bulk minus non-usable and non-ammo bulk could be filled with ammo
-                float potentialAmmoBulk = ammoFractionOfNonAmmoInventory * (compInventory.capacityBulk - compInventory.currentBulk + viableAmmoBulk);
-                
-                // There's less ammo [bulk] than fits the potential ammo bulk [bulk]
-                if (viableAmmoBulk < potentialAmmoBulk)
+
+                // current ammo bulk 
+                float currentAmmoBulk = primaryammouser.CurrentAmmo.GetStatValueAbstract(CE_StatDefOf.Bulk);
+
+                // weapon magazine size 
+                float stackSize = primaryammouser.Props.magazineSize;
+
+                // weight projectile ratio to free bulk with x1.5 reserve
+                float weightProjectileRatio = Mathf.RoundToInt(((compammo.capacityBulk - compammo.currentBulk) / 1.5f) / currentAmmoBulk);
+
+                if (ammocount < stackSize * 1 && (ammocount < weightProjectileRatio))
                 {
-	                // There's less ammo [nr] than fits a clip [nr]
-	                if (primaryAmmoUser.Props.magazineSize == 0 || viableAmmoCarried < magazineSize.min)
-	                {
-	                	return Unload(pawn) ? WorkPriority.Unloading : WorkPriority.LowAmmo;
-	                }
-	                
-	                // There's less ammo [nr] than fits two clips [nr] && no enemies are close
-	                if (viableAmmoCarried < magazineSize.max
-	                 && !PawnUtility.EnemiesAreNearby(pawn, 30, true))
-	                {
-	                	return Unload(pawn) ? WorkPriority.Unloading : WorkPriority.Ammo;
-	                }
+                    if (Unload(pawn))
+                    {
+                        return WorkPriority.Unloading;
+                    }
+                    else return WorkPriority.LowAmmo;
+                }
+
+                if (!PawnUtility.EnemiesAreNearby(pawn, 30, true))
+                {
+                    if (ammocount < stackSize * 2 && (ammocount < weightProjectileRatio))
+                    {
+                        if (Unload(pawn))
+                        {
+                            return WorkPriority.Unloading;
+                        }
+                        else return WorkPriority.Ammo;
+                    }
                 }
             }
+            /*
+            if (!pawn.Faction.IsPlayer && pawn.equipment.Primary != null
+                && !PawnUtility.EnemiesAreNearby(pawn, 30, true)
+                || (!pawn.apparel.BodyPartGroupIsCovered(BodyPartGroupDefOf.Torso)
+                || !pawn.apparel.BodyPartGroupIsCovered(BodyPartGroupDefOf.Legs)))
+            {
+                return WorkPriority.Apparel;
+            }
+            */
 
             return WorkPriority.None;
         }
@@ -285,12 +270,11 @@ namespace CombatExtended
                     if (!pawn.Faction.IsPlayer)
                     {
                         Predicate<Thing> validatorWS = (Thing w) => w.def.IsWeapon
-                            && w.MarketValue > 500 && pawn.CanReserve(w, 1)
-                            && (DangerInPosRadius(pawn, w.Position, pawn.Map, 30f).Count() <= 0
-                                                    ? pawn.Position.InHorDistOf(w.Position, 25f)
-                                                    : pawn.Position.InHorDistOf(w.Position, 6f))
+                            && w.MarketValue > 5
+                            && pawn.CanReserve(w, 1)
+                            && pawn.Position.InHorDistOf(w.Position, fixedsearchrange(pawn, w, 30f))
                             && pawn.CanReach(w, PathEndMode.Touch, Danger.Deadly, true)
-                            && (pawn.Faction.HostileTo(Faction.OfPlayer) || pawn.Faction == Faction.OfPlayer || !pawn.Map.areaManager.Home[w.Position]);
+                            && (pawn.Faction.HostileTo(Faction.OfPlayer) || pawn.Faction == Faction.OfPlayer || (!pawn.Faction.HostileTo(Faction.OfPlayer) && !pawn.Map.areaManager.Home[w.Position]));
 
                         // generate a list of all weapons (this includes melee weapons)
                         List<Thing> allWeapons = (
@@ -302,7 +286,6 @@ namespace CombatExtended
 
                         // now just get the ranged weapons out...
                         List<Thing> rangedWeapons = allWeapons.Where(w => w.def.IsRangedWeapon).ToList();
-
                         if (!rangedWeapons.NullOrEmpty())
                         {
                             foreach (Thing thing in rangedWeapons)
@@ -327,11 +310,9 @@ namespace CombatExtended
 
                                     Predicate<Thing> validatorA = (Thing t) => t.def.category == ThingCategory.Item
                                         && t is AmmoThing && pawn.CanReserve(t, 1)
-                                        && (DangerInPosRadius(pawn, t.Position, pawn.Map, 30f).Count() <= 0
-                                                                ? pawn.Position.InHorDistOf(t.Position, 25f)
-                                                                : pawn.Position.InHorDistOf(t.Position, 6f))
+                                        && pawn.Position.InHorDistOf(t.Position, fixedsearchrange(pawn, t, 30f))
                                         && pawn.CanReach(t, PathEndMode.Touch, Danger.Deadly, true)
-                                        && (pawn.Faction.HostileTo(Faction.OfPlayer) || pawn.Faction == Faction.OfPlayer || !pawn.Map.areaManager.Home[t.Position]);
+                                        && (pawn.Faction.HostileTo(Faction.OfPlayer) || pawn.Faction == Faction.OfPlayer || (!pawn.Faction.HostileTo(Faction.OfPlayer) && !pawn.Map.areaManager.Home[t.Position]));
 
                                     List<Thing> thingAmmoList = (
                                         from t in pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableAlways)
@@ -356,10 +337,22 @@ namespace CombatExtended
                                             }
                                         }
                                     }
+                                    else if (isGrenade(thing) && grenadeCountInInventory(pawn, inventory) < 5)
+                                    {
+                                        int numToThing = thing.stackCount > 7 ? 7 : thing.stackCount;
+                                        if (inventory.CanFitInInventory(thing, out numToThing))
+                                        {
+                                            return new Job(JobDefOf.TakeInventory, thing)
+                                            {
+                                                count = Mathf.RoundToInt(numToThing * 0.8f),
+                                                checkOverrideOnExpire = true,
+                                                expiryInterval = 150
+                                            };
+                                        }
+                                    }
                                 }
                             }
                         }
-
                         // else if no ranged weapons with nearby ammo was found, lets consider a melee weapon.
                         if (allWeapons != null && allWeapons.Count > 0)
                         {
@@ -389,10 +382,8 @@ namespace CombatExtended
                     {
                         Predicate<Thing> validator = (Thing t) => t is AmmoThing && pawn.CanReserve(t, 1)
                                         && pawn.CanReach(t, PathEndMode.Touch, Danger.Deadly, true)
-                                        && ((pawn.Faction.IsPlayer && !ForbidUtility.IsForbidden(t, pawn)) || (!pawn.Faction.IsPlayer && DangerInPosRadius(pawn, t.Position, Find.CurrentMap, 30f).Count() <= 0
-                                                                ? pawn.Position.InHorDistOf(t.Position, 25f)
-                                                                : pawn.Position.InHorDistOf(t.Position, 6f)))
-                                        && (pawn.Faction.HostileTo(Faction.OfPlayer) || pawn.Faction == Faction.OfPlayer || !pawn.Map.areaManager.Home[t.Position]);
+                                        && ((pawn.Faction.IsPlayer && !ForbidUtility.IsForbidden(t, pawn)) || (!pawn.Faction.IsPlayer && pawn.Position.InHorDistOf(t.Position, fixedsearchrange(pawn, t, 30f))))
+                                        && (pawn.Faction.HostileTo(Faction.OfPlayer) || pawn.Faction == Faction.OfPlayer || (!pawn.Faction.HostileTo(Faction.OfPlayer) && !pawn.Map.areaManager.Home[t.Position]));
                         List<Thing> curThingList = (
                             from t in pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableAlways)
                             where validator(t)
@@ -442,7 +433,7 @@ namespace CombatExtended
                                             {
                                                 return new Job(JobDefOf.TakeInventory, th)
                                                 {
-                                                    count = Mathf.RoundToInt(numToCarry * 0.8f),
+                                                    count = numToCarry,
                                                     expiryInterval = 150,
                                                     checkOverrideOnExpire = true
                                                 };
@@ -454,6 +445,91 @@ namespace CombatExtended
                         }
                     }
                 }
+
+                // postfind grenade and ammos.
+                if (!pawn.Faction.IsPlayer)
+                {
+                    int minrange = 2;
+                    int maxrange = 14;
+                    float rangevariation = hasPrimary ? minrange : maxrange / 2;
+                    Predicate<Thing> validatorPost = (Thing w) =>
+                        (isGrenade(w) || w is AmmoThing)
+                        && pawn.Position.InHorDistOf(w.Position, fixedsearchrange(pawn, w, maxrange, Mathf.RoundToInt(rangevariation + (maxrange / 2)), Mathf.RoundToInt(rangevariation + minrange)))
+                        && pawn.CanReach(w, PathEndMode.Touch, Danger.Deadly, true)
+                        && (pawn.Faction.HostileTo(Faction.OfPlayer) || (!pawn.Faction.HostileTo(Faction.OfPlayer) && !pawn.Map.areaManager.Home[w.Position]));
+
+                    List<Thing> allPostThings = (
+                        from w in pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.HaulableAlways)
+                        where validatorPost(w)
+                        select w
+                        ).ToList();
+
+                    // Look for grenades
+                    List<Thing> grenadelist = (
+                        from g in allPostThings
+                        where g.def.IsWeapon && pawn.CanReserve(g, 1)
+                        orderby g.Position.DistanceToSquared(pawn.Position) * 2f descending
+                        select g
+                        ).ToList();
+
+                    if (!grenadelist.NullOrEmpty() && grenadeCountInInventory(pawn, inventory) < 5)
+                    {
+                        foreach (Thing grenade in grenadelist)
+                        {
+                            int numToThing = grenade.stackCount > 7 ? 7 : grenade.stackCount;
+                            if (inventory.CanFitInInventory(grenade, out numToThing))
+                            {
+                                return new Job(JobDefOf.TakeInventory, grenade)
+                                {
+                                    count = Mathf.RoundToInt(numToThing * 0.8f),
+                                    expiryInterval = 150,
+                                    checkOverrideOnExpire = true
+                                };
+                            }
+                        }
+                    }
+                    if (hasPrimary && primaryammouser != null)
+                    {
+                        List<ThingDef> curAmmoList = (from AmmoLink g in primaryammouser.Props.ammoSet.ammoTypes
+                                                      select g.ammo as ThingDef).ToList();
+                        if (curAmmoList.Count > 0)
+                        {
+                            List<Thing> ammolist = (
+                                from p in allPostThings
+                                where p is AmmoThing && curAmmoList.Contains(p.def) && pawn.CanReserve(p, 1)
+                                orderby p.Position.DistanceToSquared(pawn.Position) * 2f descending
+                                select p
+                                ).ToList();
+
+                            if (ammolist.Count > 0)
+                            {
+                                for (var i = 0; i < ammolist.Count; i++)
+                                {
+                                    //try to take more ammo if it really nearby.
+                                    int numToThing2 = 0;
+                                    if (!inventory.CanFitInInventory(ammolist[i], out numToThing2))
+                                    {
+                                        break;
+                                    }
+                                    if (PawnUtility.EnemiesAreNearby(pawn, 25, true))
+                                    {
+                                        break;
+                                    }
+                                    if (pawn.Position.InHorDistOf(ammolist[i].Position, 4f))
+                                    {
+                                        return new Job(JobDefOf.TakeInventory, ammolist[i])
+                                        {
+                                            count = numToThing2,
+                                            expiryInterval = 150,
+                                            checkOverrideOnExpire = true
+                                        };
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
                 /*
                 if (!pawn.Faction.IsPlayer && pawn.apparel != null && GetPriorityWork(pawn) == WorkPriority.Apparel)
                 {
@@ -547,6 +623,16 @@ namespace CombatExtended
         }
         */
 
+        private static int grenadeCountInInventory(Pawn pawn, CompInventory inventory)
+        {
+            return inventory.rangedWeaponList.Where(gr => pawn.CanReserve(gr, 1) && !gr.def.weaponTags.NullOrEmpty() && gr.def.weaponTags.Contains("CE_AI_Grenade")).Count();
+        }
+
+        private static bool isGrenade(Thing thing)
+        {
+            return !thing.def.thingCategories.NullOrEmpty() && thing.def.thingCategories.Contains(ThingCategoryDef.Named("Grenades"));
+        }
+
         private static bool Unload(Pawn pawn)
         {
             var inv = pawn.TryGetComp<CompInventory>();
@@ -561,9 +647,38 @@ namespace CombatExtended
             else return false;
         }
 
-        private static IEnumerable<Pawn> DangerInPosRadius(Pawn pawn, IntVec3 position, Map map, float distance)
+        private static bool NoDangerInPosRadius(Pawn pawn, IntVec3 position, Map map, float distance, bool moreattentive, bool passDoors = false)
         {
-            return Enumerable.Where<Pawn>(map.mapPawns.AllPawns, (p => p.Position.InHorDistOf(position, distance) && !p.RaceProps.Animal && !p.Downed && !p.Dead && FactionUtility.HostileTo(p.Faction, pawn.Faction)));
+            /*
+            return Enumerable.Where<Pawn>(map.mapPawns.AllPawns, (p => p.Position.InHorDistOf(position, distance) 
+            && (moreattentive = false || (moreattentive = true && GenSight.LineOfSight(position, p.Position, map, true)))
+            && !p.RaceProps.Animal && !p.Downed && !p.Dead && FactionUtility.HostileTo(p.Faction, pawn.Faction))).Count() <= 0;
+            */
+            TraverseParms tp = (!passDoors) ? TraverseParms.For(pawn, Danger.Deadly, TraverseMode.ByPawn, false) : TraverseParms.For(TraverseMode.PassDoors, Danger.Deadly, false);
+            bool foundEnemy = false;
+            RegionTraverser.BreadthFirstTraverse(position, map, (Region from, Region to) => to.Allows(tp, false), delegate (Region r)
+            {
+                List<Thing> list = r.ListerThings.ThingsInGroup(ThingRequestGroup.AttackTarget);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (list[i].HostileTo(pawn))
+                    {
+                        foundEnemy = true;
+                        return true;
+                    }
+                }
+                return foundEnemy;
+            }, (int)distance, RegionType.Set_Passable);
+            return !foundEnemy;
+        }
+
+        private static int fixedsearchrange(Pawn pawn, Thing t, float dangerange = 30, int maxtotalrange = 25, int mintotalrange = 6)
+        {
+            if (NoDangerInPosRadius(pawn, t.Position, Find.CurrentMap, dangerange, false))
+            {
+                return maxtotalrange;
+            }
+            return mintotalrange;
         }
 
         private static Job MeleeOrWaitJob(Pawn pawn, Thing blocker, IntVec3 cellBeforeBlocker)

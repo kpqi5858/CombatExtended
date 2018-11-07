@@ -20,9 +20,16 @@ namespace CombatExtended
 
         public DamageInfo GetDinfo(DamageInfo primaryDinfo)
         {
+            var projectilePropertiesCE = primaryDinfo.Weapon.projectile as ProjectilePropertiesCE;
+            float ap = primaryDinfo.ArmorPenetrationInt;
+            if (projectilePropertiesCE != null)
+            {
+                ap = projectilePropertiesCE.armorPenetration;
+            }
+
             var dinfo = new DamageInfo(def,
                             amount,
-                            primaryDinfo.ArmorPenetrationInt, //Armor Penetration TODO: Fix this after DamageWorker restructuring.
+                            ap, //Armor Penetration TODO: Fix this after DamageWorker restructuring.
                             primaryDinfo.Angle,
                             primaryDinfo.Instigator,
                             primaryDinfo.HitPart,

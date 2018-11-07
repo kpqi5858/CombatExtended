@@ -41,11 +41,11 @@ namespace CombatExtended
             {
                 return null;
             }
-            bool flag = pawn.equipment.Primary == null || pawn.equipment.Primary.def.IsMeleeWeapon;
+            bool flag = pawn.CurrentEffectiveVerb.IsMeleeAttack;
             float num = 8f;
             if (!flag)
             {
-                num = Mathf.Clamp(pawn.equipment.PrimaryEq.PrimaryVerb.verbProps.range * 0.66f, 2f, 20f);
+                num = Mathf.Clamp(pawn.CurrentEffectiveVerb.verbProps.range * 0.66f, 2f, 20f);
             }
             float maxDist = num;
 			Thing thing = (Thing)AttackTargetFinder.BestAttackTarget(pawn, TargetScanFlags.NeedLOSToPawns | TargetScanFlags.NeedLOSToNonPawns | TargetScanFlags.NeedReachableIfCantHitFromMyPos | TargetScanFlags.NeedThreat, null, 0f, maxDist, default(IntVec3), 3.40282347E+38f, false);
@@ -61,14 +61,14 @@ namespace CombatExtended
             {
                 return null;
             }
-            if (flag || thing.Position.AdjacentTo8Way(pawn.Position))
+            if (flag || pawn.CanReachImmediate(thing, PathEndMode.Touch))
             {
                 return new Job(JobDefOf.AttackMelee, thing);
             }
 
             // Check for reload before attacking
-            bool allowManualCastWeapons = !pawn.IsColonist;  //TODO: Is this correct?
-            Verb verb = pawn.TryGetAttackVerb(thing, allowManualCastWeapons);
+            //bool allowManualCastWeapons = !pawn.IsColonist;  //TODO: Is this correct?
+            Verb verb = pawn.TryGetAttackVerb(thing);
             if (pawn.equipment.Primary != null && pawn.equipment.PrimaryEq != null && verb != null && verb == pawn.equipment.PrimaryEq.PrimaryVerb)
             {
                 CompAmmoUser compAmmo = pawn.equipment.Primary.TryGetComp<CompAmmoUser>();

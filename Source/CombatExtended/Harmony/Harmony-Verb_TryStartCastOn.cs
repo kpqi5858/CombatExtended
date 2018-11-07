@@ -56,9 +56,34 @@ using Verse.AI;
             	yield return instruction;
             }
 		}
-		
-		// Functions like a prefix.  If this has something to do return false. if nothing to do return true.
-		static bool CheckReload(Verb __instance)
+
+        [HarmonyPatch(typeof(Verb), "TryStartCastOn", new Type[] { typeof(LocalTargetInfo), typeof(bool), typeof(bool) })]
+        internal static class Harmony_Verb
+        {
+            internal static void Postfix(Verb __instance, ref bool __result, LocalTargetInfo castTarg, bool surpriseAttack = false, bool canHitNonTargetPawns = true)
+            {
+                if (__result)
+                {
+                    if (__instance.CasterIsPawn && __instance.verbProps.warmupTime > 0f && __instance.verbProps.verbClass != null && __instance.verbProps.verbClass == typeof(Verb_ShootCE))
+                    {
+                        bool extcheck = __instance is Verb_ShootCEOneUse || __instance is Verb_ShootMortarCE;
+                        if (!extcheck)
+                        {
+                            ShootLine newShootLine;
+                            Verb_LaunchProjectileCE vlCE = __instance as Verb_LaunchProjectileCE;
+                            if (!vlCE.TryFindCEShootLineFromTo(__instance.caster.Position, castTarg, out newShootLine))
+                            {
+                                __result = false;
+                            }
+                            __instance.CasterPawn.Drawer.Notify_WarmingCastAlongLine(newShootLine, __instance.caster.Position);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Functions like a prefix.  If this has something to do return false. if nothing to do return true.
+        static bool CheckReload(Verb __instance)
 		{
 			if (!(__instance is Verb_ShootCE || __instance is Verb_ShootCEOneUse))
 				return true; // no work to do as the verb isn't the right kind.

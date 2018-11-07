@@ -33,5 +33,11 @@ namespace CombatExtended
         {
             compClass = typeof(CompExplosiveCE);
         }
+
+        public override void ResolveReferences(ThingDef parentDef)
+        {
+            base.ResolveReferences(parentDef);
+            if (explosionDamageDef == null) explosionDamageDef = DamageDefOf.Bomb;
+        }
     }
 }

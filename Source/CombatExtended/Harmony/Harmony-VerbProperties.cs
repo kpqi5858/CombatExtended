@@ -21,4 +21,14 @@ namespace CombatExtended.Harmony
             }
         }
     }
+
+    [HarmonyPatch(typeof(VerbProperties))]
+    [HarmonyPatch("CausesExplosion", MethodType.Getter)]
+    internal static class VerbProperties_Patch
+    {
+        internal static void Postfix(VerbProperties __instance, ref bool __result)
+        {
+            __result = __instance.defaultProjectile != null && (typeof(Projectile_Explosive).IsAssignableFrom(__instance.defaultProjectile.thingClass) || typeof(ProjectileCE_Explosive).IsAssignableFrom(__instance.defaultProjectile.thingClass) || typeof(Projectile_DoomsdayRocket).IsAssignableFrom(__instance.defaultProjectile.thingClass));
+        }
+    }
 }

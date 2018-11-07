@@ -338,7 +338,7 @@ namespace CombatExtended
 	            
 	            var shape = props.bodyShape;
 	            
-	            if (shape == CE_BodyShapeDefOf.Invalid)
+	            if (shape == null || shape == CE_BodyShapeDefOf.Invalid)
 	            {
 	            	Log.ErrorOnce("CE returning BodyType Undefined for pawn " + pawn.ToString(),  35000198 + pawn.GetHashCode());
 	            }

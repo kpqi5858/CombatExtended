@@ -18,7 +18,7 @@ namespace CombatExtended
      * 
      * -NIA
      */
-    public class Verb_MeleeAttackCE : Verb_MeleeAttack
+    public class Verb_MeleeAttackCE : Verb_MeleeAttackDamage
     {
 
         #region Constants
@@ -188,8 +188,8 @@ namespace CombatExtended
                 CreateCombatLog((ManeuverDef maneuver) => maneuver.combatLogRulesMiss, false);
             }
             if (!moteText.NullOrEmpty())
-                MoteMaker.ThrowText(targetThing.PositionHeld.ToVector3Shifted(), targetThing.MapHeld, moteText);
-            soundDef.PlayOneShot(new TargetInfo(targetThing.PositionHeld, targetThing.MapHeld));
+                MoteMaker.ThrowText(targetThing.PositionHeld.ToVector3Shifted(), casterPawn.Map, moteText);
+            soundDef.PlayOneShot(new TargetInfo(targetThing.PositionHeld, casterPawn.Map));
             casterPawn.Drawer.Notify_MeleeAttackOn(targetThing);
             if (defender != null && !defender.Dead)
             {
@@ -220,6 +220,7 @@ namespace CombatExtended
             //START 1:1 COPY Verb_MeleeAttack.DamageInfosToApply
             float damAmount = this.verbProps.AdjustedMeleeDamageAmount(this, base.CasterPawn);
             float armorPenetration = this.verbProps.AdjustedArmorPenetration(this, base.CasterPawn);
+            if (isCrit) armorPenetration *= 4;
             DamageDef damDef = isCrit && critDamDef != DamageDefOf.Stun ? critDamDef : verbProps.meleeDamageDef; //Alteration	//Added isCrit check
             BodyPartGroupDef bodyPartGroupDef = null;
             HediffDef hediffDef = null;
@@ -359,9 +360,12 @@ namespace CombatExtended
                 var pawn = target.Thing as Pawn;
                 if (pawn != null && !pawn.Dead)
                 {
-                    //pawn.stances?.stunner.StunFor(KnockdownDuration);
-                    pawn.stances?.SetStance(new Stance_Cooldown(KnockdownDuration, pawn, null));
-                    pawn.jobs?.StartJob(new Job(CE_JobDefOf.WaitKnockdown) { expiryInterval = KnockdownDuration }, JobCondition.InterruptForced, null, false, false);
+                    if ((CasterPawn.RaceProps.baseBodySize * 1.5f) > pawn.RaceProps.baseBodySize)
+                    {
+                        //pawn.stances?.stunner.StunFor(KnockdownDuration);
+                        pawn.stances?.SetStance(new Stance_Cooldown(KnockdownDuration, pawn, null));
+                        pawn.jobs?.StartJob(new Job(CE_JobDefOf.WaitKnockdown) { expiryInterval = KnockdownDuration }, JobCondition.InterruptForced, null, false, false);
+                    }
                 }
             }
             isCrit = false;
