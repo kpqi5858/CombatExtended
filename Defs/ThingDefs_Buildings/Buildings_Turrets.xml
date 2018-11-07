@@ -3,6 +3,9 @@
 
   <ThingDef Name="TurretBase" ParentName="BuildingBase" Abstract="True">
     <thingClass>CombatExtended.Building_TurretGunCE</thingClass>
+        <thingCategories>
+      <li>WeaponsTurrets</li>
+    </thingCategories>
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
       <damageData>

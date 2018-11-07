@@ -76,8 +76,7 @@
     <deathMessage>{0} has been electrocuted.</deathMessage>
     <hediff>ElectricalBurn</hediff>
     <impactSoundType>Electric</impactSoundType> 
-    <armorCategory>Electric</armorCategory>
-    <explosionDamage>10</explosionDamage>
+    <defaultDamage>10</defaultDamage>
     <explosionHeatEnergyPerCell>10</explosionHeatEnergyPerCell>
     <explosionCellMote>Mote_BlastEMP</explosionCellMote>
     <explosionInteriorMote>Mote_ElectricalSpark</explosionInteriorMote>

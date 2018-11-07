@@ -16,7 +16,7 @@
   </PawnKindDef>
 
   <PawnKindDef ParentName="MercenaryBase">
-    <defName>MercenaryMachineGunner</defName>
+    <defName>Mercenary_MachineGunner</defName>
     <label>mercenary machine gunner</label>
     <combatPower>95</combatPower>
     <gearHealthRange>
@@ -33,8 +33,8 @@
     </apparelMoney>
     <apparelAllowHeadgearChance>0.5</apparelAllowHeadgearChance>
     <weaponMoney>
-      <min>400</min>
-      <max>500</max>
+      <min>450</min>
+      <max>550</max>
     </weaponMoney>
     <weaponTags>
       <li>CE_MachineGun</li>
@@ -85,7 +85,7 @@
   </PawnKindDef>
 
   <PawnKindDef ParentName="TribalBase">
-    <defName>TribalGrenadier</defName>
+    <defName>Tribal_Grenadier</defName>
     <label>boomer</label>
     <combatPower>60</combatPower>
     <maxGenerationAge>40</maxGenerationAge>
@@ -127,7 +127,7 @@
   </PawnKindDef>
 
   <PawnKindDef ParentName="TribalBase">
-    <defName>TribalGunner</defName>
+    <defName>Tribal_Gunner</defName>
     <label>thunderer</label>
     <combatPower>50</combatPower>
     <minGenerationAge>25</minGenerationAge>

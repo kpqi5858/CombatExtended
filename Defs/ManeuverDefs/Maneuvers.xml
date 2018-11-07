@@ -8,7 +8,10 @@
       <verbClass>Verb_MeleeAttack</verbClass>
       <meleeDamageDef>Slash</meleeDamageDef>
     </verb>
-    <combatLogRules>Maneuver_Slash</combatLogRules>
+        <combatLogRulesHit>Maneuver_Slash_MeleeHit</combatLogRulesHit>
+    <combatLogRulesDeflect>Maneuver_Slash_MeleeDeflect</combatLogRulesDeflect>
+    <combatLogRulesMiss>Maneuver_Slash_MeleeMiss</combatLogRulesMiss>
+    <combatLogRulesDodge>Maneuver_Slash_MeleeDodge</combatLogRulesDodge>
   </ManeuverDef>
 
 </Defs>
