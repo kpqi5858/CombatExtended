@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
 
-  <!-- ========== Remove elite gun tag from inappropriate weapons ========== -->
-
-  <Operation Class="PatchOperationRemove">
-    <xpath>*/ThingDef[defName="Gun_LMG" or "Gun_AssaultRifle"]/weaponTags/li[.="EliteGun"]</xpath>
-  </Operation>
-
   <!-- ========== Revolver ========== -->
 
   <Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
@@ -1042,10 +1036,10 @@
     </value>
   </Operation>
 
-  <!-- ========== Improvised turret gun ========== -->
+  <!-- ========== mini turret gun ========== -->
 
   <Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
-    <defName>Gun_TurretImprovised</defName>
+    <defName>Gun_MiniTurret</defName>
     <statBases>
       <RangedWeapon_Cooldown>0.93</RangedWeapon_Cooldown>
       <SightsEfficiency>1</SightsEfficiency>
@@ -1079,6 +1073,45 @@
       <noSingleShot>true</noSingleShot>
     </FireModes>
   </Operation>
+
+  <!-- ========== auto cannon gun ========== -->
+
+  <Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
+    <defName>Gun_AutocannonTurret</defName>
+    <statBases>
+      <RangedWeapon_Cooldown>1.23</RangedWeapon_Cooldown>
+      <SightsEfficiency>1.5</SightsEfficiency>
+      <ShotSpread>0.02</ShotSpread>
+      <SwayFactor>0.82</SwayFactor>
+      <Bulk>8.00</Bulk>
+    </statBases>
+    <Properties>
+      <recoilAmount>1.00</recoilAmount>
+      <verbClass>CombatExtended.Verb_ShootCE</verbClass>
+      <hasStandardCommand>true</hasStandardCommand>
+      <defaultProjectile>Ammo_50BMG_FMJ</defaultProjectile>
+      <warmupTime>1.1</warmupTime>
+      <range>48</range>
+      <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+      <burstShotCount>7</burstShotCount>
+      <soundCast>Shot_Autocannon</soundCast>
+      <soundCastTail>GunTail_Heavy</soundCastTail>
+      <muzzleFlashScale>15</muzzleFlashScale>
+      <recoilPattern>Mounted</recoilPattern>
+    </Properties>
+    <AmmoUser>
+      <magazineSize>100</magazineSize>
+      <reloadTime>8.8</reloadTime>
+      <spawnUnloaded>false</spawnUnloaded>
+      <ammoSet>AmmoSet_50BMG</ammoSet>
+    </AmmoUser>
+    <FireModes>
+      <aiAimMode>AimedShot</aiAimMode>
+      <noSnapshot>true</noSnapshot>
+      <noSingleShot>true</noSingleShot>
+    </FireModes>
+  </Operation>
+
 
   <!-- ========== Minigun ========== -->
 

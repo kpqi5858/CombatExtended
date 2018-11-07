@@ -99,7 +99,7 @@
     <xpath>*/PawnKindDef[defName="Mercenary_Sniper"]/weaponMoney</xpath>
     <value>
       <weaponMoney>
-        <min>370</min>
+        <min>420</min>
         <max>550</max>
       </weaponMoney>
     </value>
@@ -299,7 +299,7 @@
     <xpath>*/PawnKindDef[defName="Scavenger"]/weaponMoney</xpath>
     <value>
       <weaponMoney>
-        <min>135</min>
+        <min>150</min>
         <max>250</max>
       </weaponMoney>
     </value>
@@ -630,7 +630,7 @@
   </Operation>
 
   <Operation Class="PatchOperationReplace">
-    <xpath>*/PawnKindDef[defName="TribalChiefBase"]/weaponMoney</xpath>
+    <xpath>*/PawnKindDef[@Name="TribalChiefBase"]/weaponMoney</xpath>
     <value>
       <weaponMoney>
         <min>230</min>

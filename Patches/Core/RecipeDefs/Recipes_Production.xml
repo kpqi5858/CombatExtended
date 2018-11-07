@@ -4,10 +4,10 @@
 	<Operation Class="PatchOperationAdd">
 		<xpath>*/RecipeDef[defName="SmeltWeapon"]/fixedIngredientFilter</xpath>
 		<value>
-			<exceptedCategories>
+			<categories>
 			  <li>Ammo</li>
 			  <li>WeaponsTurrets</li>
-			</exceptedCategories>
+			</categories>
 		</value>
 	</Operation>
 
