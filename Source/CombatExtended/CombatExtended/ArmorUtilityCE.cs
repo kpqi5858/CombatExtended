@@ -105,21 +105,23 @@ namespace CombatExtended
                         return dinfo;
                     }
                 }
-
-                // Apparel is arranged in draw order, we run through reverse to go from Shell -> OnSkin
-                for (int i = apparel.Count - 1; i >= 0; i--)
+                if (!apparel.NullOrEmpty())
                 {
-                    if (apparel[i].def.apparel.CoversBodyPart(hitPart) 
-                        && !TryPenetrateArmor(dinfo.Def, apparel[i].GetStatValue(dinfo.Def.armorCategory.armorRatingStat), ref penAmount, ref dmgAmount, apparel[i]))
+                    // Apparel is arranged in draw order, we run through reverse to go from Shell -> OnSkin
+                    for (int i = apparel.Count - 1; i >= 0; i--)
                     {
-                        // Hit was deflected, convert damage type
-                        dinfo = GetDeflectDamageInfo(dinfo, hitPart);
-                        i++;    // We apply this piece of apparel twice on conversion, this means we can't use deflection on Blunt or else we get an infinite loop of eternal deflection
-                    }
-                    if (dmgAmount <= 0)
-                    {
-                        dinfo.SetAmount(0);
-                        return dinfo;
+                        if (apparel[i].def.apparel.CoversBodyPart(hitPart)
+                            && !TryPenetrateArmor(dinfo.Def, apparel[i].GetStatValue(dinfo.Def.armorCategory.armorRatingStat), ref penAmount, ref dmgAmount, apparel[i]))
+                        {
+                            // Hit was deflected, convert damage type
+                            dinfo = GetDeflectDamageInfo(dinfo, hitPart);
+                            i++;    // We apply this piece of apparel twice on conversion, this means we can't use deflection on Blunt or else we get an infinite loop of eternal deflection
+                        }
+                        if (dmgAmount <= 0)
+                        {
+                            dinfo.SetAmount(0);
+                            return dinfo;
+                        }
                     }
                 }
             }
