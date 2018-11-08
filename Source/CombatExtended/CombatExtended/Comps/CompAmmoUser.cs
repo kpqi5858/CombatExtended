@@ -290,11 +290,12 @@ namespace CombatExtended
 
             if (UseAmmo)
             {
-            	TryUnload();
+                if (!Props.reloadOneAtATime) TryUnload();
             	
                 // Check for ammo
                 if (Wielder != null && !HasAmmo)
                 {
+                    if (!(Props.reloadOneAtATime && curMagCountInt > 0))
                     DoOutOfAmmoAction();
                     return;
                 }
@@ -445,6 +446,11 @@ namespace CombatExtended
             else
             {
                 newMagCount = (Props.reloadOneAtATime) ? (curMagCountInt + 1) : Props.magazineSize;
+            }
+            if (newMagCount > Props.magazineSize)
+            {
+                Log.Error(Holder.LabelShort + " tried to reload over weapon's max magzine size.");
+                newMagCount = Props.magazineSize;
             }
             curMagCountInt = newMagCount;
             if (turret != null) turret.isReloading = false;

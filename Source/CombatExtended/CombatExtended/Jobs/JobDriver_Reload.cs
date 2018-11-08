@@ -140,7 +140,7 @@ namespace CombatExtended
             this.FailOnMentalState(indReloader);
             this.FailOnDestroyedOrNull(indWeapon);
             this.FailOn(HasNoGunOrAmmo);
-
+            this.FailOn(() => compReloader.Props.reloadOneAtATime && compReloader.CurMagCount >= compReloader.Props.magazineSize);
             // Throw mote
             if (compReloader.ShouldThrowMote)
                 MoteMaker.ThrowText(pawn.Position.ToVector3Shifted(), Find.CurrentMap, string.Format("CE_ReloadingMote".Translate(), weapon.def.LabelCap));
