@@ -15,8 +15,7 @@ namespace CombatExtended.Harmony
     {
         public static bool Prefix(SmokepopBelt __instance, DamageInfo dinfo)
         {
-            if (__instance.Position.InBounds(__instance.Map)
-                && !dinfo.Def.isExplosive 
+            if (!dinfo.Def.isExplosive 
                 && dinfo.Def.harmsHealth 
                 && dinfo.Def.ExternalViolenceFor(dinfo.IntendedTarget) 
                 && dinfo.Weapon != null 
