@@ -20,7 +20,7 @@ namespace CombatExtended.Harmony
         {
             MethodBase from = typeof(Mathf).GetMethod("RoundToInt", AccessTools.all);
             MethodBase to = typeof(Mathf).GetMethod("CeilToInt", AccessTools.all);
-            return instructions.MethodReplacer(from, to);
+            return Transpilers.MethodReplacer(instructions, from, to);
         }
     }
 }

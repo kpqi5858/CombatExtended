@@ -42,6 +42,25 @@ namespace CombatExtended
             UIHighlighter.HighlightOpportunity(rect2, "CE_ManageLoadouts");
         }
 
+        private IEnumerable<Widgets.DropdownMenuElement<Loadout>> Button_GenerateMenu(Pawn pawn)
+        {
+            using (List<Loadout>.Enumerator enu = LoadoutManager.Loadouts.GetEnumerator())
+            {
+                while (enu.MoveNext())
+                {
+                    Loadout loadout = enu.Current;
+                    yield return new Widgets.DropdownMenuElement<Loadout>
+                    {
+                        option = new FloatMenuOption(loadout.LabelCap, delegate ()
+                        {
+                            pawn.SetLoadout(loadout);
+                        }),
+                        payload = loadout
+                    };
+                }
+            }
+        }
+
         /* (ProfoundDarkness) I've intentionally left some code remarked in the following code because it's a useful guide on how to create
          * and maintain the transpilers that will do nearly identical changes to RimWorld's code for the other 2 PawnColumnWorkers.
          */
@@ -69,7 +88,7 @@ namespace CombatExtended
 
             // Main loadout button
             string label = pawn.GetLoadout().label.Truncate(loadoutButtonRect.width, null);
-            if (Widgets.ButtonText(loadoutButtonRect, label, true, false, true))
+            /*if (Widgets.ButtonText(loadoutButtonRect, label, true, false, true))
             {
                 LoadoutManager.SortLoadouts();
                 List<FloatMenuOption> options = new List<FloatMenuOption>();
@@ -83,8 +102,9 @@ namespace CombatExtended
                     }, MenuOptionPriority.Default, null, null));
                 }
                 Find.WindowStack.Add(new FloatMenu(options));
-            }
+            }*/
 
+            Widgets.Dropdown<Pawn, Loadout>(loadoutButtonRect, pawn, (Pawn p) => p.GetLoadout(), new Func<Pawn, IEnumerable<Widgets.DropdownMenuElement<Loadout>>>(Button_GenerateMenu), label, null, null, null, null, true);
             // Clear forced button
             num3 += loadoutButtonRect.width;
             num3 += 4f;

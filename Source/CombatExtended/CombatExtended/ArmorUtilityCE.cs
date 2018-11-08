@@ -447,7 +447,13 @@ namespace CombatExtended
         /// <returns>DamageInfo copied from dinfo with Def and forceHitPart adjusted</returns>
         private static DamageInfo GetDeflectDamageInfo(DamageInfo dinfo, BodyPartRecord hitPart)
         {
-            DamageInfo newDinfo = new DamageInfo(DamageDefOf.Blunt, dinfo.Amount, 0, //Armor Penetration
+            float ap = 0f;
+            if (dinfo.Weapon?.projectile != null)
+            {
+                ProjectilePropertiesCE pce = dinfo.Weapon.projectile as ProjectilePropertiesCE;
+                if (pce != null) ap = pce.armorPenetration;
+            }
+            DamageInfo newDinfo = new DamageInfo(DamageDefOf.Blunt, dinfo.Amount, ap, //Armor Penetration
                 dinfo.Angle, dinfo.Instigator, GetOuterMostParent(hitPart), dinfo.Weapon);
             newDinfo.SetBodyRegion(dinfo.Height, dinfo.Depth);
             newDinfo.SetWeaponBodyPartGroup(dinfo.WeaponBodyPartGroup);

@@ -69,7 +69,7 @@ namespace CombatExtended
             // Check for reload before attacking
             //bool allowManualCastWeapons = !pawn.IsColonist;  //TODO: Is this correct?
             Verb verb = pawn.TryGetAttackVerb(thing);
-            if (pawn.equipment.Primary != null && pawn.equipment.PrimaryEq != null && verb != null && verb == pawn.equipment.PrimaryEq.PrimaryVerb)
+            if (pawn.equipment.Primary != null && pawn.equipment.PrimaryEq != null && verb != null && verb == pawn.CurrentEffectiveVerb)
             {
                 CompAmmoUser compAmmo = pawn.equipment.Primary.TryGetComp<CompAmmoUser>();
                 if (compAmmo != null && !compAmmo.CanBeFiredNow)

@@ -78,6 +78,7 @@ namespace CombatExtended
         protected override bool TryCastShot()
         {
             Pawn casterPawn = CasterPawn;
+            if (!casterPawn.Spawned) return false;
             if (casterPawn.stances.FullBodyBusy)
             {
                 return false;
@@ -107,6 +108,7 @@ namespace CombatExtended
             string moteText = "";
             SoundDef soundDef;
             Pawn defender = targetThing as Pawn;
+
             //var hitRoll = Rand.Value;
             if (Rand.Chance(GetHitChance(targetThing)))
             {
@@ -200,7 +202,7 @@ namespace CombatExtended
                     defender.mindState.lastMeleeThreatHarmTick = Find.TickManager.TicksGame;
                 }
             }
-            casterPawn.rotationTracker.FaceCell(targetThing.Position);
+            if (casterPawn.Spawned) casterPawn.rotationTracker.FaceCell(targetThing.Position);
             if (casterPawn.caller != null)
             {
                 casterPawn.caller.Notify_DidMeleeAttack();
