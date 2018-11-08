@@ -674,7 +674,7 @@ namespace CombatExtended
 
         private static int fixedsearchrange(Pawn pawn, Thing t, float dangerange = 30, int maxtotalrange = 25, int mintotalrange = 6)
         {
-            if (NoDangerInPosRadius(pawn, t.Position, Find.CurrentMap, dangerange, false))
+            if (NoDangerInPosRadius(pawn, t.Position, pawn.Map, dangerange, false))
             {
                 return maxtotalrange;
             }

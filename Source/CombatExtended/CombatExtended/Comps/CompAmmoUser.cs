@@ -380,7 +380,7 @@ namespace CombatExtended
         {
             if (ShouldThrowMote)
             {
-                MoteMaker.ThrowText(Position.ToVector3Shifted(), Find.CurrentMap, "CE_OutOfAmmo".Translate() + "!");
+                MoteMaker.ThrowText(Position.ToVector3Shifted(), Map, "CE_OutOfAmmo".Translate() + "!");
             }
             if (Wielder != null && CompInventory != null && (Wielder.CurJob == null || Wielder.CurJob.def != JobDefOf.Hunt)) CompInventory.SwitchToNextViableWeapon();
         }
@@ -454,7 +454,7 @@ namespace CombatExtended
             }
             curMagCountInt = newMagCount;
             if (turret != null) turret.isReloading = false;
-            if (parent.def.soundInteract != null) parent.def.soundInteract.PlayOneShot(new TargetInfo(Position,  Find.CurrentMap, false));
+            if (parent.def.soundInteract != null) parent.def.soundInteract.PlayOneShot(new TargetInfo(Position,  Map, false));
         }
 
         /// <summary>
