@@ -136,12 +136,6 @@ namespace CombatExtended
         {
             if (AmmoDef.cookOffProjectile == null) return false;
 
-            Fire fire = Position.GetThingList(Map).Find(f => f.Spawned && f is Fire) as Fire;
-            if (fire != null && fire.fireSize < 0.35)
-            {
-                return false;
-            }
-
             // Spawn projectile if enabled
             if (!Controller.settings.RealisticCookOff)
             {

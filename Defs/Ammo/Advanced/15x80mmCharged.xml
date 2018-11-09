@@ -57,7 +57,7 @@
     </graphicData>
     <projectile Class="CombatExtended.ProjectilePropertiesCE">
       <damageDef>Bullet</damageDef>
-      <damageAmountBase>40</damageAmountBase>
+      <damageAmountBase>45</damageAmountBase>
       <speed>250</speed>
       <secondaryDamage>
         <li>
@@ -65,7 +65,7 @@
           <amount>15</amount>
         </li>
       </secondaryDamage>
-      <armorPenetration>1.7</armorPenetration>
+      <armorPenetration>1.8</armorPenetration>
     </projectile>
   </ThingDef>
   
@@ -83,7 +83,7 @@
             <li>Plasteel</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>5</count>
       </li>
       <li>
         <filter>
@@ -99,7 +99,7 @@
             <li>ComponentIndustrial</li>
           </thingDefs>
         </filter>
-        <count>1</count>
+        <count>2</count>
       </li>
     </ingredients>
     <fixedIngredientFilter>

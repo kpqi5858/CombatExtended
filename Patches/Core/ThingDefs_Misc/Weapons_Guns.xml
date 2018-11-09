@@ -1118,7 +1118,7 @@
     <defName>Gun_TurretSniper</defName>
     <statBases>
       <RangedWeapon_Cooldown>1.5</RangedWeapon_Cooldown>
-      <SightsEfficiency>3.0</SightsEfficiency>
+      <SightsEfficiency>2.5</SightsEfficiency>
       <ShotSpread>0.04</ShotSpread>
       <SwayFactor>1.70</SwayFactor>
       <Bulk>8.00</Bulk>
