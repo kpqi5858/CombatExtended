@@ -26,7 +26,7 @@
 -->
 
   <Operation Class="PatchOperationRemove">
-  	<xpath>*/FactionDef[defName="OutlanderCivil" or defName="Pirate"]/pawnGroupMakers/li/*/Grenadier_EMP</xpath>
+  	<xpath>*/FactionDef[@Name="OutlanderFactionBase" or defName="Pirate"]/pawnGroupMakers/li/*/Grenadier_EMP</xpath>
   </Operation>
 
   <!-- ========== Add tribal grenadies ========== -->

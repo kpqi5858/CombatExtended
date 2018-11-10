@@ -135,6 +135,9 @@ namespace CombatExtended
         }
         public bool ShouldThrowMote => Props.throwMote && Props.magazineSize > 1;
 
+        private AmmoDef PreviousAmmo;
+        private bool changedAmmoTypeFlag = false;
+
         public AmmoDef SelectedAmmo
         {
             get
@@ -148,6 +151,7 @@ namespace CombatExtended
                 {
                     currentAmmoInt = value;
                 }
+                changedAmmoTypeFlag = true;
             }
         }
 
@@ -174,6 +178,7 @@ namespace CombatExtended
                         currentAmmoInt = (AmmoDef)Props.ammoSet.ammoTypes[0].ammo;
                     if (selectedAmmo == null)
                         selectedAmmo = currentAmmoInt;
+                    PreviousAmmo = currentAmmoInt;
                 }
             }
         }
@@ -290,8 +295,8 @@ namespace CombatExtended
 
             if (UseAmmo)
             {
-                if (!Props.reloadOneAtATime) TryUnload();
-            	
+                if (!(Props.reloadOneAtATime && !changedAmmoTypeFlag)) TryUnload();
+                changedAmmoTypeFlag = false;
                 // Check for ammo
                 if (Wielder != null && !HasAmmo)
                 {
@@ -300,7 +305,7 @@ namespace CombatExtended
                     return;
                 }
             }
-
+            changedAmmoTypeFlag = false;
             // Issue reload job
             if (Wielder != null)
             {
@@ -310,6 +315,7 @@ namespace CombatExtended
             	reloadJob.playerForced = true;
                 Wielder.jobs.StartJob(reloadJob, JobCondition.InterruptForced, null, Wielder.CurJob?.def != reloadJob.def, true);
             }
+
         }
 
         // used by both turrets (JobDriver_ReloadTurret) and pawns (JobDriver_Reload).

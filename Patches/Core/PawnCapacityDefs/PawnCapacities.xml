@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
-
+  <!-- Idk because vanila added this one
   <Operation Class="PatchOperationAdd">
     <xpath>*/PawnCapacityDef[defName="BloodFiltration"]</xpath>
     <value>
@@ -16,7 +16,7 @@
       <lethalMechanoids>true</lethalMechanoids>
     </value>
   </Operation>
-
+  -->
   <Operation Class="PatchOperationAdd">
     <xpath>*/PawnCapacityDef[defName="Breathing"]</xpath>
     <value>

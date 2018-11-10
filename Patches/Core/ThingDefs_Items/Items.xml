@@ -19,7 +19,6 @@
 		<value>
 			<tools>
 				<li Class="CombatExtended.ToolCE">
-					<id>edge</id>
 					<label>edge</label>
 					<capacities>
 						<li>Cut</li>
@@ -30,7 +29,6 @@
 					<linkedBodyPartsGroup>Edge</linkedBodyPartsGroup>
 				</li>
 				<li Class="CombatExtended.ToolCE">
-					<id>point</id>
 					<label>point</label>
 					<capacities>
 						<li>Stab</li>
@@ -79,7 +77,6 @@
 		<value>
 			<tools>
 				<li Class="CombatExtended.ToolCE">
-					<id>edge</id>
 					<label>edge</label>
 					<capacities>
 						<li>Cut</li>
@@ -90,7 +87,6 @@
 					<linkedBodyPartsGroup>Edge</linkedBodyPartsGroup>
 				</li>
 				<li Class="CombatExtended.ToolCE">
-					<id>point</id>
 					<label>point</label>
 					<capacities>
 						<li>Stab</li>
@@ -178,9 +174,16 @@
 		<xpath>*/ThingDef[defName="Plasteel"]/statBases/StuffPower_Armor_Sharp</xpath>
 		<value>
 			<StuffPower_Armor_Sharp>1.12</StuffPower_Armor_Sharp>
+		</value>
+	</Operation>
+
+	<Operation Class="PatchOperationReplace">
+		<xpath>*/ThingDef[defName="Plasteel"]/statBases/StuffPower_Armor_Blunt</xpath>
+		<value>
 			<StuffPower_Armor_Blunt>1.0</StuffPower_Armor_Blunt>
 		</value>
 	</Operation>
+
 
 	<Operation Class="PatchOperationAdd">
 		<xpath>*/ThingDef[defName="Plasteel"]/stuffProps/categories</xpath>

@@ -49,7 +49,7 @@
   <!-- ======================================= Armor vests =======================================-->
 
   <ThingDef ParentName="ArmorMakeableBase">
-    <defName>Apparel_FlakVest</defName>
+    <defName>Apparel_FlakVestCE</defName>
     <label>flak vest</label>
     <description>Padded vest made from bullet-resistant materials. Provides limited protection against shrapnel and gunfire at relatively low weight.</description>
     <techLevel>Industrial</techLevel>
@@ -84,8 +84,8 @@
         <li>Middle</li>
       </layers>
       <tags>
-        <li>Outlander</li>
-        <li>Military</li>
+        <li>IndustrialBasic</li>
+        <li>IndustrialMilitaryBasic</li>
       </tags>
       <defaultOutfitTags>
         <li>Soldier</li>
@@ -132,8 +132,8 @@
         <li>Middle</li>
       </layers>
       <tags>
-        <li>Outlander</li>
-        <li>Military</li>
+        <li>IndustrialBasic</li>
+        <li>IndustrialMilitaryBasic</li>
       </tags>
       <defaultOutfitTags>
         <li>Soldier</li>

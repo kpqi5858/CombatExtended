@@ -347,7 +347,6 @@
 		<value>
 			<tools>
 				<li Class="CombatExtended.ToolCE">
-					<id>shaftblunt</id>
 					<label>shaft</label>
 					<capacities>
 						<li>Blunt</li>
@@ -358,7 +357,6 @@
 					<linkedBodyPartsGroup>Shaft</linkedBodyPartsGroup>
 				</li>
 				<li Class="CombatExtended.ToolCE">
-					<id>shaftpoke</id>
 					<label>point</label>
 					<capacities>
 						<li>Poke</li>
@@ -426,7 +424,6 @@
 		<value>
 			<tools>
 				<li Class="CombatExtended.ToolCE">
-					<id>shaftblunt</id>
 					<label>shaft</label>
 					<capacities>
 						<li>Blunt</li>
@@ -437,7 +434,6 @@
 					<linkedBodyPartsGroup>Shaft</linkedBodyPartsGroup>
 				</li>
 				<li Class="CombatExtended.ToolCE">
-					<id>shaftpoke</id>
 					<label>point</label>
 					<capacities>
 						<li>Poke</li>

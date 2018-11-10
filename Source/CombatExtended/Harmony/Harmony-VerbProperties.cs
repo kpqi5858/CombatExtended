@@ -31,4 +31,5 @@ namespace CombatExtended.Harmony
             __result = __instance.defaultProjectile != null && (typeof(Projectile_Explosive).IsAssignableFrom(__instance.defaultProjectile.thingClass) || typeof(ProjectileCE_Explosive).IsAssignableFrom(__instance.defaultProjectile.thingClass) || typeof(Projectile_DoomsdayRocket).IsAssignableFrom(__instance.defaultProjectile.thingClass));
         }
     }
+
 }

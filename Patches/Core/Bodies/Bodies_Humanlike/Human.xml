@@ -17,7 +17,7 @@
 	<Operation Class="PatchOperationReplace">
   	<xpath>/Defs/BodyDef[defName = "Human"]/corePart/parts/li[def = "Ribcage"]/coverage</xpath>
   	<value>
-    	<coverage>0.011</coverage>
+    	<coverage>0.012</coverage>
   	</value>
 	</Operation>
 

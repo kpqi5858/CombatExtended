@@ -152,10 +152,17 @@ namespace CombatExtended
                 {
                     statBasesElement.RemoveChild(cur);
                 }
+
+                var ws = statBasesElement.SelectNodes("Mass | RangedWeapon_Cooldown | WorkToMake");
+                foreach(XmlNode cur in ws)
+                {
+                    if (statBases.node.SelectSingleNode(cur.Name) != null) statBasesElement.RemoveChild(cur);
+                }
             }
 
 			Populate(xml, statBases.node, ref statBasesElement, true);
         }
+
 
         private void AddOrReplaceCostList(XmlDocument xml, XmlNode xmlNode)
         {

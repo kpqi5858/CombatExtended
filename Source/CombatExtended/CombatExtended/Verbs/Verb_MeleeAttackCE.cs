@@ -408,6 +408,7 @@ namespace CombatExtended
         /// <param name="isRiposte">Whether to do a riposte</param>
         private void DoParry(Pawn defender, Thing parryThing, bool isRiposte = false)
         {
+            if (caster.Map == null) return;
             if (parryThing != null)
             {
                 foreach (var dinfo in DamageInfosToApply(defender))

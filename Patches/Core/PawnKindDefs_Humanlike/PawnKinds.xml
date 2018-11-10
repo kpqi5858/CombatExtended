@@ -72,7 +72,7 @@
           <max>4</max>
         </primaryMagazineCount>
         <shieldMoney>
-          <min>200</min>
+          <min>300</min>
           <max>600</max>
         </shieldMoney>
         <shieldTags>
