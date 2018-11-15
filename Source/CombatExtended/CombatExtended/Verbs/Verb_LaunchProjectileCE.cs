@@ -204,43 +204,35 @@ namespace CombatExtended
                 Vector3 u = CasterPawn != null ? CasterPawn.DrawPos : caster.Position.ToVector3Shifted();
                 sourceLoc.Set(u.x, u.z);
 
-                //    Log.Message("u caster pos: " + u.ToIntVec3().ToString() + "u.x: " + u.x.ToString() + "u.z: " + u.z.ToString());
-
+                
 
                 if (this.numShotsFired == 0)
                 {
                     // On first shot of burst do a range estimate
                     estimatedTargDist = report.GetRandDist();
-                    //        Log.Message("estimatedTargDist: " + estimatedTargDist.ToString());
-                }
+                                    }
                 Vector3 v = report.targetPawn != null ? report.targetPawn.DrawPos + report.targetPawn.Drawer.leaner.LeanOffset * 0.5f : report.target.Cell.ToVector3Shifted();
                 newTargetLoc.Set(v.x, v.z);
 
                 //    if (report.targetPawn != null)
                 //    {
-                //        Log.Message("targetPawn: " + report.targetPawn.ToString() + " pos: " + report.targetPawn.Position.ToString() + " leanoffset: " + report.targetPawn.DrawPos + (report.targetPawn.Drawer.leaner.LeanOffset * 0.5f).ToString());
-                //    }
+                                //    }
 
-                //    Log.Message("report.target.Cell.ToVector3Shifted(): " + report.target.Cell.ToVector3Shifted().ToString() + " report.target.Cell: " + report.target.Cell.ToString());
-
-                //    Log.Message("newtargetLoc 1: " + newTargetLoc.ToString());
-
+                
+                
                 // ----------------------------------- STEP 1: Actual location + Shift for visibility
 
                 //FIXME : GetRandCircularVec may be causing recoil to be unnoticeable - each next shot in the burst has a new random circular vector around the target.
                 newTargetLoc += report.GetRandCircularVec();
 
-                //    Log.Message("newtargetLoc 2: " + newTargetLoc.ToString() + " report.GetRandCircularVec(): " +  report.GetRandCircularVec().ToString());
-                // ----------------------------------- STEP 2: Estimated shot to hit location
+                                // ----------------------------------- STEP 2: Estimated shot to hit location
 
                 newTargetLoc = sourceLoc + (newTargetLoc - sourceLoc).normalized * estimatedTargDist;
 
-                //    Log.Message("newtargetLoc 3: " + newTargetLoc.ToString() + " sourceLoc: " + sourceLoc.ToString() + " estimatedTargDist" + estimatedTargDist.ToString() + " (newTargetLoc - sourceLoc).normalized * estimatedTargDist: " + ((newTargetLoc - sourceLoc).normalized * estimatedTargDist).ToString());
-                // Lead a moving target
+                                // Lead a moving target
                 newTargetLoc += report.GetRandLeadVec();
 
-                //    Log.Message("newtargetLoc 4 : " + newTargetLoc.ToString() + " report.GetRandLeadVec(): " + report.GetRandLeadVec().ToString());
-
+                
                 // ----------------------------------- STEP 3: Recoil, Skewing, Skill checks, Cover calculations
 
                 rotationDegrees = 0f;
@@ -254,23 +246,19 @@ namespace CombatExtended
 
                 var coverRange = new CollisionVertical(report.cover).HeightRange;   //Get " " cover, assume it is the edifice
 
-                //   Log.Message("coverRange: " + coverRange.ToString() + " max: " + coverRange.max.ToString() + " min: " + coverRange.min.ToString());
-
+                
                 // Projectiles with flyOverhead target the surface in front of the target
                 if (Projectile.projectile.flyOverhead)
                 {
                     targetHeight = coverRange.max;
-                    //        Log.Message("targetHeight 1: " + targetHeight.ToString());
-                }
+                                    }
                 else
                 {
                     var victimVert = new CollisionVertical(currentTarget.Thing);
-                    //        Log.Message("victimVert : " + victimVert.ToString() + " currentTarget.Thing: " + currentTarget.Thing.ToString() + " pos: " + currentTarget.Thing.Position.ToString());
-
+                    
                     var targetRange = victimVert.HeightRange;   //Get lower and upper heights of the target
 
-                    //        Log.Message("targetRange : " + targetRange.ToString() + " max: " + targetRange.max.ToString() + " min: " + targetRange.min.ToString());
-                    /*if (currentTarget.Thing is Building && CompFireModes?.CurrentAimMode == AimMode.SuppressFire)
+                                        /*if (currentTarget.Thing is Building && CompFireModes?.CurrentAimMode == AimMode.SuppressFire)
                     {
                     	targetRange.min = targetRange.max;
                     	targetRange.max = targetRange.min + 1f;
@@ -292,32 +280,26 @@ namespace CombatExtended
                         // Aim for center of mass on an exposed target
                         targetRange.min = victimVert.BottomHeight;
                         targetRange.max = victimVert.MiddleHeight;
-                        //                Log.Message("targetHeight 2: " + targetHeight.ToString());
-                    }
+                                            }
                     targetHeight = targetRange.Average;
-                    //            Log.Message("targetHeight 3: " + targetHeight.ToString());
-                }
+                                    }
                 angleRadians += ProjectileCE.GetShotAngle(ShotSpeed, (newTargetLoc - sourceLoc).magnitude, targetHeight - ShotHeight, Projectile.projectile.flyOverhead, projectilePropsCE.Gravity);
 
-                //        Log.Message("angleRadians: " + angleRadians.ToString());
-            }
+                            }
 
             // ----------------------------------- STEP 4: Mechanical variation
 
             // Get shotvariation, in angle Vector2 RADIANS.
             Vector2 spreadVec = report.GetRandSpreadVec();
 
-            //    Log.Message("spreadVec: " + spreadVec.ToString());
-
+            
             // ----------------------------------- STEP 5: Finalization
 
             var w = (newTargetLoc - sourceLoc);
             shotRotation = (-90 + Mathf.Rad2Deg * Mathf.Atan2(w.y, w.x) + rotationDegrees + spreadVec.x) % 360;
             shotAngle = angleRadians + spreadVec.y * Mathf.Deg2Rad;
 
-            //    Log.Message("Mathf.Atan2(-w.y, w.x): " + Mathf.Atan2(-w.y, w.x).ToString() + "rotationDegrees: " + rotationDegrees.ToString() + "spreadVec.x: " + spreadVec.x.ToString());
-            //    Log.Message("w: " + w.ToString() + "shotRotation: " +shotRotation.ToString() + " shotAngle" + shotAngle.ToString());
-
+                        
 
         }
 
@@ -356,8 +338,7 @@ namespace CombatExtended
             */
             float recoilMagnitude = Mathf.Pow((5 - ShootingAccuracy), (Mathf.Min(10, numShotsFired) / 6.25f));
 
-            //    Log.Message("ShootingAccuracy: " + ShootingAccuracy.ToString() + " AimingAccuracy: " + AimingAccuracy.ToString() + " SightsEfficiency: " + SightsEfficiency.ToString());
-
+            
 
             rotation += recoilMagnitude * UnityEngine.Random.Range(minX, maxX);
             angle += Mathf.Deg2Rad * recoilMagnitude * UnityEngine.Random.Range(minY, maxY);
@@ -595,9 +576,7 @@ namespace CombatExtended
                     EquipmentSource
                 );
                 pelletMechanicsOnly = true;
-                //    Log.Message("proj: " + projectile.ToString() + " shootlineSource: " + shootLine.Source.ToString() + " caster: " + caster.ToString() + " currentTarget.Thing: " + currentTarget.Thing.ToString() + " report: " + report.ToString());
-                //    Log.Message("minCollisionSqr: " + projectile.minCollisionSqr.ToString() + " intendedTarget : " + projectile.intendedTarget.ToString() + " Shooter: " + Shooter.ToString()
-                //        + " sourceLoc: " + sourceLoc.ToString() + " shotAngle: " + shotAngle.ToString() + " shotRotation: " + shotRotation.ToString() + " ShotHeight: " + ShotHeight.ToString()
+                                                //        + " sourceLoc: " + sourceLoc.ToString() + " shotAngle: " + shotAngle.ToString() + " shotRotation: " + shotRotation.ToString() + " ShotHeight: " + ShotHeight.ToString()
                 //        + " ShotHeight: " + ShotHeight.ToString() + "ShotSpeed: " + ShotSpeed.ToString() + " EquipmentSource: " + EquipmentSource.ToString());
             }
             pelletMechanicsOnly = false;
@@ -649,21 +628,17 @@ namespace CombatExtended
 
         public bool TryFindCEShootLineFromTo(IntVec3 root, LocalTargetInfo targ, out ShootLine resultingLine)
         {
-            //    Log.Message("root: " + root.ToString() + " target: " + targ.Thing.ToString() + " pos: " + targ.Cell.ToString());
-            if (targ.HasThing && targ.Thing.Map != this.caster.Map)
+                        if (targ.HasThing && targ.Thing.Map != this.caster.Map)
             {
                 resultingLine = default(ShootLine);
-                //        Log.Message("shootline false: 1" + " line: " + resultingLine.ToString());
-                return false;
+                                return false;
             }
-            //    Log.Message("effminrange: " + this.verbProps.EffectiveMinRange(targ, this.caster).ToString() + " meleerange: " + ShootTuning.MeleeRange);
-
+            
             if (this.verbProps.IsMeleeAttack)
             {
                 resultingLine = new ShootLine(root, targ.Cell);
                 var ri = ReachabilityImmediate.CanReachImmediate(root, targ, this.caster.Map, PathEndMode.Touch, null);
-                //        Log.Message("ri: " + ri.ToString() + " line: " + resultingLine.ToString());
-                return ri;
+                                return ri;
             }
 
             CellRect cellRect = (!targ.HasThing) ? CellRect.SingleCell(targ.Cell) : targ.Thing.OccupiedRect();
@@ -671,16 +646,14 @@ namespace CombatExtended
             if (num > this.verbProps.range * this.verbProps.range || num < this.verbProps.minRange * this.verbProps.minRange)
             {
                 resultingLine = new ShootLine(root, targ.Cell);
-                //        Log.Message("shootline false: 2" + " line: " + resultingLine.ToString());
-                return false;
+                                return false;
             }
 
             //if (!this.verbProps.NeedsLineOfSight) This method doesn't consider the currently loaded projectile
             if (Projectile.projectile.flyOverhead)
             {
                 resultingLine = new ShootLine(root, targ.Cell);
-                //        Log.Message("shootline true: 3" + " line: " + resultingLine.ToString());
-                return true;
+                                return true;
             }
 
             if (this.CasterIsPawn)
@@ -693,8 +666,7 @@ namespace CombatExtended
                     if (this.CanHitFromCellIgnoringRange(root, root, targ, out dest))
                     {
                         resultingLine = new ShootLine(root, dest);
-                        //              Log.Message("shootline true: 4" + " line: " + resultingLine.ToString());
-                        return true;
+                                                return true;
                     }
                 }
 
@@ -705,8 +677,7 @@ namespace CombatExtended
                     int cachedbz = -1;
                     int cachedbx = -1;
 
-                    //    Log.Message("pawn: " + CasterPawn.ToString() + " pawn pos: " + root.ToString() + " target: " + targ.Thing.ToString() + " target pos: " + targ.Cell.ToString());
-                    foreach (var bsp in tempLeanShootSources)
+                                        foreach (var bsp in tempLeanShootSources)
                     {
                         var bz = Mathf.Abs(bsp.z - targ.Cell.z);
                         if (cachedbz < 0 || (bz < cachedbz))
@@ -723,13 +694,11 @@ namespace CombatExtended
                         }
                     }
                     bestshootposition = new IntVec3(bestX, root.y, bestZ);
-                    //    Log.Message("bestshootposition: " + bestshootposition.ToString());
-
+                    
                     if (this.CanHitFromCellIgnoringRange(bestshootposition, root, targ, out dest))
                     {
                         resultingLine = new ShootLine(bestshootposition, dest);
-                        //        Log.Message("shootline true: 5" + " line: " + resultingLine.ToString());
-                        return true;
+                                                return true;
                     }
                 }
                 else
@@ -740,8 +709,7 @@ namespace CombatExtended
                         if (this.CanHitFromCellIgnoringRange(intVec, root, targ, out dest))
                         {
                             resultingLine = new ShootLine(intVec, dest);
-                            //            Log.Message("shootline true: 6" + " line: " + resultingLine.ToString());
-                            return true;
+                                                        return true;
                         }
                     }
                 }
@@ -756,15 +724,13 @@ namespace CombatExtended
                     if (this.CanHitFromCellIgnoringRange(current, root, targ, out dest))
                     {
                         resultingLine = new ShootLine(current, dest);
-                        //            Log.Message("shootline true: 7: " + " line: " + resultingLine.ToString());
-                        return true;
+                                                return true;
                     }
                     iterator.MoveNext();
                 }
             }
             resultingLine = new ShootLine(root, targ.Cell);
-            //    Log.Message("shootline false: 8" + " line: " + resultingLine.ToString());
-            return false;
+                        return false;
         }
 
         private bool CanHitFromCellIgnoringRange(IntVec3 sourceCell, IntVec3 rootCell, LocalTargetInfo targ, out IntVec3 goodDest)
@@ -863,8 +829,7 @@ namespace CombatExtended
                     if (cover != null && cover != ShooterPawn && cover != caster && cover != targetThing && !cover.IsPlant())
                     {
                         //    var tr = cover.Position.AdjacentTo8Way(sourceSq);
-                        //    Log.Message("cover: " + cover.ToString() + " value: " + tr.ToString());
-
+                        
                         if (VerbPropsCE.verbClass == typeof(Verb_ShootCEOneUse) && cover.def.fillPercent < 0.8)
                         {
                             return true;

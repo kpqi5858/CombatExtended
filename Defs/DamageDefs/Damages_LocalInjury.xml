@@ -19,6 +19,7 @@
     <deathMessage>{0} has been shredded to death.</deathMessage>
     <hediff>Shredded</hediff>
     <hediffSolid>Crack</hediffSolid>
+    <minDamageToFragment>15</minDamageToFragment>
   </DamageDef>
 
   <DamageDef ParentName="Flame">
@@ -53,6 +54,7 @@
   <DamageDef ParentName="BombDamage">
     <defName>Bomb_Secondary</defName>
     <harmAllLayersUntilOutside>false</harmAllLayersUntilOutside>
+<minDamageToFragment>15</minDamageToFragment>
   </DamageDef>
 
   <DamageDef ParentName="BombDamage">
