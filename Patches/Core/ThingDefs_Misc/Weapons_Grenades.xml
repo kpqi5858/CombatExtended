@@ -55,13 +55,8 @@
 			  <damageDef>Bomb</damageDef>
 			  <damageAmountBase>50</damageAmountBase>
 			  <explosionDelay>60</explosionDelay>
-<<<<<<< HEAD
-			  <!-- <dropsCasings>true</dropsCasings> -->
-			  <!-- <casingMoteDefname>Mote_GrenadePin</casingMoteDefname> -->
-=======
 			  <dropsCasings>true</dropsCasings>
 			  <casingMoteDefname>Mote_GrenadePin</casingMoteDefname>
->>>>>>> parent of 76e9fa6... dropsCasings got removed
       	<applyDamageToExplosionCellsNeighbors>true</applyDamageToExplosionCellsNeighbors>
 			</projectile>
 		</value>
@@ -340,13 +335,8 @@
 			  <damageDef>EMP</damageDef>
 			  <damageAmountBase>40</damageAmountBase>
 			  <explosionDelay>60</explosionDelay>
-<<<<<<< HEAD
-			  <!-- <dropsCasings>true</dropsCasings> -->
-			  <!-- <casingMoteDefname>Mote_GrenadePin</casingMoteDefname> -->
-=======
 			  <dropsCasings>true</dropsCasings>
 			  <casingMoteDefname>Mote_GrenadePin</casingMoteDefname>
->>>>>>> parent of 76e9fa6... dropsCasings got removed
 			</projectile>
 		</value>
 	</Operation>
