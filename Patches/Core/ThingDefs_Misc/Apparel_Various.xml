@@ -72,10 +72,15 @@
 	<Operation Class="PatchOperationReplace">
 		<xpath>*/ThingDef[defName="Apparel_FlakVest"]/statBases/ArmorRating_Sharp</xpath>
 		<value>
-			<ArmorRating_Sharp>0.6</ArmorRating_Sharp>
+			<ArmorRating_Sharp>0.55</ArmorRating_Sharp>
     </value>
   </Operation>
-
+	<Operation Class="PatchOperationReplace">
+		<xpath>*/ThingDef[defName="Apparel_FlakVest"]/statBases/MaxHitPoints</xpath>
+		<value>
+			<MaxHitPoints>125</MaxHitPoints>
+    </value>
+  </Operation>
   <Operation Class="PatchOperationRemove">
   	<xpath>*/ThingDef[defName="Apparel_FlakVest"]/equippedStatOffsets/MoveSpeed</xpath>
   </Operation>
@@ -148,7 +153,7 @@
 	<Operation Class="PatchOperationReplace">
 		<xpath>*/ThingDef[defName="Apparel_PlateArmor"]/statBases/StuffEffectMultiplierArmor</xpath>
 		<value>
-			<StuffEffectMultiplierArmor>0.48</StuffEffectMultiplierArmor>
+			<StuffEffectMultiplierArmor>0.40</StuffEffectMultiplierArmor>
     </value>
   </Operation>
 

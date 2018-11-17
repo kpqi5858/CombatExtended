@@ -293,6 +293,18 @@
   	</value>
   </Operation>
 
+    <Operation Class="PatchOperationAddModExtension">
+  	<xpath>*/PawnKindDef[defName="Town_Trader"]</xpath>
+  	<value>
+      <li Class="CombatExtended.LoadoutPropertiesExtension">
+        <primaryMagazineCount>
+          <min>2</min>
+          <max>3</max>
+        </primaryMagazineCount>
+      </li>
+  	</value>
+  </Operation>
+
   <!-- ========== Pirate ========== -->
 
   <Operation Class="PatchOperationReplace">

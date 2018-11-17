@@ -79,18 +79,9 @@
     <xpath>*/ThingDef[defName="Apparel_AdvancedHelmet"]/costList</xpath>
     <value>
       <costList>
-        <Steel>30</Steel>
         <DevilstrandCloth>15</DevilstrandCloth>
       </costList>
     </value>
-  </Operation>
-
-  <Operation Class="PatchOperationRemove">
-    <xpath>*/ThingDef[defName="Apparel_AdvancedHelmet"]/costStuffCount</xpath>
-  </Operation>
-
-  <Operation Class="PatchOperationRemove">
-    <xpath>*/ThingDef[defName="Apparel_AdvancedHelmet"]/stuffCategories</xpath>
   </Operation>
 
 	<!-- ========== Power Armor Helmet ========== -->
