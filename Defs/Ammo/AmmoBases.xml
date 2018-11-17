@@ -92,7 +92,7 @@
     <allowMixingIngredients>true</allowMixingIngredients>
     <workAmount>10000</workAmount>
     <workSkill>Crafting</workSkill>
-    <targetCountAdjustment>500</targetCountAdjustment>
+    <targetCountAdjustment>50</targetCountAdjustment>
 		<recipeUsers>
 	  <!-- Need an empty list here or the ammo injector will throw a null ref exception -->
 		</recipeUsers>
@@ -111,7 +111,7 @@
     <allowMixingIngredients>true</allowMixingIngredients>
     <workAmount>2000</workAmount>
     <workSkill>Crafting</workSkill>
-    <targetCountAdjustment>500</targetCountAdjustment>
+    <targetCountAdjustment>50</targetCountAdjustment>
 		<unfinishedThingDef>UnfinishedArrows</unfinishedThingDef>
   </RecipeDef>
 

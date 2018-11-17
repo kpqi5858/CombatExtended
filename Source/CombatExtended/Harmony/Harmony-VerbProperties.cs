@@ -6,6 +6,7 @@ using RimWorld;
 using Verse;
 using UnityEngine;
 using Harmony;
+using System.Reflection.Emit;
 
 namespace CombatExtended.Harmony
 {
@@ -32,4 +33,18 @@ namespace CombatExtended.Harmony
         }
     }
 
+    /// <summary>
+    /// Suppress that config error
+    /// </summary>
+    [HarmonyPatch(typeof(VerbProperties))]
+    [HarmonyPatch("ConfigErrors")]
+    internal static class VerbProperties_Patch2
+    {
+        internal static void Postfix(ref IEnumerable<string> __result)
+        {
+            var li = __result.ToList();
+            li.Remove("has incorrect forcedMiss settings; explosive projectiles and only explosive projectiles should have forced miss enabled");
+            __result = li;
+        }
+    }
 }

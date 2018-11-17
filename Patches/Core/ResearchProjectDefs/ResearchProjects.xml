@@ -35,5 +35,11 @@
 	<Operation Class="PatchOperationRemove">
 		<xpath>*/ResearchProjectDef[defName="SniperTurret"]</xpath>
 	</Operation>
+	 	<Operation Class="PatchOperationRemove">
+		<xpath>*/ThingDef[defName="Turret_Sniper"]</xpath>
+	</Operation>
+	<Operation Class="PatchOperationRemove">
+			<xpath>*/ThingDef[defName="Turret_Autocannon"]</xpath>
+	</Operation>
 </Patch>
 

@@ -1051,7 +1051,7 @@
   </Operation>
 
   <!-- ========== auto cannon gun ========== -->
-
+  <!--
   <Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
     <defName>Gun_AutocannonTurret</defName>
     <statBases>
@@ -1088,8 +1088,6 @@
     </FireModes>
   </Operation>
 
-  <!-- ========== uranium slug gun ========== -->
-
   <Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">
     <defName>Gun_TurretSniper</defName>
     <statBases>
@@ -1121,7 +1119,7 @@
       <noSnapshot>true</noSnapshot>
     </FireModes>
   </Operation>
-
+  -->
   <!-- ========== Minigun ========== -->
 
   <Operation Class="CombatExtended.PatchOperationMakeGunCECompatible">

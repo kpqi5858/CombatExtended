@@ -77,7 +77,7 @@
 	</Operation>
 
 	<!-- ========== Auto cannon ========== -->
-
+	<!--
 	<Operation Class="PatchOperationReplace">
 		<xpath>*/ThingDef[defName="Turret_Autocannon"]/thingClass</xpath>
 		<value>
@@ -121,7 +121,7 @@
 		</value>
 	</Operation>
 
-	<!-- Add trade tags -->
+	
 
 	<Operation Class="PatchOperationSequence">
   	<success>Always</success>
@@ -146,7 +146,7 @@
 		</value>
 	</Operation>
 
-	<!-- ========== Uranium slug ========== -->
+
 
 	<Operation Class="PatchOperationAdd">
 		<xpath>*/ThingDef[defName="Turret_Sniper"]/statBases</xpath>
@@ -177,7 +177,6 @@
 		</value>
 	</Operation>
 
-	<!-- Add trade tags -->
 
 	<Operation Class="PatchOperationSequence">
   	<success>Always</success>
@@ -202,7 +201,7 @@
 		</value>
 	</Operation>
 
-
+-->
 	<!-- Patch build costs -->
 
 <!--
