@@ -54,6 +54,8 @@ namespace CombatExtended
         public bool DebugShowTreeCollisionChance => debugShowTreeCollisionChance;
         public bool DebugShowSuppressionBuildup => debugShowSuppressionBuildup;
 
+        public bool HasShowedWarningMessage = false;
+
         #endregion
 
         private bool lastAmmoSystemStatus;
@@ -84,6 +86,8 @@ namespace CombatExtended
             Scribe_Values.Look(ref showCaliberOnGuns, "showCaliberOnGuns", true);
             Scribe_Values.Look(ref reuseNeolithicProjectiles, "reuseNeolithicProjectiles", true);
             Scribe_Values.Look(ref realisticCookOff, "realisticCookOff", false);
+
+            Scribe_Values.Look(ref HasShowedWarningMessage, "showedWarningMessage", false);
 
             lastAmmoSystemStatus = enableAmmoSystem;    // Store this now so we can monitor for changes
         }

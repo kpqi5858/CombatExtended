@@ -112,6 +112,7 @@ namespace CombatExtended
         public override float GetPriority(Pawn pawn)
         {
             if ((!Controller.settings.AutoTakeAmmo && pawn.IsColonist) || !Controller.settings.EnableAmmoSystem) return 0f;
+            if (pawn.Faction == null) return 0f;
 
             var priority = GetPriorityWork(pawn);
 
@@ -138,6 +139,8 @@ namespace CombatExtended
             {
                 return null;
             }
+
+            if (pawn.Faction == null) return null;
 
             if (!pawn.RaceProps.Humanlike || (pawn.story != null && pawn.story.WorkTagIsDisabled(WorkTags.Violent)))
             {

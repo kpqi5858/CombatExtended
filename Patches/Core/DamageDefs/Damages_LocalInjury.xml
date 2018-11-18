@@ -124,5 +124,13 @@
     </value>
   </Operation>
 
+	<!-- ========== BombSuper ParentName fix -->
+
+		<Operation Class="PatchOperationAttributeSet">
+  	<xpath>*/DamageDef[defName="BombSuper"]</xpath>
+    <attribute>ParentName</attribute>
+    <value>BombDamage</value>
+	</Operation>
+	
 </Patch>
 
