@@ -45,7 +45,7 @@ namespace CombatExtended
             {
                 settings.HasShowedWarningMessage = true;
                 Find.WindowStack.Add(new Dialog_MessageBox("You are using unofficial fork of Combat Extended.\n\nIt may not save-compatible with future releases of original CE mod."));
-                settings = GetSettings<Settings>();
+                WriteSettings();
             }
         }
 
