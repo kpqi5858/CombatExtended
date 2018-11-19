@@ -96,7 +96,7 @@
 		<label>.32 ACP bullet (FMJ)</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>6</damageAmountBase>
-			<armorPenetration>0.187</armorPenetration>
+			<armorPenetrationBase>0.187</armorPenetrationBase>
 		</projectile>
 	</ThingDef>
 
@@ -105,7 +105,7 @@
 		<label>.32 ACP bullet (AP)</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>4</damageAmountBase>
-			<armorPenetration>0.337</armorPenetration>
+			<armorPenetrationBase>0.337</armorPenetrationBase>
 		</projectile>
 	</ThingDef>
 
@@ -114,7 +114,7 @@
 		<label>.32 ACP bullet (HP)</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>8</damageAmountBase>
-			<armorPenetration>0.037</armorPenetration>
+			<armorPenetrationBase>0.037</armorPenetrationBase>
 		</projectile>
 	</ThingDef>-->
   

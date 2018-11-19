@@ -24,7 +24,7 @@ namespace CombatExtended
             float ap = primaryDinfo.ArmorPenetrationInt;
             if (projectilePropertiesCE != null)
             {
-                ap = projectilePropertiesCE.armorPenetration;
+                ap = projectilePropertiesCE.GetArmorPenetration(1);
             }
 
             var dinfo = new DamageInfo(def,

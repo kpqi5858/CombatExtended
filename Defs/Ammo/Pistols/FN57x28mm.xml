@@ -98,7 +98,7 @@
 		<label>FN 5.7mm bullet (FMJ)</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>7</damageAmountBase>
-			<armorPenetration>0.312</armorPenetration>
+			<armorPenetrationBase>0.312</armorPenetrationBase>
 		</projectile>
 	</ThingDef>
 
@@ -107,7 +107,7 @@
 		<label>FN 5.7mm bullet (AP)</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>4</damageAmountBase>
-			<armorPenetration>0.462</armorPenetration>
+			<armorPenetrationBase>0.462</armorPenetrationBase>
 		</projectile>
 	</ThingDef>
 
@@ -116,7 +116,7 @@
 		<label>FN 5.7mm bullet (HP)</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>10</damageAmountBase>
-			<armorPenetration>0.162</armorPenetration>
+			<armorPenetrationBase>0.162</armorPenetrationBase>
 		</projectile>
 	</ThingDef>
   

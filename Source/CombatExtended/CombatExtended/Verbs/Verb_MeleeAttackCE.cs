@@ -221,8 +221,8 @@ namespace CombatExtended
             var critDamDef = CritDamageDef;
             //START 1:1 COPY Verb_MeleeAttack.DamageInfosToApply
             float damAmount = this.verbProps.AdjustedMeleeDamageAmount(this, base.CasterPawn);
-            float armorPenetration = this.verbProps.AdjustedArmorPenetration(this, base.CasterPawn);
-            if (isCrit) armorPenetration *= 4;
+            float armorPenetration = (isCrit && verbProps.meleeDamageDef.armorCategory == DamageArmorCategoryDefOf.Sharp && !CasterPawn.def.race.Animal ? 2 : 1) * this.verbProps.AdjustedArmorPenetration(this, base.CasterPawn);
+
             DamageDef damDef = isCrit && critDamDef != DamageDefOf.Stun ? critDamDef : verbProps.meleeDamageDef; //Alteration	//Added isCrit check
             BodyPartGroupDef bodyPartGroupDef = null;
             HediffDef hediffDef = null;

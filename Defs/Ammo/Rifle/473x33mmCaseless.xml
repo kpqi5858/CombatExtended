@@ -97,7 +97,7 @@
 		<label>4.73mm Caseless bullet (FMJ)</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>8</damageAmountBase>
-			<armorPenetration>0.453</armorPenetration>
+			<armorPenetrationBase>0.453</armorPenetrationBase>
 		</projectile>
 	</ThingDef>
 
@@ -106,7 +106,7 @@
 		<label>4.73mm Caseless bullet (AP)</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>5</damageAmountBase>
-			<armorPenetration>0.603</armorPenetration>
+			<armorPenetrationBase>0.603</armorPenetrationBase>
 		</projectile>
 	</ThingDef>
 
@@ -115,7 +115,7 @@
 		<label>4.73mm Caseless bullet (HP)</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>11</damageAmountBase>
-			<armorPenetration>0.303</armorPenetration>
+			<armorPenetrationBase>0.303</armorPenetrationBase>
 		</projectile>
 	</ThingDef>
   

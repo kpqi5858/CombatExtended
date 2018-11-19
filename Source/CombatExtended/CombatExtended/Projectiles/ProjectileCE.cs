@@ -605,7 +605,7 @@ namespace CombatExtended
 
                 //Dependence to catch the tree from armorPenetration. Large calibers have less chance.
                 var propsCE = def.projectile as ProjectilePropertiesCE;
-                float penetrationAmount = propsCE == null ? 0.1f : propsCE.armorPenetration; //Every projectile, which not use flyoverhead, require armorPenetration stat for calculating collision.
+                float penetrationAmount = propsCE == null ? 0.1f : propsCE.GetArmorPenetration(1); //Every projectile, which not use flyoverhead, require armorPenetration stat for calculating collision.
                 float penetrationmultiplier = Mathf.Clamp(((thing.def.fillPercent * 3.2f) - penetrationAmount), 0.05f, 1f); // 2.5-3.5 good values for 0.20-0.30 fillpercent.
                 float rangemultiplier = ((thing.Position - OriginIV3).LengthHorizontal / 15); // 10-20 is fine for prevent to shoot near tree.
                 float chance = penetrationmultiplier * (rangemultiplier < 1f ? rangemultiplier : 1f); // when projectile reach 15 cells distance, we set limit for multiplier bcs chances to hit greatly increased. 
@@ -671,9 +671,9 @@ namespace CombatExtended
                 && pawn.Faction != launcher?.Faction
                 && (shield == null || shield?.ShieldState == ShieldState.Resetting))
             {
-                suppressionAmount = def.projectile.GetDamageAmount(CE_Utility.GetWeaponFromLauncher(launcher));
+                suppressionAmount = def.projectile.GetDamageAmount(1);
                 var propsCE = def.projectile as ProjectilePropertiesCE;
-                float penetrationAmount = propsCE == null ? 0f : propsCE.armorPenetration;
+                float penetrationAmount = propsCE == null ? 0f : propsCE.GetArmorPenetration(1);
                 suppressionAmount *= 1 - Mathf.Clamp(compSuppressable.ParentArmor - penetrationAmount, 0, 1);
                 compSuppressable.AddSuppression(suppressionAmount, OriginIV3);
             }

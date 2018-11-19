@@ -305,6 +305,18 @@
   	</value>
   </Operation>
 
+    <Operation Class="PatchOperationAddModExtension">
+  	<xpath>*/PawnKindDef[defName="Town_Councilman"]</xpath>
+  	<value>
+      <li Class="CombatExtended.LoadoutPropertiesExtension">
+        <primaryMagazineCount>
+          <min>2</min>
+          <max>4</max>
+        </primaryMagazineCount>
+      </li>
+  	</value>
+  </Operation>
+
   <!-- ========== Pirate ========== -->
 
   <Operation Class="PatchOperationReplace">
@@ -419,6 +431,14 @@
   </Operation>
 
   <!-- ========== Tribal ========== -->
+
+  <!-- Lower food amounts (To prevent filling inventory with only pemmican) -->
+  <Operation Class="PatchOperationReplace">
+    <xpath>*/PawnKindDef[@Name="TribalBase"]/invNutrition</xpath>
+    <value>
+      <invNutrition>1.00</invNutrition>
+    </value>
+  </Operation>
 
   <Operation Class="PatchOperationReplace">
     <xpath>*/PawnKindDef[defName="Tribal_Warrior"]/weaponMoney/min</xpath>

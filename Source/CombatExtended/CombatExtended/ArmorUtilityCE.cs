@@ -54,6 +54,28 @@ namespace CombatExtended
 
             float penAmount = originalDinfo.ArmorPenetrationInt; //GetPenetrationValue(originalDinfo);
 
+            if (penAmount <= 0f) //No AP value specified, It might be a unsupported mod, dev menu, roof collapse, or something
+            {
+                if (originalDinfo.Category == DamageInfo.SourceCategory.Collapse) //Roof
+                {
+                    penAmount = originalDinfo.Amount * 0.02f;
+                }
+                else if (originalDinfo.Weapon?.projectile != null) //Projectile
+                {
+                    penAmount = originalDinfo.Weapon.projectile.GetArmorPenetration(1);
+                }
+                else if (originalDinfo.Weapon != null) //Try get melee verbs
+                {
+                    penAmount = originalDinfo.Weapon.tools?.GetUsedToolVanila(originalDinfo).armorPenetration ?? 0;
+                }
+
+                if (penAmount <= 0)
+                {
+                    //Log.ErrorOnce("Cannot get AP value. Defaulting..", "CannotGetAPVanila".GetHashCode());
+                    penAmount = originalDinfo.Amount * 0.015f;
+                }
+            }
+
             // Apply worn armor
             if (involveArmor && pawn.apparel != null && !pawn.apparel.WornApparel.NullOrEmpty())
             {
@@ -89,7 +111,7 @@ namespace CombatExtended
                         dinfo.SetAmount(0);
 
                         // Apply secondary damage to shield
-                        var props = dinfo.Weapon.projectile as ProjectilePropertiesCE;
+                        var props = dinfo.Weapon?.projectile as ProjectilePropertiesCE;
                         if (props != null && !props.secondaryDamage.NullOrEmpty())
                         {
                             foreach(SecondaryDamage sec in props.secondaryDamage)
@@ -110,6 +132,8 @@ namespace CombatExtended
                     // Apparel is arranged in draw order, we run through reverse to go from Shell -> OnSkin
                     for (int i = apparel.Count - 1; i >= 0; i--)
                     {
+                        if (apparel.Count <= i || i < 0) break; //Why OutOfRange occurs?
+
                         if (apparel[i].def.apparel.CoversBodyPart(hitPart)
                             && !TryPenetrateArmor(dinfo.Def, apparel[i].GetStatValue(dinfo.Def.armorCategory.armorRatingStat), ref penAmount, ref dmgAmount, apparel[i]))
                         {
@@ -185,7 +209,22 @@ namespace CombatExtended
 
         	return potentialTools.FirstOrDefault();
         }
-        
+
+        private static Tool DistinguishBodyPartGroups(this IEnumerable<Tool> tools, DamageInfo dinfo)
+        {
+            var potentialTools = tools
+                .Where(x => DefDatabase<ManeuverDef>.AllDefs
+                    .Any(y => x.capacities.Contains(y.requiredCapacity) && y.verb.meleeDamageDef.defName == dinfo.Def.defName.Replace("_Critical", "")));
+
+            if (!potentialTools.Any())
+                Log.ErrorOnce("CE :: Distinguishing tools based on damageDef failed - at some point the damageinfo changed damageDef (which is as expected). This is an issue because " + dinfo.Weapon + " has multiple ToolCE with the same linkedBodyPartsGroup (or multiple without one), and they can not be distinguished because of it. [While evaluating DamageInfo " + dinfo.ToString() + "]", dinfo.Weapon.GetHashCode() + dinfo.WeaponBodyPartGroup.GetHashCode() + 84827378);
+
+            if (potentialTools.Count() > 1)
+                Log.ErrorOnce("CE :: Distinguishing tools based on damageDef failed. There are multiple ToolCE with the same linkedBodyPartsGroup, the same restricted gender and the same maneuver (and thus the same damageDef) [While evaluating DamageInfo " + dinfo.ToString() + "]", dinfo.Weapon.GetHashCode() + dinfo.WeaponBodyPartGroup.GetHashCode() + 1298379123);
+
+            return potentialTools.FirstOrDefault();
+        }
+
         private static ToolCE GetUsedTool(this IEnumerable<ToolCE> tools, DamageInfo dinfo)
         {
             Pawn instigatorPawn = dinfo.Instigator as Pawn;
@@ -232,7 +271,54 @@ namespace CombatExtended
         	}
         	return tools.FirstOrDefault();
         }
-        
+
+        private static Tool GetUsedToolVanila(this IEnumerable<Tool> tools, DamageInfo dinfo)
+        {
+            Pawn instigatorPawn = dinfo.Instigator as Pawn;
+
+            if (tools.Count() == 1)
+            {
+                if (dinfo.WeaponBodyPartGroup != null && tools.First().linkedBodyPartsGroup != dinfo.WeaponBodyPartGroup)
+                {
+                    Log.ErrorOnce("CE :: For " + dinfo.Weapon + ", WeaponBodyPartGroup was specified for DamageInfo " + dinfo.ToString() + ", but none of the tools " + String.Join(",", tools.Select(t => t.ToString()).ToArray()) + " have this linkedBodyPartsGroup.", dinfo.GetHashCode() + 3473534);
+                }
+            }
+            else if (!tools.Any())
+            {
+                Log.Warning("No ToolCE could be found for " + dinfo.ToString() + ", but GetUsedTool was called.");
+            }
+            else
+            {
+                if (dinfo.WeaponBodyPartGroup != null)
+                {
+                    var linkedTools = tools.Where(t => t.linkedBodyPartsGroup == dinfo.WeaponBodyPartGroup && (instigatorPawn == null));
+
+                    if (linkedTools.Count() > 1)
+                    {
+                        Log.ErrorOnce("CE :: " + dinfo.Weapon + " has multiple ToolCE with linkedBodyPartsGroup=" + dinfo.WeaponBodyPartGroup + ", and they can not be fully distinguished because of it. [While evaluating DamageInfo " + dinfo.ToString() + "]", dinfo.Weapon.GetHashCode() + dinfo.WeaponBodyPartGroup.GetHashCode() + 84827378);
+                        return linkedTools.DistinguishBodyPartGroups(dinfo);
+                    }
+
+                    if (linkedTools.Any())
+                        return linkedTools.First();
+                }
+                else
+                {
+                    var nonLinkedTools = tools.Where(t => t.linkedBodyPartsGroup == null && (instigatorPawn == null));
+
+                    if (nonLinkedTools.Count() > 1)
+                    {
+                        Log.ErrorOnce("CE :: " + dinfo.Weapon + " has multiple ToolCE without linkedBodyPartsGroup, and they can not be fully distinguished because of it. [While evaluating DamageInfo " + dinfo.ToString() + "]", dinfo.Weapon.GetHashCode() + 5481278);
+                        return nonLinkedTools.DistinguishBodyPartGroups(dinfo);
+                    }
+
+                    if (nonLinkedTools.Any())
+                        return nonLinkedTools.First();
+                }
+            }
+            return tools.FirstOrDefault();
+        }
+
         /// <summary>
         /// Determines the armor penetration value of a given dinfo. Attempts to extract the tool/verb from the damage info.
         /// </summary>
@@ -452,8 +538,8 @@ namespace CombatExtended
             float ap = 0f;
             if (dinfo.Weapon?.projectile != null)
             {
-                ProjectilePropertiesCE pce = dinfo.Weapon.projectile as ProjectilePropertiesCE;
-                if (pce != null) ap = pce.armorPenetration;
+                ProjectileProperties pce = dinfo.Weapon.projectile;
+                if (pce != null) ap = pce.GetArmorPenetration(1);
             }
             DamageInfo newDinfo = new DamageInfo(DamageDefOf.Blunt, dinfo.Amount, ap, //Armor Penetration
                 dinfo.Angle, dinfo.Instigator, GetOuterMostParent(hitPart), dinfo.Weapon);
