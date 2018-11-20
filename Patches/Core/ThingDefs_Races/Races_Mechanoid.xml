@@ -245,7 +245,7 @@
 					<capacities>
 						<li>Blunt</li>
 					</capacities>
-					<power>6</power>
+					<power>8</power>
 					<cooldownTime>1.65</cooldownTime>
 					<linkedBodyPartsGroup>LeftHand</linkedBodyPartsGroup>
 					<armorPenetration>0.095</armorPenetration>
@@ -257,7 +257,7 @@
 					<capacities>
 						<li>Blunt</li>
 					</capacities>
-					<power>6</power>
+					<power>8</power>
 					<cooldownTime>1.65</cooldownTime>
 					<linkedBodyPartsGroup>RightHand</linkedBodyPartsGroup>
 					<armorPenetration>0.095</armorPenetration>
@@ -268,7 +268,7 @@
 					<capacities>
 						<li>Blunt</li>
 					</capacities>
-					<power>7</power>
+					<power>9</power>
 					<cooldownTime>1.65</cooldownTime>
 					<linkedBodyPartsGroup>HeadAttackTool</linkedBodyPartsGroup>
 					<chanceFactor>0.2</chanceFactor>

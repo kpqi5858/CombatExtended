@@ -98,7 +98,7 @@
 		<label>.44 Magnum bullet (FMJ)</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>18</damageAmountBase>
-			<armorPenetration>0.423</armorPenetration>
+			<armorPenetrationBase>0.423</armorPenetrationBase>
 		</projectile>
 	</ThingDef>
 
@@ -107,7 +107,7 @@
 		<label>.44 Magnum bullet (AP)</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>11</damageAmountBase>
-			<armorPenetration>0.573</armorPenetration>
+			<armorPenetrationBase>0.573</armorPenetrationBase>
 		</projectile>
 	</ThingDef>
 
@@ -116,7 +116,7 @@
 		<label>.44 Magnum bullet (HP)</label>
 		<projectile Class="CombatExtended.ProjectilePropertiesCE">
 			<damageAmountBase>25</damageAmountBase>
-			<armorPenetration>0.273</armorPenetration>
+			<armorPenetrationBase>0.273</armorPenetrationBase>
 		</projectile>
 	</ThingDef>
   
