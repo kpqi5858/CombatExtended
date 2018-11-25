@@ -146,12 +146,12 @@ namespace CombatExtended
             }
             set
             {
+                changedAmmoTypeFlag = selectedAmmo != value;
                 selectedAmmo = value;
                 if (!HasMagazine && CurrentAmmo != value)
                 {
                     currentAmmoInt = value;
                 }
-                changedAmmoTypeFlag = true;
             }
         }
 
@@ -388,7 +388,7 @@ namespace CombatExtended
             {
                 MoteMaker.ThrowText(Position.ToVector3Shifted(), Map, "CE_OutOfAmmo".Translate() + "!");
             }
-            if (Wielder != null && CompInventory != null && (Wielder.CurJob == null || Wielder.CurJob.def != JobDefOf.Hunt)) CompInventory.SwitchToNextViableWeapon();
+            if (Wielder != null && CompInventory != null && (Wielder.CurJob == null || Wielder.CurJob.def != JobDefOf.Hunt)) CompInventory.SwitchToNextViableWeapon(!Wielder.Faction.IsPlayer);
         }
 
         public void LoadAmmo(Thing ammo = null)
