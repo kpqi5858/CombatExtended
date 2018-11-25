@@ -27,6 +27,9 @@
     <label>loading bench</label>
     <thingClass>Building_WorkTable</thingClass>
     <description>A workstation for handloading ammo.</description>
+    <thingCategories>
+      <li>BuildingsProduction</li>
+    </thingCategories>
     <graphicData>
       <texPath>Things/Building/AmmoBench/ammobench</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
