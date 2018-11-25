@@ -12,6 +12,9 @@
       <workSpeedPenaltyOutdoors>true</workSpeedPenaltyOutdoors>
       <workSpeedPenaltyTemperature>true</workSpeedPenaltyTemperature>
     </building>
+    <statBases>
+      <Mass>20</Mass>
+    </statBases>
     <comps>
       <li>
         <compClass>CompReportWorkSpeed</compClass>
