@@ -101,6 +101,12 @@ namespace CombatExtended
 
             base.Tick();
 
+            if (Map == null) //In inventory?
+            {
+                numToCookOff = 0;
+                return;
+            }
+
             // Cook off ammo based on how much damage we've taken so far
             if (numToCookOff > 0 && Rand.Chance((float)numToCookOff / def.stackLimit))
             {
